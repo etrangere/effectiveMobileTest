@@ -1,0 +1,5 @@
+# to avoid maven dependencies be pushed to github 
+target/
+.m2/
+*.jar
+*.war
