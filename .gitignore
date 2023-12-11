@@ -1,5 +1,7 @@
-# to avoid maven dependencies be pushed to github 
+# to avoid maven dependencies be pushed  
 target/
 .m2/
 *.jar
 *.war
+# to avoid eclipse settings be pushed 
+.settings/
