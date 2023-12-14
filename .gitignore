@@ -5,3 +5,10 @@ target/
 *.war
 # to avoid eclipse settings be pushed 
 .settings/
+# Eclipse/STS
+.metadata/
+# Compiled bytecode
+*.class
+.project
+.classpath
+/bin/
