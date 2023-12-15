@@ -1,0 +1,139 @@
+package beans;
+
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "task_table")
+public class Task implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
+    
+    @Column(columnDefinition = "TEXT")
+    private String header;
+    
+    @Column(columnDefinition = "LONGTEXT")
+    private String description;
+    
+    @Column(name = "email_column",length=100)
+    private String status;
+    
+    
+    @Column(name = "email_column",length=100)
+    private String priority;
+    
+    
+    @Column(name = "email_column",length=100)
+    private String author;
+    
+    
+    @Column(name = "email_column",length=100)
+    private String executor;
+
+
+    public Task() {
+        super();
+    }
+
+
+    public Task(long id, String header, String description, String status, String priority, String author,
+            String executor) {
+        super();
+        this.id = id;
+        this.header = header;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+        this.author = author;
+        this.executor = executor;
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+
+    public String getHeader() {
+        return header;
+    }
+
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
+    public String getPriority() {
+        return priority;
+    }
+
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+
+    public String getAuthor() {
+        return author;
+    }
+
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+
+    public String getExecutor() {
+        return executor;
+    }
+
+
+    public void setExecutor(String executor) {
+        this.executor = executor;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Task [id=" + id + ", header=" + header + ", description=" + description + ", status=" + status
+                + ", priority=" + priority + ", author=" + author + ", executor=" + executor + "]";
+    }
+       
+
+}
