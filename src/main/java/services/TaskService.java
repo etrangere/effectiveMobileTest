@@ -20,13 +20,13 @@ public class TaskService {
     
     // get all tasks
     
-    public List<Task> getAllComments(){
+    public List<Task> getAllTask(){
         return taskRepository.findAll();
     }  
     
     // get task by id
     
-    public Optional<Task> getCommentsById(Long id){
+    public Optional<Task> getTaskById(Long id){
         return taskRepository.findById((long) id);
     }  
     

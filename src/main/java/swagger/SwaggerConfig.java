@@ -14,10 +14,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
     @Bean
-    public Docket api() {
+    Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.controller"))
+                .apis(RequestHandlerSelectors.basePackage("em_test.controllers.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
@@ -31,4 +31,5 @@ public class SwaggerConfig {
                 .build();
     }
 }
+
 
