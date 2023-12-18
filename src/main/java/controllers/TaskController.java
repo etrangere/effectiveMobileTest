@@ -23,7 +23,7 @@ import services.TaskService;
 
 @CrossOrigin()
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/api")
 public class TaskController {
 
     @Autowired
