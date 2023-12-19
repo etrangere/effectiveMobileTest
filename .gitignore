@@ -13,6 +13,6 @@ target/
 .classpath
 /bin/
 
-#git add .gitignore target/ .m2/ *.jar *.war .settings/ .metadata/ .project .classpath bin/
+#git add -f .gitignore target/ .settings/ .project .classpath bin/
 #git commit -m "Add files to be tracked locally but not pushed"
 #git push origin <branch-name>
