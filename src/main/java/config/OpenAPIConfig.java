@@ -21,9 +21,7 @@ public class OpenAPIConfig {
     @Value("${gourgen.openapi.prod-url}")
     private String prodUrl;
 
-    
-    
-    
+  
     @Bean
     public OpenAPI myOpenAPI() {
         Server devServer = new Server();

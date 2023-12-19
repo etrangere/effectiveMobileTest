@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 
-@SpringBootApplication
 
+@SpringBootApplication(scanBasePackages = "config")
 //remove after test
 @EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class EmTestApplication {
