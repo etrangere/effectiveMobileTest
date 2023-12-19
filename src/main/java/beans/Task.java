@@ -17,7 +17,7 @@ public class Task implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
     
     @Column(columnDefinition = "TEXT")
     private String header;

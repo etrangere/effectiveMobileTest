@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 
 
 
-@SpringBootApplication(scanBasePackages = {"config","controllers"})
+@SpringBootApplication(scanBasePackages = {"config","controllers","services","repositories"})
 @OpenAPIDefinition
 @EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class EmTestApplication {

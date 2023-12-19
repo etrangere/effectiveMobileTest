@@ -17,7 +17,7 @@ public class Comments implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
     
     @Column(columnDefinition = "LONGTEXT")
     private String comments;

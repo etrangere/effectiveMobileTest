@@ -18,7 +18,7 @@ public class User implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
     
     @Column(name = "username_column",length=100)
     private String username;
