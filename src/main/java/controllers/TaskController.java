@@ -23,7 +23,7 @@ import services.TaskService;
 
 @CrossOrigin()
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/task")
 public class TaskController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class TaskController {
     
  
     @ResponseStatus(code = HttpStatus.OK)
-    @RequestMapping(value = "/getTask", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(value = "/getAllTask", produces = "application/json")
     public List<Task> findAll(){
         return this.taskService.getAllTask();
     }

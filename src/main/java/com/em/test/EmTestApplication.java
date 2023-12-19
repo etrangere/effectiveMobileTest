@@ -5,10 +5,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 
 
-@SpringBootApplication(scanBasePackages = "config")
-//remove after test
+
+@SpringBootApplication(scanBasePackages = {"config","controllers"})
+@OpenAPIDefinition
 @EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class EmTestApplication {
 
