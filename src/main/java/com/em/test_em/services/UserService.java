@@ -20,23 +20,23 @@ public class UserService {
     
     // get all users
     
-    public List<User> getAllComments(){
+    public List<User> getAllUsers(){
         return userRepository.findAll();
     }  
     
     // get user by id
     
-    public Optional<User> getCommentsById(Long id){
+    public Optional<User> getUserById(Long id){
         return userRepository.findById((long) id);
     }  
     
     
-    //create task
+    //create user
     public User create(User user) {
         return this.userRepository.save(user);
     }
     
-    //update task
+    //update user
     public User update(User user) {
         if (!this.userRepository.existsById(user.getId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -45,7 +45,7 @@ public class UserService {
         return this.userRepository.save(user);
     }
     
-    //delete task
+    //delete user
     public void delete(Long id) {
         if (!this.userRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,

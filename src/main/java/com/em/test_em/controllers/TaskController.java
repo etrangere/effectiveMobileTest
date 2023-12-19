@@ -28,9 +28,8 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
     
- 
+    @GetMapping(value = "/getAllTasks")
     @ResponseStatus(code = HttpStatus.OK)
-    @GetMapping(value = "/getAllTask", produces = "application/json")
     public List<Task> findAll(){
         return this.taskService.getAllTask();
     }
@@ -54,7 +53,7 @@ public class TaskController {
     public Task update(@RequestBody Task task, @PathVariable("id") Long id) {
         if (!id.equals(task.getId())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Mauvaise session à mettre à jour");
+                    "Wrong session to update");
         }
         return this.taskService.update(task);
     }
