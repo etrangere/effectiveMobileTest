@@ -22,7 +22,7 @@ import com.em.test_em.services.UserService;
 
 @CrossOrigin()
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired

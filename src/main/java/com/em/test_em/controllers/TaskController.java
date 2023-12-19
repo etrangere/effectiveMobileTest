@@ -22,7 +22,7 @@ import com.em.test_em.services.TaskService;
 
 @CrossOrigin()
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/api/task")
 public class TaskController {
 
     @Autowired

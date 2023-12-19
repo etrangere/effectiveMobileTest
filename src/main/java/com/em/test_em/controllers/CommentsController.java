@@ -23,7 +23,7 @@ import com.em.test_em.services.CommentsService;
 
 @CrossOrigin()
 @RestController
-@RequestMapping("/comment")
+@RequestMapping("/api/comment")
 public class CommentsController {
 
     @Autowired
