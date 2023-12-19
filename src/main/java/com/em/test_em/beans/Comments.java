@@ -1,4 +1,4 @@
-package beans;
+package com.em.test_em.beans;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ public class Comments implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(name = "comments_column",columnDefinition = "LONGTEXT")
     private String comments;
 
     public Comments() {

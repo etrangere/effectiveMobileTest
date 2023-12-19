@@ -1,4 +1,4 @@
-package controllers;
+package com.em.test_em.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

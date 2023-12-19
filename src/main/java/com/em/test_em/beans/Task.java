@@ -1,4 +1,4 @@
-package beans;
+package com.em.test_em.beans;
 
 import java.io.Serializable;
 
@@ -19,25 +19,25 @@ public class Task implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "header_column",columnDefinition = "TEXT")
     private String header;
     
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(name = "description_column",columnDefinition = "LONGTEXT")
     private String description;
     
-    @Column(name = "email_column",length=100)
+    @Column(name = "status_column",columnDefinition = "LONGTEXT")
     private String status;
     
     
-    @Column(name = "email_column",length=100)
+    @Column(name = "priority_column",length=100)
     private String priority;
     
     
-    @Column(name = "email_column",length=100)
+    @Column(name = "author_column",length=100)
     private String author;
     
     
-    @Column(name = "email_column",length=100)
+    @Column(name = "executor_column",length=100)
     private String executor;
 
 

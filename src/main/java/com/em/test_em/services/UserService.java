@@ -1,4 +1,4 @@
-package services;
+package com.em.test_em.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import beans.User;
-import repositories.UserRepository;
+import com.em.test_em.beans.User;
+import com.em.test_em.repositories.UserRepository;
 
 @Service
 public class UserService {

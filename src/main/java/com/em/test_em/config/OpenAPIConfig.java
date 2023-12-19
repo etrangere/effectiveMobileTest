@@ -1,4 +1,4 @@
-package config;
+package com.em.test_em.config;
 
 import java.util.List;
 

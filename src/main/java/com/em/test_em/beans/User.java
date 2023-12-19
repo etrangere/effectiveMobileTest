@@ -1,4 +1,4 @@
-package beans;
+package com.em.test_em.beans;
 
 import java.io.Serializable;
 

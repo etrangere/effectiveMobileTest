@@ -1,4 +1,4 @@
-package services;
+package com.em.test_em.services;
 
 
 import java.util.List;
@@ -9,9 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-//import beans.User;
-import beans.Comments;
-import repositories.CommentsRepository;
+import com.em.test_em.beans.Comments;
+import com.em.test_em.repositories.CommentsRepository;
 
 @Service
 public class CommentsService {

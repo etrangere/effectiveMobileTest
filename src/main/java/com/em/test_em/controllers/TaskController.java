@@ -1,4 +1,4 @@
-package controllers;
+package com.em.test_em.controllers;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import beans.Task;
-import services.TaskService;
+import com.em.test_em.beans.Task;
+import com.em.test_em.services.TaskService;
 
 @CrossOrigin()
 @RestController
