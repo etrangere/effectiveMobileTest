@@ -1,4 +1,4 @@
-package com.em.test;
+package com.em.test_em;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 
 
 
-@SpringBootApplication(scanBasePackages = {"config","controllers","services","repositories"})
+@SpringBootApplication(scanBasePackages = {"config"})
 @OpenAPIDefinition
 @EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class EmTestApplication {
