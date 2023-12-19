@@ -41,7 +41,7 @@ public class OpenAPIConfig {
         License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
 
         Info info = new Info()
-                .title("Test for Service API")
+                .title("Effective Mobile - Task Management System Service API")
                 .version("1.0")
                 .contact(contact)
                 .description("This API exposes endpoints to manage test service.").termsOfService("https://portfolio.gourgen-khachatrian.fr/")
