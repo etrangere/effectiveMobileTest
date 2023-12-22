@@ -39,6 +39,8 @@ public class User implements Serializable{
     @Column(name = "executor_column")
     private boolean executor;
     
+    
+    
     public User() {
         super();
     }
