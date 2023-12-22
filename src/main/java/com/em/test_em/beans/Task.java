@@ -28,25 +28,25 @@ public class Task implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(name = "header",columnDefinition = "TEXT")
+    @Column(name = "header",columnDefinition = "TEXT",nullable = true)
     private String header;
     
-    @Column(name = "description",columnDefinition = "LONGTEXT")
+    @Column(name = "description",columnDefinition = "LONGTEXT",nullable = true)
     private String description;
     
-    @Column(name = "status",columnDefinition = "LONGTEXT")
+    @Column(name = "status",columnDefinition = "LONGTEXT",nullable = true)
     private String status;
     
     
-    @Column(name = "priority",length=100)
+    @Column(name = "priority",length=100,nullable = true)
     private String priority;
     
     
-    @Column(name = "author",length=100)
+    @Column(name = "author",length=100,nullable = true)
     private String author;
     
     
-    @Column(name = "executor",length=100)
+    @Column(name = "executor",length=100,nullable = true)
     private String executor;
 
     @OneToMany(mappedBy="task", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
