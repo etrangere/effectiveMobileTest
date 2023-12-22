@@ -23,7 +23,7 @@ public class Comments implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(name = "comments_column",columnDefinition = "LONGTEXT")
+    @Column(name = "comments",columnDefinition = "LONGTEXT")
     private String comments;
 
     @ManyToOne(fetch = FetchType.EAGER)

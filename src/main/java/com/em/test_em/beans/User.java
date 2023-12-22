@@ -25,23 +25,23 @@ public class User implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(name = "username_column",length=100)
+    @Column(name = "username",length=100)
     private String username;
     
-    @Column(name = "password_column",length=100)
+    @Column(name = "password",length=100)
     private String password;
     
-    @Column(name = "firstName_column",length=100)
+    @Column(name = "firstName",length=100)
     private String firstName;
     
     
-    @Column(name = "lastName_column",length=100)
+    @Column(name = "lastName",length=100)
     private String lastName;
     
-    @Column(name = "email_column",length=100)
+    @Column(name = "email",length=100)
     private String email;
     
-    @Column(name = "executor_column")
+    @Column(name = "executor")
     private boolean executor;
     
     @OneToMany(mappedBy="user", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)

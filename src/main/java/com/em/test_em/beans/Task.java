@@ -7,13 +7,13 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -28,25 +28,25 @@ public class Task implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(name = "header_column",columnDefinition = "TEXT")
+    @Column(name = "header",columnDefinition = "TEXT")
     private String header;
     
-    @Column(name = "description_column",columnDefinition = "LONGTEXT")
+    @Column(name = "description",columnDefinition = "LONGTEXT")
     private String description;
     
-    @Column(name = "status_column",columnDefinition = "LONGTEXT")
+    @Column(name = "status",columnDefinition = "LONGTEXT")
     private String status;
     
     
-    @Column(name = "priority_column",length=100)
+    @Column(name = "priority",length=100)
     private String priority;
     
     
-    @Column(name = "author_column",length=100)
+    @Column(name = "author",length=100)
     private String author;
     
     
-    @Column(name = "executor_column",length=100)
+    @Column(name = "executor",length=100)
     private String executor;
 
     @OneToMany(mappedBy="task", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
