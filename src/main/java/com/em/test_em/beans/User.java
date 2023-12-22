@@ -1,12 +1,17 @@
 package com.em.test_em.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -39,7 +44,8 @@ public class User implements Serializable{
     @Column(name = "executor_column")
     private boolean executor;
     
-    
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private List <Task> task = new ArrayList<>();
     
     public User() {
         super();
