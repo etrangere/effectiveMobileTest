@@ -30,8 +30,12 @@ CREATE TABLE task(
         status      Varchar (100) NOT NULL ,
         priority    Varchar (100) NOT NULL ,
         author      Varchar (100) NOT NULL ,
-        executor    Varchar (100) NOT NULL
+        executor    Varchar (100) NOT NULL ,
+        id_user     Int NOT NULL
 	,CONSTRAINT task_PK PRIMARY KEY (id)
+
+	,CONSTRAINT task_user_FK FOREIGN KEY (id_user) REFERENCES user(id)
+	,CONSTRAINT task_user_AK UNIQUE (id_user)
 )ENGINE=InnoDB;
 
 
@@ -42,25 +46,9 @@ CREATE TABLE task(
 CREATE TABLE comments(
         id      Int  Auto_increment  NOT NULL ,
         message Longtext NOT NULL ,
-        id_task Int NOT NULL ,
-        id_user Int NOT NULL
+        id_task Int NOT NULL
 	,CONSTRAINT comments_PK PRIMARY KEY (id)
 
 	,CONSTRAINT comments_task_FK FOREIGN KEY (id_task) REFERENCES task(id)
-	,CONSTRAINT comments_user0_FK FOREIGN KEY (id_user) REFERENCES user(id)
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: user_task
-#------------------------------------------------------------
-
-CREATE TABLE user_task(
-        id      Int NOT NULL ,
-        id_user Int NOT NULL
-	,CONSTRAINT user_task_PK PRIMARY KEY (id,id_user)
-
-	,CONSTRAINT user_task_task_FK FOREIGN KEY (id) REFERENCES task(id)
-	,CONSTRAINT user_task_user0_FK FOREIGN KEY (id_user) REFERENCES user(id)
 )ENGINE=InnoDB;
 
