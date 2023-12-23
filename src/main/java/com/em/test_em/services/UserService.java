@@ -18,18 +18,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     
-    // get all users
-    
+    //get all users
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }  
     
-    // get user by id
-    
+    //get user by id
     public Optional<User> getUserById(Long id){
         return userRepository.findById((long) id);
     }  
-    
     
     //create user
     public User create(User user) {
@@ -40,7 +37,7 @@ public class UserService {
     public User update(User user) {
         if (!this.userRepository.existsById(user.getId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Impossible de trouver le resource à mettre à jour");
+                    "Unable to find the user to update");
         }
         return this.userRepository.save(user);
     }
@@ -49,12 +46,12 @@ public class UserService {
     public void delete(Long id) {
         if (!this.userRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Impossible de trouver le project à supprimer");
+                    "Unable to find user to delete");
         }
         this.userRepository.deleteById(id);
         if (this.userRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED,
-                    "Erreur lors de la suppression de project");
+                    "Error deleting user");
         }
     }
 }

@@ -35,18 +35,13 @@ public class Comments implements Serializable{
     }
 
     
-    
     public Task getTask() {
         return task;
     }
 
-
-
     public void setTask(Task task) {
         this.task = task;
     }
-
-
 
     public Comments(long id, String comments) {
         super();
@@ -75,7 +70,4 @@ public class Comments implements Serializable{
         return "Comments [id=" + id + ", comments=" + comments + "]";
     }
     
-    
-    
-
 }

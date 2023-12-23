@@ -18,18 +18,15 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
     
-    // get all tasks
-    
+    //get all tasks
     public List<Task> getAllTask(){
         return taskRepository.findAll();
     }  
     
-    // get task by id
-    
+    //get task by id
     public Optional<Task> getTaskById(Long id){
         return taskRepository.findById((long) id);
     }  
-    
     
     //create task
     public Task create(Task task) {
@@ -40,7 +37,7 @@ public class TaskService {
     public Task update(Task task) {
         if (!this.taskRepository.existsById(task.getId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Impossible de trouver le resource à mettre à jour");
+                    "Unable to find the task to update");
         }
         return this.taskRepository.save(task);
     }
@@ -49,12 +46,12 @@ public class TaskService {
     public void delete(Long id) {
         if (!this.taskRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Impossible de trouver le project à supprimer");
+                    "Unable to find task to delete");
         }
         this.taskRepository.deleteById(id);
         if (this.taskRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED,
-                    "Erreur lors de la suppression de project");
+                    "Error deleting task");
         }
     }
 }

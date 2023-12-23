@@ -29,37 +29,38 @@ public class CommentsController {
     @Autowired
     private CommentsService commentsService;
     
+    //get all comments
     @GetMapping(value = "/getAllComments")
     @ResponseStatus(code = HttpStatus.OK)
     public List<Comments> findAll(){
         return this.commentsService.getAllComments();
     }
-    //get task with id
+    //get comment by id
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public Optional<Comments> findById(@PathVariable Long id){
         return this.commentsService.getCommentsById(id);
     }
     
-    //create task    
+    //create comment    
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Comments create(@RequestBody Comments comments) {
         return this.commentsService.create(comments);
     }
     
-    //update task    
+    //update comment    
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public Comments update(@RequestBody Comments comments, @PathVariable("id") Long id) {
         if (!id.equals(comments.getId())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Wrong session to update");
+                    "Wrong comment to update");
         }
         return this.commentsService.update(comments);
     }
     
-    //delete task
+    //delete comment
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public void delete(@PathVariable Long id) {

@@ -19,25 +19,16 @@ public class CommentsService {
     @Autowired
     private CommentsRepository commentsRepository;
     
-    // get all comments
-    
+    //get all comments
     public List<Comments> getAllComments(){
         return commentsRepository.findAll();
     }  
     
-    // get comment by id
-    
+    //get comment by id
     public Optional<Comments> getCommentsById(Long id){
         return commentsRepository.findById((long) id);
     }  
-    
-    
-    // get all comments by user
-    
-   // public List<Comments> getAllCommentsByUser(Long id){
-   //     return commentsRepository.findByUserId(id);
-   // }  
-    
+        
     //create comment
     public Comments create(Comments comments) {
         return this.commentsRepository.save(comments);
@@ -47,7 +38,7 @@ public class CommentsService {
     public Comments update(Comments comments) {
         if (!this.commentsRepository.existsById(comments.getId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Impossible de trouver le resource à mettre à jour");
+                    "Unable to find the comment to update");
         }
         return this.commentsRepository.save(comments);
     }
@@ -56,12 +47,12 @@ public class CommentsService {
     public void delete(Long id) {
         if (!this.commentsRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Impossible de trouver le project à supprimer");
+                    "Unable to find comment to delete");
         }
         this.commentsRepository.deleteById(id);
         if (this.commentsRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED,
-                    "Erreur lors de la suppression de project");
+                    "Error deleting comment");
         }
     }
 }

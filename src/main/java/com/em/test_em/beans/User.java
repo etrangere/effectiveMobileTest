@@ -66,8 +66,6 @@ public class User implements Serializable{
         this.executor = executor;
     }
     
-    
-
     public List<Task> getTask() {
         return task;
     }
@@ -138,5 +136,4 @@ public class User implements Serializable{
                 + ", lastName=" + lastName + ", email=" + email + ", executor=" + executor + "]";
     }
 
-    
 }
