@@ -34,6 +34,20 @@ public class Comments implements Serializable{
         super();
     }
 
+    
+    
+    public Task getTask() {
+        return task;
+    }
+
+
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+
+
     public Comments(long id, String comments) {
         super();
         this.id = id;

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -72,6 +71,28 @@ public class Task implements Serializable {
         this.priority = priority;
         this.author = author;
         this.executor = executor;
+    }
+
+
+    
+    
+    public List<Comments> getComments() {
+        return comments;
+    }
+
+
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 

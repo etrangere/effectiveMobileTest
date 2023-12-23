@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +47,7 @@ public class User implements Serializable{
     private boolean executor;
     
     @OneToMany(mappedBy="user", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @JsonManagedReference
     private List <Task> task = new ArrayList<>();
     
     public User() {
@@ -61,6 +64,16 @@ public class User implements Serializable{
         this.lastName = lastName;
         this.email = email;
         this.executor = executor;
+    }
+    
+    
+
+    public List<Task> getTask() {
+        return task;
+    }
+
+    public void setTask(List<Task> task) {
+        this.task = task;
     }
 
     public long getId() {
