@@ -14,9 +14,14 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import jakarta.persistence.JoinColumn;
+
 
 @Entity
 @Table(name = "task_table")
@@ -43,8 +48,15 @@ public class Task implements Serializable {
     @Column(name = "author",length=100,nullable = true)
     private String author;
     
-    @Column(name = "executor",length=100,nullable = true)
-    private String executor;
+    @ManyToMany
+    @JoinTable(
+        name = "task_executor",
+        joinColumns = @JoinColumn(name = "task_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> executors = new ArrayList<>();
+
+    
 
     @OneToMany(mappedBy="task", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonManagedReference
@@ -58,8 +70,7 @@ public class Task implements Serializable {
         super();
     }
 
-    public Task(long id, String header, String description, String status, String priority, String author,
-            String executor) {
+    public Task(long id, String header, String description, String status, String priority, String author) {
         super();
         this.id = id;
         this.header = header;
@@ -67,9 +78,10 @@ public class Task implements Serializable {
         this.status = status;
         this.priority = priority;
         this.author = author;
-        this.executor = executor;
+        
     }
 
+    
     public List<Comments> getComments() {
         return comments;
     }
@@ -134,18 +146,23 @@ public class Task implements Serializable {
         this.author = author;
     }
 
-    public String getExecutor() {
-        return executor;
+    public List<User> getExecutors() {
+        return executors;
     }
 
-    public void setExecutor(String executor) {
-        this.executor = executor;
+    public void setExecutors(List<User> executors) {
+        this.executors = executors;
     }
 
     @Override
     public String toString() {
         return "Task [id=" + id + ", header=" + header + ", description=" + description + ", status=" + status
-                + ", priority=" + priority + ", author=" + author + ", executor=" + executor + "]";
+                + ", priority=" + priority + ", author=" + author + ", executors=" + executors + ", comments="
+                + comments + ", user=" + user + "]";
     }
+
+   
+
+   
        
 }

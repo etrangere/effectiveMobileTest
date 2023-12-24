@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +30,27 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+    
+    //read all executors of a task
+    @GetMapping("/withTrueExecutors")
+    public ResponseEntity<List<Task>> getTasksWithTrueExecutors() {
+        List<Task> tasks = taskService.findTasksWithTrueExecutors();
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
+    
+    //add executor to a task
+    @PostMapping("/{taskId}/addExecutor/{userId}")
+    public ResponseEntity<Task> addExecutorToTask(@PathVariable Long taskId, @PathVariable Long userId) {
+        Task updatedTask = taskService.addExecutorToTask(taskId, userId);
+        return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+    }
+
+    //remove executor from a task
+    @DeleteMapping("/{taskId}/removeExecutor/{userId}")
+    public ResponseEntity<Task> removeExecutorFromTask(@PathVariable Long taskId, @PathVariable Long userId) {
+        Task updatedTask = taskService.removeExecutorFromTask(taskId, userId);
+        return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+    }
     
     //get all tasks
     @GetMapping(value = "/getAllTasks")
