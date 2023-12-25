@@ -3,24 +3,24 @@ package com.em.test_em.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.em.test_em.beans.Task;
+import com.em.test_em._DTO.TaskDTO;
 
 
 public interface TaskService {
 
-    List<Task> findTasksWithTrueExecutors();
+    List<TaskDTO> findTasksWithTrueExecutors();
 
-    Task addExecutorToTask(Long taskId, Long userId);
+    TaskDTO addExecutorToTask(Long taskId, Long userId);
 
-    Task removeExecutorFromTask(Long taskId, Long userId);
+    TaskDTO removeExecutorFromTask(Long taskId, Long userId);
 
-    List<Task> getAllTasks();
+    List<TaskDTO> getAllTasks();
 
-    Optional<Task> getTaskById(Long id);
+    Optional<TaskDTO> getTaskById(Long id);
 
-    Task createTask(Task task);
+    TaskDTO createTask(TaskDTO task);
 
-    Task updateTask(Task task);
+    TaskDTO updateTask(TaskDTO task);
 
     void deleteTask(Long id);
 }

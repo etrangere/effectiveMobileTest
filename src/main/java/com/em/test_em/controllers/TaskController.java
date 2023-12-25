@@ -6,22 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
 
-
-import com.em.test_em.beans.Task;
-
+import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em.services.TaskService;
+
 
 @CrossOrigin()
 @RestController
@@ -30,61 +19,64 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
-    
-    //read all executors of a task
+
+    // read all executors of a task
     @GetMapping("/withTrueExecutors")
-    public ResponseEntity<List<Task>> getTasksWithTrueExecutors() {
-        List<Task> tasks = taskService.findTasksWithTrueExecutors();
+    public ResponseEntity<List<TaskDTO>> getTasksWithTrueExecutors() {
+        List<TaskDTO> tasks = taskService.findTasksWithTrueExecutors();
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
-    
-    //add executor to a task
+
+    // add executor to a task
     @PostMapping("/{taskId}/addExecutor/{userId}")
-    public ResponseEntity<Task> addExecutorToTask(@PathVariable Long taskId, @PathVariable Long userId) {
-        Task updatedTask = taskService.addExecutorToTask(taskId, userId);
+    public ResponseEntity<TaskDTO> addExecutorToTask(@PathVariable Long taskId, @PathVariable Long userId) {
+        TaskDTO updatedTask = taskService.addExecutorToTask(taskId, userId);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
 
-    //remove executor from a task
+    // remove executor from a task
     @DeleteMapping("/{taskId}/removeExecutor/{userId}")
-    public ResponseEntity<Task> removeExecutorFromTask(@PathVariable Long taskId, @PathVariable Long userId) {
-        Task updatedTask = taskService.removeExecutorFromTask(taskId, userId);
+    public ResponseEntity<TaskDTO> removeExecutorFromTask(@PathVariable Long taskId, @PathVariable Long userId) {
+        TaskDTO updatedTask = taskService.removeExecutorFromTask(taskId, userId);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
-    
-    //get all tasks
+
+    // get all tasks
     @GetMapping(value = "/getAllTasks")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<Task> findAll(){
+    public List<TaskDTO> findAll() {
         return this.taskService.getAllTasks();
     }
-    
-    //get task by id
+
+    // get task by id
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public Optional<Task> findById(@PathVariable Long id){
-        return this.taskService.getTaskById(id);
+    public ResponseEntity<TaskDTO> findById(@PathVariable Long id) {
+        Optional<TaskDTO> task = this.taskService.getTaskById(id);
+        return task.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    
-    //create task    
+
+    // create task
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Task create(@RequestBody Task task) {
-        return this.taskService.createTask(task);
+    public ResponseEntity<TaskDTO> create(@RequestBody TaskDTO taskDTO) {
+        TaskDTO createdTask = this.taskService.createTask(taskDTO);
+        return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
-    
-    //update task    
+
+    // update task
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public Task update(@RequestBody Task task, @PathVariable("id") Long id) {
-        if (!id.equals(task.getId())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Wrong task to update");
+    public ResponseEntity<TaskDTO> update(@RequestBody TaskDTO taskDTO, @PathVariable("id") Long id) {
+        if (!id.equals(taskDTO.getId())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return this.taskService.updateTask(task);
+        TaskDTO updatedTask = this.taskService.updateTask(taskDTO);
+        return new ResponseEntity<>(updatedTask, HttpStatus.ACCEPTED);
     }
-    
-    //delete task
+
+    // delete task
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public void delete(@PathVariable Long id) {

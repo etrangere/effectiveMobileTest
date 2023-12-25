@@ -3,17 +3,17 @@ package com.em.test_em.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.em.test_em.beans.User;
+import com.em.test_em._DTO.UserDTO;
 
 public interface UserService {
 
-    List<User> getAllUsers();
+    List<UserDTO> getAllUsers();
 
-    Optional<User> getUserById(Long id);
+    Optional<UserDTO> getUserById(Long id);
 
-    User createUser(User user);
+    UserDTO createUser(UserDTO user);
 
-    User updateUser(User user);
+    UserDTO updateUser(UserDTO user);
 
     void deleteUser(Long id);
     
