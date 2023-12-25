@@ -1,7 +1,6 @@
 package com.em.test_em.services;
 
-import java.io.Console;
-import java.util.Collections;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -98,7 +97,7 @@ public class TaskServiceImpl implements TaskService {
     
     @Override
     public List<TaskDTO> getTasksWithCommentsByUser(Long userId) {
-        List<Task> tasks = getAllTasks(); // Assuming you have a method like this to get all tasks
+        List<Task> tasks = taskRepository.findAll(); // Assuming you have a method like this to get all tasks
         return tasks.stream()
                 .map(task -> {
                     TaskDTO taskWithComments = mapToDTO(task); // This assumes you have a mapToDTO for Task entities
@@ -113,17 +112,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskDTO> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
-        
-        // Check if the tasks list is not empty
-        if (!tasks.isEmpty()) {
-            // Print the class names of the objects in the list
-            for (Task task : tasks) {
-                System.out.println("Task object class: " + task.getClass().getName());
-            }
-        } else {
-            System.out.println("Tasks list is empty.");
-        }
+        System.out.println(tasks.getClass().getName()); // Print class name of the list
 
+        // Assuming you have a mapToDTOList method to convert List<Task> to List<TaskDTO>
         return mapToDTOList(tasks);
     }
 
