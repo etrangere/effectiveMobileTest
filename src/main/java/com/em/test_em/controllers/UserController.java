@@ -5,22 +5,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
-
-import com.em.test_em.beans.User;
-
+import com.em.test_em._DTO.UserDTO;
 import com.em.test_em.services.UserService;
 
 @CrossOrigin()
@@ -30,38 +18,42 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    
+
     //get all users
     @GetMapping(value = "/getAllUsers")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<User> findAll(){
+    public List<UserDTO> findAll() {
         return this.userService.getAllUsers();
     }
+
     //get user by id
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public Optional<User> findById(@PathVariable Long id){
-        return this.userService.getUserById(id);
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+        Optional<UserDTO> user = this.userService.getUserById(id);
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    
-    //create user    
+
+    //create user
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public User create(@RequestBody User user) {
-        return this.userService.createUser(user);
+    public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO) {
+        UserDTO createdUser = this.userService.createUser(userDTO);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
-    
-    //update user    
+
+    //update user
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public User update(@RequestBody User user, @PathVariable("id") Long id) {
-        if (!id.equals(user.getId())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Wrong user to update");
+    public ResponseEntity<UserDTO> update(@RequestBody UserDTO userDTO, @PathVariable("id") Long id) {
+        if (!id.equals(userDTO.getId())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return this.userService.updateUser(user);
+        UserDTO updatedUser = this.userService.updateUser(userDTO);
+        return new ResponseEntity<>(updatedUser, HttpStatus.ACCEPTED);
     }
-    
+
     //delete user
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
