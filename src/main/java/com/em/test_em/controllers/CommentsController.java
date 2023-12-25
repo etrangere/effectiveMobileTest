@@ -46,7 +46,7 @@ public class CommentsController {
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Comments create(@RequestBody Comments comments) {
-        return this.commentsService.create(comments);
+        return this.commentsService.createComment(comments);
     }
     
     //update comment    
@@ -57,13 +57,13 @@ public class CommentsController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Wrong comment to update");
         }
-        return this.commentsService.update(comments);
+        return this.commentsService.updateComment(comments);
     }
     
     //delete comment
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public void delete(@PathVariable Long id) {
-        this.commentsService.delete(id);
+        this.commentsService.deleteComment(id);
     }
 }

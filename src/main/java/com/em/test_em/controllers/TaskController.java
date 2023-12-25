@@ -56,7 +56,7 @@ public class TaskController {
     @GetMapping(value = "/getAllTasks")
     @ResponseStatus(code = HttpStatus.OK)
     public List<Task> findAll(){
-        return this.taskService.getAllTask();
+        return this.taskService.getAllTasks();
     }
     
     //get task by id
@@ -70,7 +70,7 @@ public class TaskController {
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Task create(@RequestBody Task task) {
-        return this.taskService.create(task);
+        return this.taskService.createTask(task);
     }
     
     //update task    
@@ -81,13 +81,13 @@ public class TaskController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Wrong task to update");
         }
-        return this.taskService.update(task);
+        return this.taskService.updateTask(task);
     }
     
     //delete task
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public void delete(@PathVariable Long id) {
-        this.taskService.delete(id);
+        this.taskService.deleteTask(id);
     }
 }

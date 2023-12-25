@@ -48,7 +48,7 @@ public class UserController {
     @PostMapping("")
     @ResponseStatus(code = HttpStatus.CREATED)
     public User create(@RequestBody User user) {
-        return this.userService.create(user);
+        return this.userService.createUser(user);
     }
     
     //update user    
@@ -59,13 +59,13 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Wrong user to update");
         }
-        return this.userService.update(user);
+        return this.userService.updateUser(user);
     }
     
     //delete user
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public void delete(@PathVariable Long id) {
-        this.userService.delete(id);
+        this.userService.deleteUser(id);
     }
 }
