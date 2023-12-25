@@ -16,6 +16,8 @@ public interface CommentsService {
 
     CommentsDTO updateComment(CommentsDTO comments);
 
+    List<CommentsDTO> getCommentsByTask(Long taskId);
+    
     void deleteComment(Long id);
 
 }

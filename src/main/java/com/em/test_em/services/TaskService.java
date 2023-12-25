@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.em.test_em._DTO.TaskDTO;
 
 
+
 public interface TaskService {
 
     List<TaskDTO> findTasksWithTrueExecutors();
@@ -23,4 +24,10 @@ public interface TaskService {
     TaskDTO updateTask(TaskDTO task);
 
     void deleteTask(Long id);
+
+
+    List<TaskDTO> getTasksWithCommentsByUser(Long userId);
+
+    
+    
 }

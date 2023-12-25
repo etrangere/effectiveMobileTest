@@ -1,5 +1,7 @@
 package com.em.test_em.services;
 
+import java.io.Console;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.em.test_em._DTO.CommentsDTO;
 import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em._DTO.UserDTO;
 import com.em.test_em.beans.Task;
@@ -24,7 +27,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private UserService userService;
-
+    
+    @Autowired
+    private CommentsService commentsService;
+    
     @Autowired
     private ModelMapper mapper;
 
@@ -89,9 +95,35 @@ public class TaskServiceImpl implements TaskService {
         // Task or executor not found
         return null; // You might want to handle this case appropriately
     }
+    
+    @Override
+    public List<TaskDTO> getTasksWithCommentsByUser(Long userId) {
+        List<Task> tasks = getAllTasks(); // Assuming you have a method like this to get all tasks
+        return tasks.stream()
+                .map(task -> {
+                    TaskDTO taskWithComments = mapToDTO(task); // This assumes you have a mapToDTO for Task entities
+                    List<CommentsDTO> comments = commentsService.getCommentsByTask(task.getId());
+                    taskWithComments.setComments(comments);
+                    return taskWithComments;
+                })
+                .collect(Collectors.toList());
+    }
+    
+    
     @Override
     public List<TaskDTO> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
+        
+        // Check if the tasks list is not empty
+        if (!tasks.isEmpty()) {
+            // Print the class names of the objects in the list
+            for (Task task : tasks) {
+                System.out.println("Task object class: " + task.getClass().getName());
+            }
+        } else {
+            System.out.println("Tasks list is empty.");
+        }
+
         return mapToDTOList(tasks);
     }
 
@@ -127,7 +159,8 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-    private TaskDTO mapToDTO(Task task) {
+   
+    public TaskDTO mapToDTO(Task task) {
         return mapper.map(task, TaskDTO.class);
     }
 
@@ -142,4 +175,5 @@ public class TaskServiceImpl implements TaskService {
     private User mapToEntityUSER(UserDTO userDTO) {
         return mapper.map(userDTO, User.class);
     }
+
 }

@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em._DTO.UserDTO;
+import com.em.test_em.services.TaskService;
 import com.em.test_em.services.UserService;
 
 @CrossOrigin()
@@ -18,6 +20,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private TaskService taskService;
 
     //get all users
     @GetMapping(value = "/getAllUsers")
@@ -43,6 +48,20 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{userId}/tasksWithComments")
+    @ResponseStatus(code = HttpStatus.OK)
+    public ResponseEntity<List<TaskDTO>> getUserTasksWithComments(@PathVariable Long userId) {
+        List<TaskDTO> tasksWithComments = taskService.getTasksWithCommentsByUser(userId);
+
+        if (!tasksWithComments.isEmpty()) {
+            return new ResponseEntity<>(tasksWithComments, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    
     //update user
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)

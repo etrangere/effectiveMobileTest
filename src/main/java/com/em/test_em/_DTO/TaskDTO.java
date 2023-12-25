@@ -18,6 +18,8 @@ public class TaskDTO {
     
     private List<UserDTO> executors;
     
+    private List<CommentsDTO> comments;
+    
     public TaskDTO() {
         super();
         // TODO Auto-generated constructor stub
@@ -36,6 +38,14 @@ public class TaskDTO {
     }
 
 
+
+    public List<CommentsDTO> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentsDTO> comments) {
+        this.comments = comments;
+    }
 
     public long getId() {
         return id;

@@ -1,5 +1,6 @@
 package com.em.test_em.services;
 
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 import com.em.test_em._DTO.UserDTO;
+
 import com.em.test_em.beans.User;
 import com.em.test_em.repositories.UserRepository;
 
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
     
+    
     @Autowired
     private ModelMapper mapper;
     
@@ -31,7 +34,7 @@ public class UserServiceImpl implements UserService{
         List<User> users = userRepository.findAll();
         return mapToDTOList(users);
     }  
-    
+
     //get user by id
     @Override
     public Optional<UserDTO> getUserById(Long id){
@@ -81,4 +84,5 @@ public class UserServiceImpl implements UserService{
     private User mapToEntity(UserDTO userDTO) {
         return mapper.map(userDTO, User.class);
     }
+    
 }

@@ -24,24 +24,34 @@ public class CommentsServiceImpl implements CommentsService {
     private ModelMapper mapper;
 
     // get all comments
+    @Override
     public List<CommentsDTO> getAllComments() {
         List<Comments> comments = commentsRepository.findAll();
         return mapToDTOList(comments);
     }
 
     // get comment by id
+    @Override
     public Optional<CommentsDTO> getCommentsById(Long id) {
         Optional<Comments> commentsOptional = commentsRepository.findById(id);
         return commentsOptional.map(this::mapToDTO);
     }
 
     // create comment
+    @Override
     public CommentsDTO createComment(CommentsDTO commentsDTO) {
         Comments comments = mapToEntity(commentsDTO);
         return mapToDTO(commentsRepository.save(comments));
     }
 
+    @Override
+    public List<CommentsDTO> getCommentsByTask(Long taskId) {
+        List<Comments> comments = commentsRepository.findByTaskId(taskId);
+        return mapToDTOList(comments);
+    }
+    
     // update comment
+    @Override
     public CommentsDTO updateComment(CommentsDTO commentsDTO) {
         if (!commentsRepository.existsById(commentsDTO.getId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find the comment to update");
@@ -51,6 +61,7 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     // delete comment
+    @Override
     public void deleteComment(Long id) {
         if (!commentsRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find comment to delete");
