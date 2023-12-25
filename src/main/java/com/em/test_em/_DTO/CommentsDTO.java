@@ -1,17 +1,17 @@
 package com.em.test_em._DTO;
 
-public class CommentDTO {
+public class CommentsDTO {
     
     private long id;
     
     private String comments;
 
-    public CommentDTO() {
+    public CommentsDTO() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-    public CommentDTO(long id, String comments) {
+    public CommentsDTO(long id, String comments) {
         super();
         this.id = id;
         this.comments = comments;

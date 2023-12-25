@@ -4,18 +4,17 @@ package com.em.test_em.services;
 import java.util.List;
 import java.util.Optional;
 
-
-import com.em.test_em.beans.Comments;
+import com.em.test_em._DTO.CommentsDTO;
 
 public interface CommentsService {
 
-    List<Comments> getAllComments();
+    List<CommentsDTO> getAllComments();
   
-    Optional<Comments> getCommentsById(Long id);
+    Optional<CommentsDTO> getCommentsById(Long id);
     
-    Comments createComment(Comments comments);
+    CommentsDTO createComment(CommentsDTO comments);
 
-    Comments updateComment(Comments comments);
+    CommentsDTO updateComment(CommentsDTO comments);
 
     void deleteComment(Long id);
 

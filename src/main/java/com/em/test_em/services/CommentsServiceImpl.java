@@ -2,55 +2,74 @@ package com.em.test_em.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.em.test_em._DTO.CommentsDTO;
 import com.em.test_em.beans.Comments;
 import com.em.test_em.repositories.CommentsRepository;
 
 @Service
-public class CommentsServiceImpl implements CommentsService{
-    
+public class CommentsServiceImpl implements CommentsService {
+
     @Autowired
     private CommentsRepository commentsRepository;
-    
-    //get all comments
-    public List<Comments> getAllComments(){
-        return commentsRepository.findAll();
-    }  
-    
-    //get comment by id
-    public Optional<Comments> getCommentsById(Long id){
-        return commentsRepository.findById((long) id);
-    }  
-        
-    //create comment
-    public Comments createComment(Comments comments) {
-        return this.commentsRepository.save(comments);
+
+    @Autowired
+    private ModelMapper mapper;
+
+    // get all comments
+    public List<CommentsDTO> getAllComments() {
+        List<Comments> comments = commentsRepository.findAll();
+        return mapToDTOList(comments);
     }
-    
-    //update comment
-    public Comments updateComment(Comments comments) {
-        if (!this.commentsRepository.existsById(comments.getId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Unable to find the comment to update");
+
+    // get comment by id
+    public Optional<CommentsDTO> getCommentsById(Long id) {
+        Optional<Comments> commentsOptional = commentsRepository.findById(id);
+        return commentsOptional.map(this::mapToDTO);
+    }
+
+    // create comment
+    public CommentsDTO createComment(CommentsDTO commentsDTO) {
+        Comments comments = mapToEntity(commentsDTO);
+        return mapToDTO(commentsRepository.save(comments));
+    }
+
+    // update comment
+    public CommentsDTO updateComment(CommentsDTO commentsDTO) {
+        if (!commentsRepository.existsById(commentsDTO.getId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find the comment to update");
         }
-        return this.commentsRepository.save(comments);
+        Comments comments = mapToEntity(commentsDTO);
+        return mapToDTO(commentsRepository.save(comments));
     }
-    
-    //delete comment
+
+    // delete comment
     public void deleteComment(Long id) {
-        if (!this.commentsRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Unable to find comment to delete");
+        if (!commentsRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find comment to delete");
         }
-        this.commentsRepository.deleteById(id);
-        if (this.commentsRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED,
-                    "Error deleting comment");
+        commentsRepository.deleteById(id);
+        if (commentsRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Error deleting comment");
         }
+    }
+
+    private CommentsDTO mapToDTO(Comments comments) {
+        return mapper.map(comments, CommentsDTO.class);
+    }
+
+    private List<CommentsDTO> mapToDTOList(List<Comments> comments) {
+        return comments.stream().map(this::mapToDTO).collect(Collectors.toList());
+    }
+
+    private Comments mapToEntity(CommentsDTO commentsDTO) {
+        return mapper.map(commentsDTO, Comments.class);
     }
 }
