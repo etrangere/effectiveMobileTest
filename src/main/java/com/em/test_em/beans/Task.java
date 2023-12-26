@@ -16,7 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -50,21 +50,17 @@ public class Task implements Serializable {
     
     @ManyToMany
     @JoinTable(
-        name = "task_executor",
+        name = "task_user&executor",
         joinColumns = @JoinColumn(name = "task_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> executors = new ArrayList<>();
+    @JsonBackReference
+    private List<User> task_user_executors = new ArrayList<>();
 
-    
 
     @OneToMany(mappedBy="task", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List <Comments> comments = new ArrayList<>();
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
-    private User user;
     
     public Task() {
         super();
@@ -82,6 +78,14 @@ public class Task implements Serializable {
     }
 
     
+    public List<User> getTask_user_executors() {
+        return task_user_executors;
+    }
+
+    public void setTask_user_executors(List<User> task_user_executors) {
+        this.task_user_executors = task_user_executors;
+    }
+
     public List<Comments> getComments() {
         return comments;
     }
@@ -90,13 +94,6 @@ public class Task implements Serializable {
         this.comments = comments;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public long getId() {
         return id;
@@ -146,20 +143,15 @@ public class Task implements Serializable {
         this.author = author;
     }
 
-    public List<User> getExecutors() {
-        return executors;
-    }
-
-    public void setExecutors(List<User> executors) {
-        this.executors = executors;
-    }
-
     @Override
     public String toString() {
         return "Task [id=" + id + ", header=" + header + ", description=" + description + ", status=" + status
-                + ", priority=" + priority + ", author=" + author + ", executors=" + executors + ", comments="
-                + comments + ", user=" + user + "]";
+                + ", priority=" + priority + ", author=" + author + ", task_user_executors=" + task_user_executors
+                + ", comments=" + comments + "]";
     }
+
+
+    
 
    
 

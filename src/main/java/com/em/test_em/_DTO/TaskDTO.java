@@ -16,7 +16,7 @@ public class TaskDTO {
     
     private String author;
     
-    private List<UserDTO> executors;
+    private List<UserDTO> task_user_executors;
     
     private List<CommentsDTO> comments;
     
@@ -26,7 +26,7 @@ public class TaskDTO {
     }
 
     public TaskDTO(long id, String header, String description, String status, String priority, String author,
-            List<UserDTO> executors) {
+             List<UserDTO> task_user_executors) {
         super();
         this.id = id;
         this.header = header;
@@ -34,7 +34,7 @@ public class TaskDTO {
         this.status = status;
         this.priority = priority;
         this.author = author;
-        this.executors = executors;
+        this.task_user_executors = task_user_executors;
     }
 
 
@@ -63,15 +63,13 @@ public class TaskDTO {
         this.header = header;
     }
 
-    public List<UserDTO> getExecutors() {
-        return executors;
+    public List<UserDTO> getTask_user_executors() {
+        return task_user_executors;
     }
 
-    public void setExecutors(List<UserDTO> executors) {
-        this.executors = executors;
+    public void setTask_user_executors(List<UserDTO> task_user_executors) {
+        this.task_user_executors = task_user_executors;
     }
-
-
 
     public String getDescription() {
         return description;

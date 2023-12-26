@@ -6,14 +6,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
+
 import jakarta.persistence.Table;
 
 
@@ -46,9 +46,9 @@ public class User implements Serializable{
     @Column(name = "executor")
     private boolean executor;
     
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "task_user_executors")
     @JsonManagedReference
-    private List <Task> task = new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
     
     public User() {
         super();
@@ -66,12 +66,14 @@ public class User implements Serializable{
         this.executor = executor;
     }
     
-    public List<Task> getTask() {
-        return task;
+    
+
+    public List<Task> getTasks() {
+        return tasks;
     }
 
-    public void setTask(List<Task> task) {
-        this.task = task;
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     public long getId() {

@@ -33,12 +33,13 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private ModelMapper mapper;
 
-    @Override
-    public List<TaskDTO> findTasksWithTrueExecutors() {
-        List<Task> tasks = taskRepository.findByExecutorsExecutorTrue();
-        return mapToDTOList(tasks);
+    public List<TaskDTO> findTasksWithTrueExecutors(UserDTO executor) {
+        User user = mapToEntityUSER(executor);
+        List<Task> tasks = taskRepository.findByTask_user_executorsInAndTask_user_executorsExecutorTrue(user);
+        return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
+    
     @Override
     public TaskDTO addExecutorToTask(Long taskId, Long userId) {
         Optional<TaskDTO> taskOptional = getTaskById(taskId);
@@ -50,12 +51,12 @@ public class TaskServiceImpl implements TaskService {
             UserDTO executorDTO = executorOptional.get();
 
             // Check if executor is not already in the task's executors list
-            if (!taskDTO.getExecutors().contains(executorDTO)) {
+            if (!taskDTO.getTask_user_executors().contains(executorDTO)) {
                 Task task = mapToEntity(taskDTO);
                 User executor = mapToEntityUSER(executorDTO);
 
                 // Perform the necessary operations
-                task.getExecutors().add(executor);
+                task.getTask_user_executors().add(executor);
 
                 // Save and flush with a temporary variable
                 Task savedTask = taskRepository.save(task);
@@ -82,7 +83,7 @@ public class TaskServiceImpl implements TaskService {
             // Perform the necessary operations
             Task task = mapToEntity(taskDTO);
             User executor = mapToEntityUSER(executorDTO);
-            task.getExecutors().remove(executor);
+            task.getTask_user_executors().remove(executor);
 
             // Save and flush with a temporary variable
             Task savedTask = taskRepository.save(task);
