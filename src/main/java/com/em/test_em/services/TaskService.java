@@ -7,9 +7,10 @@ import com.em.test_em._DTO.TaskDTO;
 
 
 
+
 public interface TaskService {
 
-    List<TaskDTO> findTasksWithTrueExecutors();
+    List<TaskDTO> findTasksWithTrueExecutors(Long user_executorId);
 
     TaskDTO addExecutorToTask(Long taskId, Long userId);
 

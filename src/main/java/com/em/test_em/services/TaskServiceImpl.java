@@ -1,6 +1,7 @@
 package com.em.test_em.services;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,12 +34,18 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private ModelMapper mapper;
 
-    public List<TaskDTO> findTasksWithTrueExecutors(UserDTO executor) {
-        User user = mapToEntityUSER(executor);
-        List<Task> tasks = taskRepository.findByTask_user_executorsInAndTask_user_executorsExecutorTrue(user);
-        return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
-    }
+    public List<TaskDTO> findTasksWithTrueExecutors(Long user_executorId) {
+        Optional<UserDTO> executorOptional = userService.getUserById(user_executorId);
 
+        if (executorOptional.isPresent()) {
+            UserDTO executor = executorOptional.get();
+            List<Task> tasks = taskRepository.findByTask_user_executorsAndTask_user_executorsExecutorTrue(mapToEntityUSER(executor));
+            return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
+        } else {
+            // Handle the case when the executor is not found
+            return Collections.emptyList(); // or throw an exception, return null, etc.
+        }
+    }
     
     @Override
     public TaskDTO addExecutorToTask(Long taskId, Long userId) {

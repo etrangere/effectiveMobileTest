@@ -21,21 +21,21 @@ public class TaskController {
     private TaskService taskService;
 
     // read all executors of a task
-    @GetMapping("/withTrueExecutors")
-    public ResponseEntity<List<TaskDTO>> getTasksWithTrueExecutors() {
-        List<TaskDTO> tasks = taskService.findTasksWithTrueExecutors();
+    @GetMapping("/executors/{user_executorId}")
+    public ResponseEntity<List<TaskDTO>> getTasksWithTrueExecutors(@PathVariable Long user_executorId) {
+        List<TaskDTO> tasks = taskService.findTasksWithTrueExecutors(user_executorId);
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
     // add executor to a task
-    @PostMapping("/{taskId}/addExecutor/{userId}")
+    @PostMapping("/{userId}/addExecutor/{taskId}")
     public ResponseEntity<TaskDTO> addExecutorToTask(@PathVariable Long taskId, @PathVariable Long userId) {
         TaskDTO updatedTask = taskService.addExecutorToTask(taskId, userId);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
 
     // remove executor from a task
-    @DeleteMapping("/{taskId}/removeExecutor/{userId}")
+    @DeleteMapping("/{userId}/removeExecutor/{taskId}")
     public ResponseEntity<TaskDTO> removeExecutorFromTask(@PathVariable Long taskId, @PathVariable Long userId) {
         TaskDTO updatedTask = taskService.removeExecutorFromTask(taskId, userId);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);

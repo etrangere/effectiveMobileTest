@@ -48,7 +48,7 @@ public class User implements Serializable{
     
     @ManyToMany(mappedBy = "task_user_executors")
     @JsonManagedReference
-    private List<Task> tasks = new ArrayList<>();
+    private List<Task> task = new ArrayList<>();
     
     public User() {
         super();
@@ -68,12 +68,14 @@ public class User implements Serializable{
     
     
 
-    public List<Task> getTasks() {
-        return tasks;
+    
+
+    public List<Task> getTask() {
+        return task;
     }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public void setTask(List<Task> task) {
+        this.task = task;
     }
 
     public long getId() {

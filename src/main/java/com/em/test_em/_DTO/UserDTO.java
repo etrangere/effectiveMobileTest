@@ -18,7 +18,7 @@ public class UserDTO {
     
     private boolean executor;
     
-    private List<TaskDTO> tasks;
+    private List<TaskDTO> task;
         
     public UserDTO() {
         super();
@@ -26,7 +26,7 @@ public class UserDTO {
     }
     
     public UserDTO(long id, String username, String password, String firstName, String lastName, String email,
-            boolean executor, List<TaskDTO> tasks) {
+            boolean executor, List<TaskDTO> task) {
         super();
         this.id = id;
         this.username = username;
@@ -35,7 +35,7 @@ public class UserDTO {
         this.lastName = lastName;
         this.email = email;
         this.executor = executor;
-        this.tasks = tasks;
+        this.task = task;
     }
 
 
@@ -51,11 +51,14 @@ public class UserDTO {
     public void setUsername(String username) {
         this.username = username;
     }
-    public List<TaskDTO> getTasks() {
-        return tasks;
+   
+
+    public List<TaskDTO> getTask() {
+        return task;
     }
-    public void setTasks(List<TaskDTO> tasks) {
-        this.tasks = tasks;
+
+    public void setTask(List<TaskDTO> task) {
+        this.task = task;
     }
 
     public String getPassword() {
