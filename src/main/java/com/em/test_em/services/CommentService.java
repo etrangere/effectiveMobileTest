@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.em.test_em._DTO.CommentsDTO;
 
-public interface CommentsService {
+public interface CommentService {
 
     List<CommentsDTO> getAllComments();
   

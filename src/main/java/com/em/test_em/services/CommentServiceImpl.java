@@ -15,7 +15,7 @@ import com.em.test_em.beans.Comments;
 import com.em.test_em.repositories.CommentsRepository;
 
 @Service
-public class CommentsServiceImpl implements CommentsService {
+public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentsRepository commentsRepository;

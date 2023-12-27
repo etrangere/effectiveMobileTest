@@ -29,7 +29,7 @@ public class TaskServiceImpl implements TaskService {
     private UserService userService;
     
     @Autowired
-    private CommentsService commentsService;
+    private CommentService commentsService;
     
     @Autowired
     private ModelMapper mapper;

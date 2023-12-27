@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 @CrossOrigin()
-@RestController
+//@RestController
 @RequestMapping("/api/v1/task")
 @Tag(name = "Task", description = "Task management APIs")
 public class TaskController {
@@ -23,26 +23,6 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    // read all executors of a taskDELETE
-    @GetMapping("/executors/{user_executorId}")
-    public ResponseEntity<List<TaskDTO>> getTasksWithTrueExecutors(@PathVariable Long user_executorId) {
-        List<TaskDTO> tasks = taskService.findTasksWithTrueExecutors(user_executorId);
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
-    }
-
-    // add executor to a task
-    @PostMapping("/{userId}/addExecutor/{taskId}")
-    public ResponseEntity<TaskDTO> addExecutorToTask(@PathVariable Long taskId, @PathVariable Long userId) {
-        TaskDTO updatedTask = taskService.addExecutorToTask(taskId, userId);
-        return new ResponseEntity<>(updatedTask, HttpStatus.OK);
-    }
-
-    // remove executor from a task
-    @DeleteMapping("/{userId}/removeExecutor/{taskId}")
-    public ResponseEntity<TaskDTO> removeExecutorFromTask(@PathVariable Long taskId, @PathVariable Long userId) {
-        TaskDTO updatedTask = taskService.removeExecutorFromTask(taskId, userId);
-        return new ResponseEntity<>(updatedTask, HttpStatus.OK);
-    }
 
     // get all tasks
     @GetMapping(value = "/getAllTasks")
