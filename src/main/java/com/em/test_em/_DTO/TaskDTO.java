@@ -2,6 +2,7 @@ package com.em.test_em._DTO;
 
 import java.util.List;
 
+
 public class TaskDTO {
 
     private long id;
@@ -16,7 +17,7 @@ public class TaskDTO {
     
     private String author;
     
-    private List<UserDTO> task_user_executors;
+    private List<UserDTO> user;
     
     private List<CommentsDTO> comments;
     
@@ -25,8 +26,8 @@ public class TaskDTO {
         // TODO Auto-generated constructor stub
     }
 
-    public TaskDTO(long id, String header, String description, String status, String priority, String author,
-             List<UserDTO> task_user_executors) {
+    public TaskDTO(long id, String header, String description, String status, String priority, String author, List<UserDTO> user,List<CommentsDTO> comments
+             ) {
         super();
         this.id = id;
         this.header = header;
@@ -34,10 +35,19 @@ public class TaskDTO {
         this.status = status;
         this.priority = priority;
         this.author = author;
-        this.task_user_executors = task_user_executors;
+        this.user = user;
+        this.comments = comments;
     }
 
 
+
+    public List<UserDTO> getUser() {
+        return user;
+    }
+
+    public void setUser(List<UserDTO> user) {
+        this.user = user;
+    }
 
     public List<CommentsDTO> getComments() {
         return comments;
@@ -63,13 +73,7 @@ public class TaskDTO {
         this.header = header;
     }
 
-    public List<UserDTO> getTask_user_executors() {
-        return task_user_executors;
-    }
-
-    public void setTask_user_executors(List<UserDTO> task_user_executors) {
-        this.task_user_executors = task_user_executors;
-    }
+    
 
     public String getDescription() {
         return description;
@@ -115,6 +119,8 @@ public class TaskDTO {
 
     public void setAuthor(String author) {
         this.author = author;
-    }  
+    }
+
+   
     
 }

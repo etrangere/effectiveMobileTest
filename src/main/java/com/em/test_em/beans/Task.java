@@ -14,13 +14,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
+
 import jakarta.persistence.ManyToMany;
 
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import jakarta.persistence.JoinColumn;
 
 
 @Entity
@@ -49,13 +48,8 @@ public class Task implements Serializable {
     private String author;
     
     @ManyToMany
-    @JoinTable(
-        name = "task_user&executor",
-        joinColumns = @JoinColumn(name = "task_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
     @JsonBackReference
-    private List<User> task_user_executors = new ArrayList<>();
+    private List<User> user = new ArrayList<>();
 
 
     @OneToMany(mappedBy="task", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
@@ -78,12 +72,13 @@ public class Task implements Serializable {
     }
 
     
-    public List<User> getTask_user_executors() {
-        return task_user_executors;
+   
+    public List<User> getUser() {
+        return user;
     }
 
-    public void setTask_user_executors(List<User> task_user_executors) {
-        this.task_user_executors = task_user_executors;
+    public void setUser(List<User> user) {
+        this.user = user;
     }
 
     public List<Comments> getComments() {
@@ -146,7 +141,7 @@ public class Task implements Serializable {
     @Override
     public String toString() {
         return "Task [id=" + id + ", header=" + header + ", description=" + description + ", status=" + status
-                + ", priority=" + priority + ", author=" + author + ", task_user_executors=" + task_user_executors
+                + ", priority=" + priority + ", author=" + author + ", user=" + user
                 + ", comments=" + comments + "]";
     }
 

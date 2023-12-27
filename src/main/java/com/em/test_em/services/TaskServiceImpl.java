@@ -39,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
 
         if (executorOptional.isPresent()) {
             UserDTO executor = executorOptional.get();
-            List<Task> tasks = taskRepository.findByTask_user_executorsAndTask_user_executorsExecutorTrue(mapToEntityUSER(executor));
+            List<Task> tasks = taskRepository.findByUserAndUserExecutorTrue(mapToEntityUSER(executor));
             return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
         } else {
             // Handle the case when the executor is not found
@@ -58,12 +58,12 @@ public class TaskServiceImpl implements TaskService {
             UserDTO executorDTO = executorOptional.get();
 
             // Check if executor is not already in the task's executors list
-            if (!taskDTO.getTask_user_executors().contains(executorDTO)) {
+            if (!taskDTO.getUser().contains(executorDTO)) {
                 Task task = mapToEntity(taskDTO);
                 User executor = mapToEntityUSER(executorDTO);
 
                 // Perform the necessary operations
-                task.getTask_user_executors().add(executor);
+                task.getUser().add(executor);
 
                 // Save and flush with a temporary variable
                 Task savedTask = taskRepository.save(task);
@@ -90,7 +90,7 @@ public class TaskServiceImpl implements TaskService {
             // Perform the necessary operations
             Task task = mapToEntity(taskDTO);
             User executor = mapToEntityUSER(executorDTO);
-            task.getTask_user_executors().remove(executor);
+            task.getUser().remove(executor);
 
             // Save and flush with a temporary variable
             Task savedTask = taskRepository.save(task);

@@ -13,7 +13,7 @@ import com.em.test_em.beans.User;
 public interface TaskRepository extends JpaRepository<Task,Long>{
 
     
-    @Query("SELECT t FROM Task t JOIN t.task_user_executors tu WHERE tu = :user AND tu.executor = true")
-    List<Task> findByTask_user_executorsAndTask_user_executorsExecutorTrue(@Param("user") User user);
+    @Query("SELECT t FROM Task t JOIN t.user tu WHERE tu = :user AND tu.executor = true")
+    List<Task> findByUserAndUserExecutorTrue(@Param("user") User user);
 
 }
