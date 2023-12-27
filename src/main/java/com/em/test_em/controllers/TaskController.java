@@ -23,7 +23,7 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    // read all executors of a task
+    // read all executors of a taskDELETE
     @GetMapping("/executors/{user_executorId}")
     public ResponseEntity<List<TaskDTO>> getTasksWithTrueExecutors(@PathVariable Long user_executorId) {
         List<TaskDTO> tasks = taskService.findTasksWithTrueExecutors(user_executorId);

@@ -13,7 +13,9 @@ For Users
   * PUT &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/update_task/{task_id}
   * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/getAll_tasks_comments
   * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{task_id}/getAll_tasks_comments
- 
+  * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}
+  * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/removeExecutor/{userExecutor_id}
+  
 For Task
  
   * GET &nbsp;&nbsp;&nbsp;/api/v1/task/{userExecutor_id}/getAll_tasks
