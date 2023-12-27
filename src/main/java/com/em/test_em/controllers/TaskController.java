@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em.services.TaskService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 
 @CrossOrigin()
 @RestController
-@RequestMapping("/api/task")
+@RequestMapping("/api/v1/task")
+@Tag(name = "Task", description = "Task management APIs")
 public class TaskController {
 
     @Autowired

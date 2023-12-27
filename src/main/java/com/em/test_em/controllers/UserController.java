@@ -13,9 +13,12 @@ import com.em.test_em._DTO.UserDTO;
 import com.em.test_em.services.TaskService;
 import com.em.test_em.services.UserService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @CrossOrigin()
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/user")
+@Tag(name = "User", description = "User management APIs")
 public class UserController {
 
     @Autowired
@@ -25,33 +28,33 @@ public class UserController {
     private TaskService taskService;
 
     //get all users
-    @GetMapping(value = "/getAllUsers")
+    @GetMapping(value = "/getAll_users")
     @ResponseStatus(code = HttpStatus.OK)
     public List<UserDTO> findAll() {
         return this.userService.getAllUsers();
     }
 
     //get user by id
-    @GetMapping("/{id}")
+    @GetMapping("/{user_id}/getById_user")
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
-        Optional<UserDTO> user = this.userService.getUserById(id);
+    public ResponseEntity<UserDTO> findById(@PathVariable Long user_id) {
+        Optional<UserDTO> user = this.userService.getUserById(user_id);
         return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     //create user
-    @PostMapping("")
+    @PostMapping("/create_user")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO) {
         UserDTO createdUser = this.userService.createUser(userDTO);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{userId}/tasksWithComments")
+    @GetMapping("/{user_id}/tasksWithComments")
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseEntity<List<TaskDTO>> getUserTasksWithComments(@PathVariable Long userId) {
-        List<TaskDTO> tasksWithComments = taskService.getTasksWithCommentsByUser(userId);
+    public ResponseEntity<List<TaskDTO>> getUserTasksWithComments(@PathVariable Long user_id) {
+        List<TaskDTO> tasksWithComments = taskService.getTasksWithCommentsByUser(user_id);
 
         if (!tasksWithComments.isEmpty()) {
             return new ResponseEntity<>(tasksWithComments, HttpStatus.OK);
@@ -63,10 +66,10 @@ public class UserController {
 
     
     //update user
-    @PutMapping("/{id}")
+    @PutMapping("/{user_id}/update_user")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public ResponseEntity<UserDTO> update(@RequestBody UserDTO userDTO, @PathVariable("id") Long id) {
-        if (!id.equals(userDTO.getId())) {
+    public ResponseEntity<UserDTO> update(@RequestBody UserDTO userDTO, @PathVariable Long user_id) {
+        if (!user_id.equals(userDTO.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         UserDTO updatedUser = this.userService.updateUser(userDTO);
@@ -74,9 +77,9 @@ public class UserController {
     }
 
     //delete user
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{user_id}/delete_user")
     @ResponseStatus(code = HttpStatus.OK)
-    public void delete(@PathVariable Long id) {
-        this.userService.deleteUser(id);
+    public void delete(@PathVariable Long user_id) {
+        this.userService.deleteUser(user_id);
     }
 }

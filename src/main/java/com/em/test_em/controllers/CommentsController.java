@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import com.em.test_em._DTO.CommentsDTO;
 import com.em.test_em.services.CommentsService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @CrossOrigin()
 @RestController
-@RequestMapping("/api/comment")
+@RequestMapping("/api/v1/comment")
+@Tag(name = "Comment", description = "Comment management APIs")
 public class CommentsController {
 
     @Autowired

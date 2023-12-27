@@ -62,12 +62,12 @@ public class UserServiceImpl implements UserService{
     
     //delete user
     @Override
-    public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
+    public void deleteUser(Long user_id) {
+        if (!userRepository.existsById(user_id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find user to delete");
         }
-        userRepository.deleteById(id);
-        if (userRepository.existsById(id)) {
+        userRepository.deleteById(user_id);
+        if (userRepository.existsById(user_id)) {
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Error deleting user");
         }
     }

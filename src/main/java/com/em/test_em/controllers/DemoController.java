@@ -16,8 +16,8 @@ public class DemoController {
 
     @Operation(
         summary = "Get demo data",
-        description = "Retrieve demo data from the API",
-        tags = {"demo", "get"}
+        description = "Retrieve demo data from the API"
+       // tags = {"demo", "get"}
     )
     @GetMapping("/demo")
     public ResponseEntity<String> getDemoData() {
