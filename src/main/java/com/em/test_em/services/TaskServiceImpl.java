@@ -143,6 +143,8 @@ public class TaskServiceImpl implements TaskService {
         UserDTO taskUserExecutor = userService.getUserById(userExecutor_id);
         UserDTO taskUserHolder = userService.getUserById(userTaskHolder_id);
 
+        System.out.println(taskUserExecutor.toString());
+        
         //Check for both task and executor are present
         if (!(taskToRemoveExecutor == null)  && !(taskUserExecutor == null)) {
             Task task = taskToRemoveExecutor.get();
@@ -172,7 +174,7 @@ public class TaskServiceImpl implements TaskService {
         Optional<Task> taskToAddExecutorOptional = taskRepository.findById(task_id);
         UserDTO taskUserExecutor = userService.getUserById(userExecutor_id);
         UserDTO taskUserHolder = userService.getUserById(userTaskHolder_id);
-
+       
         // Check if both task and executor are present
         if (taskToAddExecutorOptional.isPresent() && taskUserExecutor != null) {
             Task taskToAddExecutor = taskToAddExecutorOptional.get();
