@@ -1,15 +1,9 @@
 package com.em.test_em.controllers;
 
-import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.em.test_em._DTO.TaskDTO;
-import com.em.test_em.services.TaskService;
+
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -20,10 +14,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Task", description = "Task management APIs")
 public class TaskController {
 
-    @Autowired
-    private TaskService taskService;
+   // @Autowired
+  //  private TaskService taskService;
 
-
+/*
     // get all tasks
     @GetMapping(value = "/getAllTasks")
     @ResponseStatus(code = HttpStatus.OK)
@@ -35,7 +29,7 @@ public class TaskController {
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseEntity<TaskDTO> findById(@PathVariable Long id) {
-        Optional<TaskDTO> task = this.taskService.getTaskById(id);
+        TaskDTO task = this.taskService.getTaskById(id);
         return task.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -66,4 +60,5 @@ public class TaskController {
     public void delete(@PathVariable Long id) {
         this.taskService.deleteTask(id);
     }
+    */
 }

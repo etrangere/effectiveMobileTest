@@ -1,10 +1,10 @@
 package com.em.test_em.services;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import com.em.test_em._DTO.TaskDTO;
-import com.em.test_em._DTO.UserDTO;
+
 
 
 
@@ -26,12 +26,14 @@ public interface TaskService {
     TaskDTO createTaskForUserTaskHolder(Long userTaskHolder_id, TaskDTO taskDTO);
 
     TaskDTO updateTask(TaskDTO task);
-
+    
+    TaskDTO updateTaskForUser(Long userTaskHolder_id, Long task_id, TaskDTO updatedTaskDTO);
+    
     void deleteTask(Long id);
     
     List<TaskDTO> getAllTasksForTaskHolder(Long userTaskHolder_id);
 
     List<TaskDTO> getAllTasksForTaskExecutor(Long userTaskExecutor_id);
 
-    TaskDTO deleteTaskForUser(Long userTaskHolder_id, Long task_id);
+    void deleteTaskForUser(Long userTaskHolder_id, Long task_id);
 }

@@ -1,7 +1,7 @@
 package com.em.test_em.controllers;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em._DTO.UserDTO;
-import com.em.test_em.services.CommentService;
+
 import com.em.test_em.services.TaskService;
 import com.em.test_em.services.UserService;
 
@@ -28,8 +28,8 @@ public class UserController {
     @Autowired
     private TaskService taskService;
     
-    @Autowired
-    private CommentService commentService;
+   // @Autowired
+   // private CommentService commentService;
 
     
     @GetMapping("/getAll_users")
@@ -102,7 +102,7 @@ public class UserController {
         TaskDTO updatedTask = taskService.updateTaskForUser(userTaskHolder_id, task_id, updatedTaskDTO);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
-
+/*
     @GetMapping("/{userTaskHolder_id}/getAll_tasks_comments")
     public ResponseEntity<List<CommentDTO>> getAllTasksCommentsForUser(@PathVariable Long userTaskHolder_id) {
       
@@ -135,7 +135,7 @@ public class UserController {
         taskService.removeExecutorFromTask(userTaskHolder_id, task_id, userExecutor_id);
         return new ResponseEntity<>("Executor removed successfully", HttpStatus.OK);
     }
-   
+   */
     @GetMapping("/{userExecutor_id}/getAll_tasks")
     public ResponseEntity<List<TaskDTO>> getAllTasksForExecutor(@PathVariable Long userExecutor_id) {
             List<TaskDTO> tasks = taskService.getAllTasksForTaskExecutor(userExecutor_id);

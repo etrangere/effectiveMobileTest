@@ -42,7 +42,6 @@ public class TaskServiceImpl implements TaskService {
             List<Task> tasks = taskRepository.findByUserAndUserExecutorFalse(mapToEntityUSER(usertaskholderoptional));
             return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
         } else {
-            // Handle the case when the holder is not found
             return Collections.emptyList(); // or throw an exception, return null, etc.
         }
     }
@@ -54,75 +53,94 @@ public class TaskServiceImpl implements TaskService {
             List<Task> tasks = taskRepository.findByUserAndUserExecutorTrue(mapToEntityUSER(usertaskexecutoroptional));
             return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
         } else {
-            // Handle the case when the executor is not found
             return Collections.emptyList(); // or throw an exception, return null, etc.
         }
     }
     
-    @Override
-    
+    @Override 
     public void deleteTaskForUser(Long userTaskHolder_id, Long task_id) {
         
         UserDTO usertasktodelete = userService.getUserById(userTaskHolder_id);
-        List<TaskDTO> taskDTOlist = usertasktodelete.getTask();
-        
-        if (!taskRepository.existsById(task_id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find task to delete");
-        }
-        if (!usertasktodelete.getTask().contains(task_id)) {
-            
-            // Perform the necessary operations
-            usertasktodelete.getTask().remove(task_id);
-         
+      
+        Optional<TaskDTO> taskToDelete = usertasktodelete.getTask().stream()
+                .filter(task -> Long.valueOf(task.getId()).equals(task_id))
+                .findFirst();
+       
+        if (taskToDelete.isPresent()) {
+            usertasktodelete.getTask().remove(taskToDelete.get());
+            taskRepository.deleteById(task_id);
         }else {
-            // Handle the case where the user is not found
-            
-        }
-        
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find task to delete");
+        } 
+       
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     @Override
     public TaskDTO createTaskForUserTaskHolder(Long userTaskHolder_id, TaskDTO taskDTO) {
        
         UserDTO userOptional = userService.getUserById(userTaskHolder_id);
    
-        if (!taskDTO.getUser().contains(taskDTO)) {
+        if (userOptional != null) {
             Task task = new Task();
-            User userTaskHolder = mapToEntityUSER(userOptional);
-
-            // Perform the necessary operations
-            userTaskHolder.setTask(task);
-         // Save the task
+         
+            List<TaskDTO> userTasks = userOptional.getTask();
+            userTasks.add(convertToTaskDTO(task));
+         
             Task savedTask = taskRepository.save(task);
-
-            // Convert the savedTask to TaskDTO and return
             return convertToTaskDTO(savedTask);
         }else {
-            // Handle the case where the user is not found
-            
+            // Handle the case where the user is not found 
         }
-        
+        return taskDTO;  
     }
-    
+      
+    @Override
+    public TaskDTO updateTaskForUser(Long userTaskHolder_id, Long task_id, TaskDTO updatedTaskDTO) {
+        UserDTO userForTaskToUpdate = userService.getUserById(userTaskHolder_id);
 
+        // Check if the task with task_id exists in the user's tasks
+        Optional<TaskDTO> taskToUpdateOptional = userForTaskToUpdate.getTask()
+                .stream()
+                .filter(task -> Long.valueOf(task.getId()).equals(task_id))
+                .findFirst();
+
+        if (taskToUpdateOptional.isPresent()) {
+            // Update the properties of the found task
+            TaskDTO taskToUpdate = taskToUpdateOptional.get();
+            taskToUpdate.setHeader(updatedTaskDTO.getHeader());
+            taskToUpdate.setDescription(updatedTaskDTO.getDescription());
+            taskToUpdate.setStatus(updatedTaskDTO.getStatus());
+            taskToUpdate.setPriority(updatedTaskDTO.getPriority());
+            taskToUpdate.setAuthor(updatedTaskDTO.getAuthor());
+         
+            Task updatedTask = taskRepository.save(mapToEntity(taskToUpdate));
+
+          
+            return mapToDTO(updatedTask);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find the task to update");
+        }
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @Override
     public TaskDTO addExecutorToTask(Long taskId, Long userId) {
         Optional<TaskDTO> taskOptional = getTaskById(taskId);
