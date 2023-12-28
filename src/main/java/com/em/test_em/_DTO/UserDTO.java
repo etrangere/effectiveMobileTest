@@ -26,7 +26,7 @@ public class UserDTO {
     }
     
     public UserDTO(long id, String username, String password, String firstName, String lastName, String email,
-            boolean executor, List<TaskDTO> task) {
+            boolean executor) {
         super();
         this.id = id;
         this.username = username;
@@ -35,7 +35,7 @@ public class UserDTO {
         this.lastName = lastName;
         this.email = email;
         this.executor = executor;
-        this.task = task;
+        
     }
 
 
@@ -101,4 +101,10 @@ public class UserDTO {
         this.executor = executor;
     }
 
+    @Override
+    public String toString() {
+        return "UserDTO [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
+                + ", lastName=" + lastName + ", email=" + email + ", executor=" + executor + ", task=" + task + "]";
+    }
+    
 }

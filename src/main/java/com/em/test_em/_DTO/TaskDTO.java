@@ -26,8 +26,7 @@ public class TaskDTO {
         // TODO Auto-generated constructor stub
     }
 
-    public TaskDTO(long id, String header, String description, String status, String priority, String author, List<UserDTO> user,List<CommentsDTO> comments
-             ) {
+    public TaskDTO(long id, String header, String description, String status, String priority, String author             ) {
         super();
         this.id = id;
         this.header = header;
@@ -35,8 +34,7 @@ public class TaskDTO {
         this.status = status;
         this.priority = priority;
         this.author = author;
-        this.user = user;
-        this.comments = comments;
+        
     }
 
 
@@ -119,6 +117,12 @@ public class TaskDTO {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskDTO [id=" + id + ", header=" + header + ", description=" + description + ", status=" + status
+                + ", priority=" + priority + ", author=" + author + ", user=" + user + ", comments=" + comments + "]";
     }
 
    

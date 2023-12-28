@@ -50,20 +50,20 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
      
-    @DeleteMapping("/user/{user_id}/delete_user")
+    @DeleteMapping("/{user_id}/delete_user")
     public ResponseEntity<Void> deleteUser(@PathVariable long user_id) {      
         userService.deleteUser(user_id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }  
     
-    @PutMapping("/user/{user_id}/update_user")
+    @PutMapping("/{user_id}/update_user")
     public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable("id") Long user_id) {
         UserDTO updatedUser = this.userService.updateUser(userDTO);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
     
   
-    @PostMapping("/user/{userTaskHolder_id}/create_task")
+    @PostMapping("/{userTaskHolder_id}/create_task")
     public ResponseEntity<TaskDTO> createTask(@PathVariable long userTaskHolder_id, @RequestBody TaskDTO taskDTO) { 
         TaskDTO createdTask = null;  // Declare the variable outside the if-else block
 
@@ -81,19 +81,19 @@ public class UserController {
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
     
-    @GetMapping("/user/{userTaskHolder_id}/getAll_tasks")
+    @GetMapping("/{userTaskHolder_id}/getAll_tasks")
     public ResponseEntity<List<TaskDTO>> getAllTasksForUser(@PathVariable long userTaskHolder_id) {
         List<TaskDTO> tasks = taskService.getAllTasksForTaskHolder(userTaskHolder_id);
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
-    @DeleteMapping("/user/{userTaskHolder_id}/delete_task/{task_id}")
+    @DeleteMapping("/{userTaskHolder_id}/delete_task/{task_id}")
     public ResponseEntity<Void> deleteTask(@PathVariable long userTaskHolder_id, @PathVariable long task_id) {
         taskService.deleteTaskForUser(userTaskHolder_id, task_id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/user/{userTaskHolder_id}/update_task/{task_id}")
+    @PutMapping("/{userTaskHolder_id}/update_task/{task_id}")
     public ResponseEntity<TaskDTO> updateTask(
             @PathVariable long userTaskHolder_id,
             @PathVariable long task_id,
@@ -117,7 +117,7 @@ public class UserController {
 
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
-
+*/ 
     @PostMapping("/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}")
     public ResponseEntity<String> addExecutorToTask(
             @PathVariable long userTaskHolder_id,
@@ -126,7 +126,7 @@ public class UserController {
         taskService.addExecutorToTask(userTaskHolder_id, task_id, userExecutor_id);
         return new ResponseEntity<>("Executor added successfully", HttpStatus.OK);
     }
-     
+    
     @PostMapping("/{userTaskHolder_id}/{task_id}/removeExecutor/{userExecutor_id}")
     public ResponseEntity<String> removeExecutorFromTask(
             @PathVariable long userTaskHolder_id,
@@ -135,7 +135,7 @@ public class UserController {
         taskService.removeExecutorFromTask(userTaskHolder_id, task_id, userExecutor_id);
         return new ResponseEntity<>("Executor removed successfully", HttpStatus.OK);
     }
-   */
+   
     @GetMapping("/{userExecutor_id}/getAll_tasks")
     public ResponseEntity<List<TaskDTO>> getAllTasksForExecutor(@PathVariable Long userExecutor_id) {
             List<TaskDTO> tasks = taskService.getAllTasksForTaskExecutor(userExecutor_id);

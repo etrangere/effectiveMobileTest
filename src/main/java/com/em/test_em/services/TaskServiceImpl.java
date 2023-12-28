@@ -12,12 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.em.test_em._DTO.CommentsDTO;
+
 import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em._DTO.UserDTO;
 import com.em.test_em.beans.Task;
 import com.em.test_em.beans.User;
 import com.em.test_em.repositories.TaskRepository;
+
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -28,8 +31,8 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private UserService userService;
     
-    @Autowired
-    private CommentService commentsService;
+   // @Autowired
+  //  private CommentService commentsService;
     
     @Autowired
     private ModelMapper mapper;
@@ -78,14 +81,26 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO createTaskForUserTaskHolder(Long userTaskHolder_id, TaskDTO taskDTO) {
        
-        UserDTO userOptional = userService.getUserById(userTaskHolder_id);
+        UserDTO userTaskHolder = userService.getUserById(userTaskHolder_id);
    
-        if (userOptional != null) {
+        if (userTaskHolder != null) {
             Task task = new Task();
+            task.setHeader(taskDTO.getHeader());
+            task.setDescription(taskDTO.getDescription());
+            task.setStatus(taskDTO.getStatus());
+            task.setPriority(taskDTO.getPriority());
+            task.setAuthor(taskDTO.getAuthor());
          
-            List<TaskDTO> userTasks = userOptional.getTask();
+            List<TaskDTO> userTasks = userTaskHolder.getTask();
             userTasks.add(convertToTaskDTO(task));
          
+            // Associate the task with the userTaskHolder
+            userTaskHolder.getTask().add(mapToDTO(task));
+
+            // Set the userTaskHolder for the task
+            task.getUser().add(mapToEntityUSER(userTaskHolder));
+            
+            
             Task savedTask = taskRepository.save(task);
             return convertToTaskDTO(savedTask);
         }else {
@@ -122,93 +137,88 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     @Override
-    public TaskDTO addExecutorToTask(Long taskId, Long userId) {
-        Optional<TaskDTO> taskOptional = getTaskById(taskId);
-        Optional<UserDTO> executorOptional = userService.getUserById(userId);
+    public void removeExecutorFromTask(Long userTaskHolder_id, Long task_id, Long userExecutor_id) {
+        Optional<Task> taskToRemoveExecutor = taskRepository.findById(task_id);//check after not work with taskService
+        UserDTO taskUserExecutor = userService.getUserById(userExecutor_id);
+        UserDTO taskUserHolder = userService.getUserById(userTaskHolder_id);
 
-        // Check if both task and executor are present
-        if (taskOptional.isPresent() && executorOptional.isPresent()) {
-            TaskDTO taskDTO = taskOptional.get();
-            UserDTO executorDTO = executorOptional.get();
-
-            // Check if executor is not already in the task's executors list
-            if (!taskDTO.getUser().contains(executorDTO)) {
-                Task task = mapToEntity(taskDTO);
-                User executor = mapToEntityUSER(executorDTO);
-
-                // Perform the necessary operations
-                task.getUser().add(executor);
-
-                // Save and flush with a temporary variable
-                Task savedTask = taskRepository.save(task);
-
-                // Return the mapped DTO
-                return mapToDTO(savedTask);
+        //Check for both task and executor are present
+        if (!(taskToRemoveExecutor == null)  && !(taskUserExecutor == null)) {
+            Task task = taskToRemoveExecutor.get();
+            
+            if (taskUserHolder.getTask()!= null) {
+               
+                if (task.getUser() != null) {
+                  
+                    mapToDTO(task).getUser().remove(taskUserExecutor);
+                  taskRepository.save(task);
+                } else {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Executor not found in the task");
+                }
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found for the specified user task holder");
             }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task or executor not found");
         }
-
-        // Task or executor not found or executor is already in the list
-        return null; // You might want to handle this case appropriately
     }
 
+  
+    
+  
     @Override
-    public TaskDTO removeExecutorFromTask(Long taskId, Long userId) {
-        Optional<TaskDTO> taskOptional = getTaskById(taskId);
-        Optional<UserDTO> executorOptional = userService.getUserById(userId);
+    public void addExecutorToTask(Long userTaskHolder_id, Long task_id, Long userExecutor_id) {
+        Optional<Task> taskToAddExecutorOptional = taskRepository.findById(task_id);
+        UserDTO taskUserExecutor = userService.getUserById(userExecutor_id);
+        UserDTO taskUserHolder = userService.getUserById(userTaskHolder_id);
 
         // Check if both task and executor are present
-        if (taskOptional.isPresent() && executorOptional.isPresent()) {
-            TaskDTO taskDTO = taskOptional.get();
-            UserDTO executorDTO = executorOptional.get();
+        if (taskToAddExecutorOptional.isPresent() && taskUserExecutor != null) {
+            Task taskToAddExecutor = taskToAddExecutorOptional.get();
 
-            // Perform the necessary operations
-            Task task = mapToEntity(taskDTO);
-            User executor = mapToEntityUSER(executorDTO);
-            task.getUser().remove(executor);
+            if (taskUserHolder.getTask()!= null) {
 
-            // Save and flush with a temporary variable
-            Task savedTask = taskRepository.save(task);
-
-            // Return the mapped DTO
-            return mapToDTO(savedTask);
+                if (taskToAddExecutor.getUser() != null) {
+                    taskToAddExecutor.getUser().add(mapToEntityUSER(taskUserExecutor));
+                    taskRepository.save(taskToAddExecutor);
+                } else {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Executor is already assigned to the task");
+                }
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found for the specified user task holder");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task or executor not found");
         }
+    }
 
-        // Task or executor not found
-        return null; // You might want to handle this case appropriately
-    }
+   
     
-    @Override
-    public List<TaskDTO> getTasksWithCommentsByUser(Long userId) {
-        List<Task> tasks = taskRepository.findAll(); // Assuming you have a method like this to get all tasks
-        return tasks.stream()
-                .map(task -> {
-                    TaskDTO taskWithComments = mapToDTO(task); // This assumes you have a mapToDTO for Task entities
-                    List<CommentsDTO> comments = commentsService.getCommentsByTask(task.getId());
-                    taskWithComments.setComments(comments);
-                    return taskWithComments;
-                })
-                .collect(Collectors.toList());
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
     
     
     @Override
@@ -223,9 +233,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO getTaskById(Long id) {
         Optional<Task> taskOptional = taskRepository.findById(id);
-        return taskOptional.map(this::mapToDTO).orElse(null);
+        return taskOptional.map(this::mapToDTO).orElseThrow(EntityNotFoundException::new);
     }
-
+    
+   
     @Override
     public TaskDTO createTask(TaskDTO taskDTO) {
         Task task = mapToEntity(taskDTO);
@@ -261,5 +272,7 @@ public class TaskServiceImpl implements TaskService {
     private User mapToEntityUSER(UserDTO userDTO) {
         return mapper.map(userDTO, User.class);
     }
+
+   
 
 }

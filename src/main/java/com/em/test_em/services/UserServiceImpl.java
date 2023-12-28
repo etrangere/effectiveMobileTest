@@ -17,6 +17,8 @@ import com.em.test_em._DTO.UserDTO;
 import com.em.test_em.beans.User;
 import com.em.test_em.repositories.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -39,7 +41,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDTO getUserById(Long id){
         Optional<User> userOptional = userRepository.findById(id);
-        return userOptional.map(this::mapToDTO).orElse(null);
+        return userOptional.map(this::mapToDTO).orElseThrow(EntityNotFoundException::new);
     }  
     
     //create user

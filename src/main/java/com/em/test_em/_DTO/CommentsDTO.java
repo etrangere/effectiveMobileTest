@@ -33,5 +33,10 @@ public class CommentsDTO {
         this.comments = comments;
     }
 
+    @Override
+    public String toString() {
+        return "CommentsDTO [id=" + id + ", comments=" + comments + "]";
+    }
+
     
 }

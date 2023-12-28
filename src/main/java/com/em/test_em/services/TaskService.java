@@ -8,19 +8,13 @@ import com.em.test_em._DTO.TaskDTO;
 
 
 
-
 public interface TaskService {
 
-    List<TaskDTO> findTasksWithTrueExecutors(Long user_executorId);
-
-    TaskDTO addExecutorToTask(Long taskId, Long userId);
-
-    TaskDTO removeExecutorFromTask(Long taskId, Long userId);
-
+  
     List<TaskDTO> getAllTasks();
-
-    TaskDTO getTaskById(Long id);
-
+    
+    TaskDTO getTaskById(Long task_id);
+  
     TaskDTO createTask(TaskDTO task);
     
     TaskDTO createTaskForUserTaskHolder(Long userTaskHolder_id, TaskDTO taskDTO);
@@ -29,11 +23,19 @@ public interface TaskService {
     
     TaskDTO updateTaskForUser(Long userTaskHolder_id, Long task_id, TaskDTO updatedTaskDTO);
     
-    void deleteTask(Long id);
+  
     
     List<TaskDTO> getAllTasksForTaskHolder(Long userTaskHolder_id);
 
     List<TaskDTO> getAllTasksForTaskExecutor(Long userTaskExecutor_id);
 
     void deleteTaskForUser(Long userTaskHolder_id, Long task_id);
+    
+    void removeExecutorFromTask(Long userTaskHolder_id,Long task_id,Long userExecutor_id);
+    
+    void addExecutorToTask(Long userTaskHolder_id,Long task_id,Long userExecutor_id);
+
+    
+    
+    
 }
