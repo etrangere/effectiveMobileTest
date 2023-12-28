@@ -167,11 +167,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
   
-    
+  
   
     @Override
     public void addExecutorToTask(Long userTaskHolder_id, Long task_id, Long userExecutor_id) {
-        Optional<Task> taskToAddExecutorOptional = taskRepository.findById(task_id);
+        Optional<Task> taskToAddExecutorOptional = taskRepository.findById(task_id);//check after not work with taskService
         UserDTO taskUserExecutor = userService.getUserById(userExecutor_id);
         UserDTO taskUserHolder = userService.getUserById(userTaskHolder_id);
        
@@ -197,32 +197,7 @@ public class TaskServiceImpl implements TaskService {
 
    
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
-    
-    
+     
     @Override
     public List<TaskDTO> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
@@ -254,7 +229,7 @@ public class TaskServiceImpl implements TaskService {
         return mapToDTO(taskRepository.save(task));
     }
 
-    
+      
 
     private TaskDTO convertToTaskDTO(Task task) {
         return mapper.map(task, TaskDTO.class);
