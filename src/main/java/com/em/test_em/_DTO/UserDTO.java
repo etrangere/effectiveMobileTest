@@ -18,7 +18,7 @@ public class UserDTO {
     
     private boolean executor;
     
-    private List<TaskDTO> task;
+    private List<TaskDTO> tasks;
         
     public UserDTO() {
         super();
@@ -53,12 +53,12 @@ public class UserDTO {
     }
    
 
-    public List<TaskDTO> getTask() {
-        return task;
+    public List<TaskDTO> getTasks() {
+        return tasks;
     }
 
-    public void setTask(List<TaskDTO> task) {
-        this.task = task;
+    public void setTasks(List<TaskDTO> tasks) {
+        this.tasks = tasks;
     }
 
     public String getPassword() {
@@ -104,7 +104,7 @@ public class UserDTO {
     @Override
     public String toString() {
         return "UserDTO [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", email=" + email + ", executor=" + executor + ", task=" + task + "]";
+                + ", lastName=" + lastName + ", email=" + email + ", executor=" + executor + ", tasks=" + tasks + "]";
     }
     
 }

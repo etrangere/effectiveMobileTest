@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em._DTO.UserDTO;
 
@@ -28,8 +29,8 @@ public class UserController {
     @Autowired
     private TaskService taskService;
     
-   // @Autowired
-   // private CommentService commentService;
+    //@Autowired
+    //private CommentService commentService;
 
     
     @GetMapping("/getAll_users")
@@ -102,22 +103,22 @@ public class UserController {
         TaskDTO updatedTask = taskService.updateTaskForUser(userTaskHolder_id, task_id, updatedTaskDTO);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
-/*
+ /*   
     @GetMapping("/{userTaskHolder_id}/getAll_tasks_comments")
     public ResponseEntity<List<CommentDTO>> getAllTasksCommentsForUser(@PathVariable Long userTaskHolder_id) {
-      
-
+        // Assuming you have a service method to retrieve all comments for a user
+        List<CommentDTO> comments = commentService.getAllCommentsForUser(userTaskHolder_id);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
     @GetMapping("/{userTaskHolder_id}/{task_id}/getAll_tasks_comments")
     public ResponseEntity<List<CommentDTO>> getAllTaskCommentsForUser(
             @PathVariable Long userTaskHolder_id, @PathVariable Long task_id) {
-       
-
+        // Assuming you have a service method to retrieve comments for a specific task
+        List<CommentDTO> comments = commentService.getCommentsForTask(userTaskHolder_id, task_id);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
-*/ 
+  */  
     @PostMapping("/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}")
     public ResponseEntity<String> addExecutorToTask(
             @PathVariable long userTaskHolder_id,

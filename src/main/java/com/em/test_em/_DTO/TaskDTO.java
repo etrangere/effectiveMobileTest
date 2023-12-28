@@ -17,9 +17,9 @@ public class TaskDTO {
     
     private String author;
     
-    private List<UserDTO> user;
+    private List<UserDTO> users;
     
-    private List<CommentsDTO> comments;
+    private List<CommentDTO> comments;
     
     public TaskDTO() {
         super();
@@ -36,22 +36,20 @@ public class TaskDTO {
         this.author = author;
         
     }
-
-
-
-    public List<UserDTO> getUser() {
-        return user;
+    
+    public List<UserDTO> getUsers() {
+        return users;
     }
 
-    public void setUser(List<UserDTO> user) {
-        this.user = user;
+    public void setUsers(List<UserDTO> users) {
+        this.users = users;
     }
 
-    public List<CommentsDTO> getComments() {
+    public List<CommentDTO> getComments() {
         return comments;
     }
 
-    public void setComments(List<CommentsDTO> comments) {
+    public void setComments(List<CommentDTO> comments) {
         this.comments = comments;
     }
 
@@ -122,7 +120,7 @@ public class TaskDTO {
     @Override
     public String toString() {
         return "TaskDTO [id=" + id + ", header=" + header + ", description=" + description + ", status=" + status
-                + ", priority=" + priority + ", author=" + author + ", user=" + user + ", comments=" + comments + "]";
+                + ", priority=" + priority + ", author=" + author + ", users=" + users + ", comments=" + comments + "]";
     }
 
    

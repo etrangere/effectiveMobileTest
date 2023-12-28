@@ -54,7 +54,7 @@ public class Task implements Serializable {
 
     @OneToMany(mappedBy="task", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonManagedReference
-    private List <Comments> comments = new ArrayList<>();
+    private List <Comment> comments = new ArrayList<>();
     
     public Task() {
         super();
@@ -81,11 +81,11 @@ public class Task implements Serializable {
         this.user = user;
     }
 
-    public List<Comments> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comments> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 

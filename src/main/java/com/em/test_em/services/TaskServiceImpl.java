@@ -65,12 +65,12 @@ public class TaskServiceImpl implements TaskService {
         
         UserDTO usertasktodelete = userService.getUserById(userTaskHolder_id);
       
-        Optional<TaskDTO> taskToDelete = usertasktodelete.getTask().stream()
+        Optional<TaskDTO> taskToDelete = usertasktodelete.getTasks().stream()
                 .filter(task -> Long.valueOf(task.getId()).equals(task_id))
                 .findFirst();
        
         if (taskToDelete.isPresent()) {
-            usertasktodelete.getTask().remove(taskToDelete.get());
+            usertasktodelete.getTasks().remove(taskToDelete.get());
             taskRepository.deleteById(task_id);
         }else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find task to delete");
@@ -91,11 +91,11 @@ public class TaskServiceImpl implements TaskService {
             task.setPriority(taskDTO.getPriority());
             task.setAuthor(taskDTO.getAuthor());
          
-            List<TaskDTO> userTasks = userTaskHolder.getTask();
+            List<TaskDTO> userTasks = userTaskHolder.getTasks();
             userTasks.add(convertToTaskDTO(task));
          
             // Associate the task with the userTaskHolder
-            userTaskHolder.getTask().add(mapToDTO(task));
+            userTaskHolder.getTasks().add(mapToDTO(task));
 
             // Set the userTaskHolder for the task
             task.getUser().add(mapToEntityUSER(userTaskHolder));
@@ -114,7 +114,7 @@ public class TaskServiceImpl implements TaskService {
         UserDTO userForTaskToUpdate = userService.getUserById(userTaskHolder_id);
 
         // Check if the task with task_id exists in the user's tasks
-        Optional<TaskDTO> taskToUpdateOptional = userForTaskToUpdate.getTask()
+        Optional<TaskDTO> taskToUpdateOptional = userForTaskToUpdate.getTasks()
                 .stream()
                 .filter(task -> Long.valueOf(task.getId()).equals(task_id))
                 .findFirst();
@@ -149,11 +149,11 @@ public class TaskServiceImpl implements TaskService {
         if (!(taskToRemoveExecutor == null)  && !(taskUserExecutor == null)) {
             Task task = taskToRemoveExecutor.get();
             
-            if (taskUserHolder.getTask()!= null) {
+            if (taskUserHolder.getTasks()!= null) {
                
                 if (task.getUser() != null) {
                   
-                    mapToDTO(task).getUser().remove(taskUserExecutor);
+                    mapToDTO(task).getUsers().remove(taskUserExecutor);
                   taskRepository.save(task);
                 } else {
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Executor not found in the task");
@@ -179,7 +179,7 @@ public class TaskServiceImpl implements TaskService {
         if (taskToAddExecutorOptional.isPresent() && taskUserExecutor != null) {
             Task taskToAddExecutor = taskToAddExecutorOptional.get();
 
-            if (taskUserHolder.getTask()!= null) {
+            if (taskUserHolder.getTasks()!= null) {
 
                 if (taskToAddExecutor.getUser() != null) {
                     taskToAddExecutor.getUser().add(mapToEntityUSER(taskUserExecutor));

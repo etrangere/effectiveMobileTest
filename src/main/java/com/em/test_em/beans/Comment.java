@@ -14,8 +14,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "comments_table")
-public class Comments implements Serializable{
+@Table(name = "comment_table")
+public class Comment implements Serializable{
 
     private static final long serialVersionUID = 1L;
     
@@ -24,21 +24,41 @@ public class Comments implements Serializable{
     private long id;
     
     @Column(name = "comments",columnDefinition = "LONGTEXT",nullable = true)
-    private String comments;
+    private String comment;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     private Task task;
     
-    public Comments() {
+    public Comment() {
         super();
     }
 
 
-    public Comments(long id, String comments) {
+    public Comment(long id, String comment) {
         super();
         this.id = id;
-        this.comments = comments;
+        this.comment = comment;
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+
+    public String getComment() {
+        return comment;
+    }
+
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
 
@@ -46,29 +66,18 @@ public class Comments implements Serializable{
         return task;
     }
 
+
     public void setTask(Task task) {
         this.task = task;
     }
-    
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
 
     @Override
     public String toString() {
-        return "Comments [id=" + id + ", comments=" + comments + "]";
+        return "Comment [id=" + id + ", comment=" + comment + ", task=" + task + "]";
     }
+
+
+    
     
 }
