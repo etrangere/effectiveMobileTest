@@ -20,6 +20,7 @@ public interface CommentService {
     
     void deleteComment(Long id);
     
-   // CommentDTO getCommentByIdAndTaskId(Long comment_id, Long task_id);
+    CommentDTO getCommentByIdAndTaskId(Long comment_id, Long task_id);
 
+    CommentDTO createCommentForTask(Long task_id,CommentDTO commentDTO);
 }

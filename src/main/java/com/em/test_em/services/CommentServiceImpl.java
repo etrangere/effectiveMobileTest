@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.em.test_em._DTO.CommentDTO;
-
+import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em.beans.Comment;
 import com.em.test_em.repositories.CommentRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 
 
@@ -27,23 +29,33 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private ModelMapper mapper;
 
-    //@Autowired
-    //private TaskService taskService;
+    @Autowired
+    private TaskService taskService;
 
- /*   
+    
     public CommentDTO getCommentByIdAndTaskId(Long comment_id, Long task_id) {
- 
         TaskDTO commentContainTask = taskService.getTaskById(task_id);
-        
         Optional<CommentDTO> commentOfTask = getCommentById(comment_id);
-        
-        if (!(commentContainTask == null)  && !(commentOfTask == null) && commentContainTask.getComments().contains(commentOfTask)) {
-         
-            return commentOfTask.map(this::mapToDTO).orElseThrow(EntityNotFoundException::new);
+
+        if (commentContainTask != null && commentOfTask.isPresent() && commentContainTask.getComments().contains(commentOfTask.get())) {
+            return commentOfTask.get(); // Extract the CommentDTO from Optional
+        } else {
+            throw new EntityNotFoundException("Comment not found for the specified task");
         }
-        
     }
- */   
+
+    
+    // create comment for task
+    @Override
+    public CommentDTO createCommentForTask(Long task_id,CommentDTO commentDTO) {
+        TaskDTO commentForThisTask = taskService.getTaskById(task_id);
+        Comment comment = mapToEntity(commentDTO);
+        commentForThisTask.getComments().add(mapToDTO(comment));
+        
+        return mapToDTO(commentRepository.save(comment));
+    }
+   
+
     
     // get all comments
     @Override
@@ -59,12 +71,7 @@ public class CommentServiceImpl implements CommentService {
         return commentsOptional.map(this::mapToDTO);
     }
 
-    // create comment
-    @Override
-    public CommentDTO createComment(CommentDTO commentsDTO) {
-        Comment comments = mapToEntity(commentsDTO);
-        return mapToDTO(commentRepository.save(comments));
-    }
+    
 
     @Override
     public List<CommentDTO> getCommentByTask(Long taskId) {
