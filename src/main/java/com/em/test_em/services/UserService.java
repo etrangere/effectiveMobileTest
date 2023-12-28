@@ -3,7 +3,6 @@ package com.em.test_em.services;
 import java.util.List;
 
 
-
 import com.em.test_em._DTO.UserDTO;
 
 
@@ -15,8 +14,10 @@ public interface UserService {
     
     UserDTO createUser(UserDTO user);
 
-    UserDTO updateUser(UserDTO user);
+    UserDTO updateUser(UserDTO userDTO);
 
+   
+    
     void deleteUser(Long user_id);
     
 }

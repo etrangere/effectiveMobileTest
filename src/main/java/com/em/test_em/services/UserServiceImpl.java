@@ -37,9 +37,9 @@ public class UserServiceImpl implements UserService{
 
     //get user by id
     @Override
-    public Optional<UserDTO> getUserById(Long id){
+    public UserDTO getUserById(Long id){
         Optional<User> userOptional = userRepository.findById(id);
-        return userOptional.map(this::mapToDTO);
+        return userOptional.map(this::mapToDTO).orElse(null);
     }  
     
     //create user

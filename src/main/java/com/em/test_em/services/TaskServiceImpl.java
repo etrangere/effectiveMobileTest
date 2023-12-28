@@ -34,12 +34,24 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private ModelMapper mapper;
 
-    public List<TaskDTO> findTasksWithTrueExecutors(Long user_executorId) {
-        Optional<UserDTO> executorOptional = userService.getUserById(user_executorId);
+    
+    public List<TaskDTO> getAllTasksForTaskHolder(Long userTaskHolder_id) {
+        UserDTO usertaskholderoptional = userService.getUserById(userTaskHolder_id);
 
-        if (executorOptional.isPresent()) {
-            UserDTO executor = executorOptional.get();
-            List<Task> tasks = taskRepository.findByUserAndUserExecutorTrue(mapToEntityUSER(executor));
+        if (!(usertaskholderoptional==null)) {
+            List<Task> tasks = taskRepository.findByUserAndUserExecutorFalse(mapToEntityUSER(usertaskholderoptional));
+            return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
+        } else {
+            // Handle the case when the holder is not found
+            return Collections.emptyList(); // or throw an exception, return null, etc.
+        }
+    }
+    
+    public List<TaskDTO> getAllTasksForTaskExecutor(Long userTaskExecutor_id) {
+        UserDTO usertaskexecutoroptional = userService.getUserById(userTaskExecutor_id);
+
+        if (!(usertaskexecutoroptional==null)) {
+            List<Task> tasks = taskRepository.findByUserAndUserExecutorTrue(mapToEntityUSER(usertaskexecutoroptional));
             return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
         } else {
             // Handle the case when the executor is not found
@@ -47,6 +59,70 @@ public class TaskServiceImpl implements TaskService {
         }
     }
     
+    @Override
+    
+    public void deleteTaskForUser(Long userTaskHolder_id, Long task_id) {
+        
+        UserDTO usertasktodelete = userService.getUserById(userTaskHolder_id);
+        List<TaskDTO> taskDTOlist = usertasktodelete.getTask();
+        
+        if (!taskRepository.existsById(task_id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find task to delete");
+        }
+        if (!usertasktodelete.getTask().contains(task_id)) {
+            
+            // Perform the necessary operations
+            usertasktodelete.getTask().remove(task_id);
+         
+        }else {
+            // Handle the case where the user is not found
+            
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @Override
+    public TaskDTO createTaskForUserTaskHolder(Long userTaskHolder_id, TaskDTO taskDTO) {
+       
+        UserDTO userOptional = userService.getUserById(userTaskHolder_id);
+   
+        if (!taskDTO.getUser().contains(taskDTO)) {
+            Task task = new Task();
+            User userTaskHolder = mapToEntityUSER(userOptional);
+
+            // Perform the necessary operations
+            userTaskHolder.setTask(task);
+         // Save the task
+            Task savedTask = taskRepository.save(task);
+
+            // Convert the savedTask to TaskDTO and return
+            return convertToTaskDTO(savedTask);
+        }else {
+            // Handle the case where the user is not found
+            
+        }
+        
+    }
+    
+
     @Override
     public TaskDTO addExecutorToTask(Long taskId, Long userId) {
         Optional<TaskDTO> taskOptional = getTaskById(taskId);
@@ -127,9 +203,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<TaskDTO> getTaskById(Long id) {
+    public TaskDTO getTaskById(Long id) {
         Optional<Task> taskOptional = taskRepository.findById(id);
-        return taskOptional.map(this::mapToDTO);
+        return taskOptional.map(this::mapToDTO).orElse(null);
     }
 
     @Override
@@ -147,18 +223,11 @@ public class TaskServiceImpl implements TaskService {
         return mapToDTO(taskRepository.save(task));
     }
 
-    @Override
-    public void deleteTask(Long id) {
-        if (!taskRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find task to delete");
-        }
-        taskRepository.deleteById(id);
-        if (taskRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Error deleting task");
-        }
-    }
+    
 
-   
+    private TaskDTO convertToTaskDTO(Task task) {
+        return mapper.map(task, TaskDTO.class);
+    }
     public TaskDTO mapToDTO(Task task) {
         return mapper.map(task, TaskDTO.class);
     }

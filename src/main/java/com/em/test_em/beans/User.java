@@ -67,10 +67,7 @@ public class User implements Serializable{
         this.executor = executor;
     }
     
-    
-
-    
-
+     
     public List<Task> getTask() {
         return task;
     }
@@ -135,10 +132,14 @@ public class User implements Serializable{
         this.executor = executor;
     }
 
+    
+
     @Override
     public String toString() {
         return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
                 + ", lastName=" + lastName + ", email=" + email + ", executor=" + executor + "]";
     }
+
+   
 
 }

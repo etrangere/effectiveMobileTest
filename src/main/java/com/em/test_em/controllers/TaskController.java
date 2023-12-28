@@ -58,6 +58,7 @@ public class TaskController {
         TaskDTO updatedTask = this.taskService.updateTask(taskDTO);
         return new ResponseEntity<>(updatedTask, HttpStatus.ACCEPTED);
     }
+    
 
     // delete task
     @DeleteMapping("/{id}")

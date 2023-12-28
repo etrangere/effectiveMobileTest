@@ -16,7 +16,7 @@ For Users
   * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}
   * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/removeExecutor/{userExecutor_id} 
   * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userExecutor_id}/getAll_tasks
-  * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userExecutor_id}/update_task_status/{task_id}
+  * POST &nbsp;&nbsp;&nbsp;/api/v1/user/update_task_status/{task_id}/{status_code}
 
 For Comment
 

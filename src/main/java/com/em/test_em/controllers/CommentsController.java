@@ -64,24 +64,24 @@ public class CommentsController {
     
     /////
     
-    
+    /*
     @PostMapping("/comment/{task_id}/create_comment")
     public ResponseEntity<CommentDTO> createComment(@PathVariable long task_id, @RequestBody CommentDTO commentDTO) {
-        // Implement logic to create a comment for the specified task
+        
         CommentDTO createdComment = commentService.createCommentForTask(task_id, commentDTO);
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }
 
     @GetMapping("/comment/{task_id}/getAll_comments")
     public ResponseEntity<List<CommentDTO>> getAllCommentsForTask(@PathVariable long task_id) {
-        // Implement logic to get all comments for the specified task
+      
         List<CommentDTO> comments = commentService.getAllCommentsForTask(task_id);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
     @DeleteMapping("/comment/{task_id}/delete_comment/{comment_id}")
     public ResponseEntity<Void> deleteComment(@PathVariable long task_id, @PathVariable long comment_id) {
-        // Implement logic to delete the specified comment for the specified task
+        
         commentService.deleteCommentForTask(task_id, comment_id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -91,10 +91,10 @@ public class CommentsController {
             @PathVariable long task_id,
             @PathVariable long comment_id,
             @RequestBody CommentDTO updatedCommentDTO) {
-        // Implement logic to update the specified comment for the specified task
+        
         CommentDTO updatedComment = commentService.updateCommentForTask(task_id, comment_id, updatedCommentDTO);
         return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
-
+*/
     
 }
