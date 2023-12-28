@@ -143,8 +143,7 @@ public class UserController {
     }
     
     @PostMapping("/update_task_status/{task_id}/{status_code}")
-    public ResponseEntity<String> updateTaskStatus(
-            @PathVariable Long userExecutor_id, @PathVariable Long task_id, String status_code) {
+    public ResponseEntity<String> updateTaskStatus(@PathVariable Long task_id, String status_code) {
      
         TaskDTO taskForStatusUpdate = taskService.getTaskById(task_id);
       
