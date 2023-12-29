@@ -12,8 +12,6 @@ public interface CommentService {
   
     Optional<CommentDTO> getCommentById(Long id);
     
-    CommentDTO createComment(CommentDTO comments);
-
     CommentDTO updateComment(CommentDTO comments);
 
     List<CommentDTO> getCommentByTask(Long taskId);

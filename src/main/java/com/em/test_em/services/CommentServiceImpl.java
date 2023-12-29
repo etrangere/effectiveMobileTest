@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.em.test_em._DTO.CommentDTO;
 import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em.beans.Comment;
+import com.em.test_em.beans.Task;
 import com.em.test_em.repositories.CommentRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -38,25 +39,25 @@ public class CommentServiceImpl implements CommentService {
         Optional<CommentDTO> commentOfTask = getCommentById(comment_id);
 
         if (commentContainTask != null && commentOfTask.isPresent() && commentContainTask.getComments().contains(commentOfTask.get())) {
-            return commentOfTask.get(); // Extract the CommentDTO from Optional
+            return commentOfTask.get(); // Extract the CommentDTO 
         } else {
             throw new EntityNotFoundException("Comment not found for the specified task");
         }
     }
 
-    
     // create comment for task
     @Override
-    public CommentDTO createCommentForTask(Long task_id,CommentDTO commentDTO) {
+    public CommentDTO createCommentForTask(Long task_id, CommentDTO commentDTO) {
+    
         TaskDTO commentForThisTask = taskService.getTaskById(task_id);
         Comment comment = mapToEntity(commentDTO);
+        comment.setTask(mapToEntity(commentForThisTask));
         commentForThisTask.getComments().add(mapToDTO(comment));
-        
+ 
         return mapToDTO(commentRepository.save(comment));
     }
-   
 
-    
+
     // get all comments
     @Override
     public List<CommentDTO> getAllComments() {
@@ -112,4 +113,12 @@ public class CommentServiceImpl implements CommentService {
     private Comment mapToEntity(CommentDTO commentDTO) {
         return mapper.map(commentDTO, Comment.class);
     }
+    
+    private Task mapToEntity(TaskDTO taskDTO) {
+        return mapper.map(taskDTO, Task.class);
+    }
+
+
+    
+    
 }
