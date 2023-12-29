@@ -23,8 +23,6 @@ public interface TaskService {
     
     TaskDTO updateTaskForUser(Long userTaskHolder_id, Long task_id, TaskDTO updatedTaskDTO);
     
-  
-    
     List<TaskDTO> getAllTasksForTaskHolder(Long userTaskHolder_id);
 
     List<TaskDTO> getAllTasksForTaskExecutor(Long userTaskExecutor_id);
@@ -35,7 +33,7 @@ public interface TaskService {
     
     void addExecutorToTask(Long userTaskHolder_id,Long task_id,Long userExecutor_id);
 
-    
+    boolean isUserAssociatedWithTask(Long taskId, Long userId);
     
     
 }

@@ -3,6 +3,7 @@ package com.em.test_em.services;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,9 +31,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private UserService userService;
-    
-   // @Autowired
-  //  private CommentService commentsService;
     
     @Autowired
     private ModelMapper mapper;
@@ -98,7 +96,7 @@ public class TaskServiceImpl implements TaskService {
             userTaskHolder.getTasks().add(mapToDTO(task));
 
             // Set the userTaskHolder for the task
-            task.getUser().add(mapToEntityUSER(userTaskHolder));
+            task.getUsers().add(mapToEntityUSER(userTaskHolder));
             
             
             Task savedTask = taskRepository.save(task);
@@ -151,7 +149,7 @@ public class TaskServiceImpl implements TaskService {
             
             if (taskUserHolder.getTasks()!= null) {
                
-                if (task.getUser() != null) {
+                if (task.getUsers() != null) {
                   
                     mapToDTO(task).getUsers().remove(taskUserExecutor);
                   taskRepository.save(task);
@@ -181,8 +179,8 @@ public class TaskServiceImpl implements TaskService {
 
             if (taskUserHolder.getTasks()!= null) {
 
-                if (taskToAddExecutor.getUser() != null) {
-                    taskToAddExecutor.getUser().add(mapToEntityUSER(taskUserExecutor));
+                if (taskToAddExecutor.getUsers() != null) {
+                    taskToAddExecutor.getUsers().add(mapToEntityUSER(taskUserExecutor));
                     taskRepository.save(taskToAddExecutor);
                 } else {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Executor is already assigned to the task");
@@ -196,14 +194,27 @@ public class TaskServiceImpl implements TaskService {
     }
 
    
-    
+ 
+
+ public boolean isUserAssociatedWithTask(Long taskId, Long userId) {
+     Optional<Task> taskOptional = taskRepository.findById(taskId);
+
+     if (taskOptional.isPresent()) {
+         Task task = taskOptional.get(); 
+         return task.getUsers().stream().anyMatch(user -> Objects.equals(user.getId(), userId));
+     }
+
+     return false; // Task not found
+ }
+
+
      
     @Override
     public List<TaskDTO> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
         System.out.println(tasks.getClass().getName()); // Print class name of the list
 
-        // Assuming you have a mapToDTOList method to convert List<Task> to List<TaskDTO>
+        
         return mapToDTOList(tasks);
     }
 

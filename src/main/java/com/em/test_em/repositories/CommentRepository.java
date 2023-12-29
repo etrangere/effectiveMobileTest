@@ -10,4 +10,5 @@ import com.em.test_em.beans.Comment;
 public interface CommentRepository extends JpaRepository<Comment,Long>{
     List<Comment> findByTaskId(Long taskId);
     boolean existsByIdAndTaskId(Long commentId, Long taskId);
+  
 }

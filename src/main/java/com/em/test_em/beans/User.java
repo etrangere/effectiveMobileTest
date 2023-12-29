@@ -47,7 +47,7 @@ public class User implements Serializable{
     @Column(name = "executor")
     private boolean executor;
     
-    @ManyToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "users",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Task> tasks = new ArrayList<>();
     

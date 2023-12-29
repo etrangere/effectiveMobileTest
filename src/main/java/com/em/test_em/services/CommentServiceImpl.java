@@ -17,6 +17,7 @@ import com.em.test_em.beans.Comment;
 import com.em.test_em.beans.Task;
 import com.em.test_em.repositories.CommentRepository;
 
+
 import jakarta.persistence.EntityNotFoundException;
 
 
@@ -33,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private TaskService taskService;
 
-    
+        
     public CommentDTO getCommentByIdAndTaskId(Long comment_id, Long task_id) {
         TaskDTO commentContainTask = taskService.getTaskById(task_id);
         Optional<CommentDTO> commentOfTask = getCommentById(comment_id);
@@ -97,8 +98,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
 
-    
-    
     // delete comment
     @Override
     public void deleteCommentForTask(Long task_id, Long comment_id) {
@@ -111,10 +110,12 @@ public class CommentServiceImpl implements CommentService {
         // delete successfully 
         if (commentRepository.existsById(comment_id)) {
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Error deleting comment");
+          
         }
     }
 
-
+    
+    
     private CommentDTO mapToDTO(Comment comment) {
         return mapper.map(comment, CommentDTO.class);
     }
@@ -132,11 +133,5 @@ public class CommentServiceImpl implements CommentService {
     }
 
    
-
-   
-    
-
-
-    
     
 }

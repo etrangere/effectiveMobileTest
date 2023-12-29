@@ -1,17 +1,21 @@
 package com.em.test_em.controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import com.em.test_em._DTO.CommentDTO;
 import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em._DTO.UserDTO;
-
+import com.em.test_em.beans.Task;
+import com.em.test_em.repositories.TaskRepository;
+import com.em.test_em.services.CommentService;
 import com.em.test_em.services.TaskService;
 import com.em.test_em.services.UserService;
 
@@ -29,8 +33,11 @@ public class UserController {
     @Autowired
     private TaskService taskService;
     
-    //@Autowired
-    //private CommentService commentService;
+    @Autowired
+    private CommentService commentService;
+    
+    @Autowired
+    private TaskRepository taskRepository;
 
     
     @GetMapping("/getAll_users")
@@ -103,22 +110,59 @@ public class UserController {
         TaskDTO updatedTask = taskService.updateTaskForUser(userTaskHolder_id, task_id, updatedTaskDTO);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
- /*   
+    
     @GetMapping("/{userTaskHolder_id}/getAll_tasks_comments")
-    public ResponseEntity<List<CommentDTO>> getAllTasksCommentsForUser(@PathVariable Long userTaskHolder_id) {
-        // Assuming you have a service method to retrieve all comments for a user
-        List<CommentDTO> comments = commentService.getAllCommentsForUser(userTaskHolder_id);
-        return new ResponseEntity<>(comments, HttpStatus.OK);
+    public ResponseEntity<List<Map<String, Object>>> getAllTasksCommentsForUser(@PathVariable Long userTaskHolder_id) {
+        List<Task> tasks = taskRepository.findByUserAndUserExecutorFalse(userTaskHolder_id);
+
+        if (!tasks.isEmpty()) {
+            // Assuming you have a service method to retrieve all comments for tasks
+            List<Map<String, Object>> tasksWithComments = new ArrayList<>();
+
+            for (Task task : tasks) {
+                List<CommentDTO> comments = commentService.getAllCommentsForTask(task.getId());
+
+                Map<String, Object> taskWithComments = new HashMap<>();
+                taskWithComments.put("task", task);
+                taskWithComments.put("comments", comments);
+
+                tasksWithComments.add(taskWithComments);
+            }
+
+            return new ResponseEntity<>(tasksWithComments, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Or another appropriate status
+        }
     }
 
+
+
+    
     @GetMapping("/{userTaskHolder_id}/{task_id}/getAll_tasks_comments")
-    public ResponseEntity<List<CommentDTO>> getAllTaskCommentsForUser(
+    public ResponseEntity<Map<String, Object>> getAllTaskCommentsForUser(
             @PathVariable Long userTaskHolder_id, @PathVariable Long task_id) {
-        // Assuming you have a service method to retrieve comments for a specific task
-        List<CommentDTO> comments = commentService.getCommentsForTask(userTaskHolder_id, task_id);
-        return new ResponseEntity<>(comments, HttpStatus.OK);
+        
+        // Check if the user is associated with the task
+        if (taskService.isUserAssociatedWithTask(task_id, userTaskHolder_id)) {
+            // If associated, retrieve comments for the task
+            List<CommentDTO> comments = commentService.getAllCommentsForTask(task_id);
+
+            // Construct the response map
+            Map<String, Object> taskWithComments = new HashMap<>();
+            taskWithComments.put("task_id", task_id);
+            taskWithComments.put("comments", comments);
+
+            return new ResponseEntity<>(taskWithComments, HttpStatus.OK);
+        } else {
+            // If not associated, return a not found response or another appropriate status
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-  */  
+
+
+   
+    
+    
     @PostMapping("/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}")
     public ResponseEntity<String> addExecutorToTask(
             @PathVariable long userTaskHolder_id,
@@ -152,7 +196,5 @@ public class UserController {
         taskService.updateTask(taskForStatusUpdate);
         
         return new ResponseEntity<>("Task status updated successfully", HttpStatus.OK);
-    }
-    
-    
+    }   
 }

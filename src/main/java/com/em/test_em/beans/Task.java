@@ -49,7 +49,7 @@ public class Task implements Serializable {
     
     @ManyToMany
     @JsonBackReference
-    private List<User> user = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
 
     @OneToMany(mappedBy="task", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
@@ -73,12 +73,14 @@ public class Task implements Serializable {
 
     
    
-    public List<User> getUser() {
-        return user;
+    
+
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUser(List<User> user) {
-        this.user = user;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public List<Comment> getComments() {
@@ -141,7 +143,7 @@ public class Task implements Serializable {
     @Override
     public String toString() {
         return "Task [id=" + id + ", header=" + header + ", description=" + description + ", status=" + status
-                + ", priority=" + priority + ", author=" + author + ", user=" + user
+                + ", priority=" + priority + ", author=" + author + ", users=" + users
                 + ", comments=" + comments + "]";
     }
 

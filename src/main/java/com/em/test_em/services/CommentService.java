@@ -10,8 +10,6 @@ public interface CommentService {
 
   
     Optional<CommentDTO> getCommentById(Long id);
-    
-    CommentDTO updateComment(CommentDTO comments);
 
     List<CommentDTO> getCommentByTask(Long taskId);
     
@@ -24,4 +22,6 @@ public interface CommentService {
     void deleteCommentForTask(Long task_id,Long comment_id);
     
     CommentDTO updateCommentForTask(Long task_id,Long comment_id,CommentDTO updatedCommentDTO);
+
+   
 }
