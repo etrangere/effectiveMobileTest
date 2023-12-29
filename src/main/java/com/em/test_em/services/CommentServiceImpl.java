@@ -57,12 +57,12 @@ public class CommentServiceImpl implements CommentService {
         return mapToDTO(commentRepository.save(comment));
     }
 
-
     // get all comments
     @Override
-    public List<CommentDTO> getAllComments() {
-        List<Comment> comments = commentRepository.findAll();
-        return mapToDTOList(comments);
+    public List<CommentDTO> getAllCommentsForTask(Long task_id) {
+        TaskDTO task = taskService.getTaskById(task_id);
+        List<CommentDTO> comments = task.getComments();
+        return comments;
     }
 
     // get comment by id
@@ -72,8 +72,6 @@ public class CommentServiceImpl implements CommentService {
         return commentsOptional.map(this::mapToDTO);
     }
 
-    
-
     @Override
     public List<CommentDTO> getCommentByTask(Long taskId) {
         List<Comment> comments = commentRepository.findByTaskId(taskId);
@@ -82,25 +80,40 @@ public class CommentServiceImpl implements CommentService {
     
     // update comment
     @Override
-    public CommentDTO updateComment(CommentDTO commentsDTO) {
-        if (!commentRepository.existsById(commentsDTO.getId())) {
+    public CommentDTO updateCommentForTask(Long task_id, Long comment_id, CommentDTO updatedCommentDTO) {
+      
+        if (!commentRepository.existsByIdAndTaskId(comment_id, task_id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find the comment to update");
         }
-        Comment comments = mapToEntity(commentsDTO);
-        return mapToDTO(commentRepository.save(comments));
+
+        Comment existingComment = commentRepository.findById(comment_id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found"));
+
+        existingComment.setComment(updatedCommentDTO.getComment());
+
+        Comment updatedComment = commentRepository.save(existingComment);
+        
+        return mapToDTO(updatedComment);
     }
 
+
+    
+    
     // delete comment
     @Override
-    public void deleteComment(Long id) {
-        if (!commentRepository.existsById(id)) {
+    public void deleteCommentForTask(Long task_id, Long comment_id) {
+        // Check if the comment exists for the given task
+        if (!commentRepository.existsByIdAndTaskId(comment_id, task_id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find comment to delete");
         }
-        commentRepository.deleteById(id);
-        if (commentRepository.existsById(id)) {
+        commentRepository.deleteById(comment_id);
+
+        // delete successfully 
+        if (commentRepository.existsById(comment_id)) {
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Error deleting comment");
         }
     }
+
 
     private CommentDTO mapToDTO(Comment comment) {
         return mapper.map(comment, CommentDTO.class);
@@ -117,6 +130,11 @@ public class CommentServiceImpl implements CommentService {
     private Task mapToEntity(TaskDTO taskDTO) {
         return mapper.map(taskDTO, Task.class);
     }
+
+   
+
+   
+    
 
 
     

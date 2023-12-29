@@ -2,6 +2,8 @@ package com.em.test_em.controllers;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ public class CommentController {
     private CommentService commentService;
     
     
-    @GetMapping("/comment/{task_id}/getById_comment/{comment_id}")
+    @GetMapping("/{task_id}/getById_comment/{comment_id}")
     public ResponseEntity<CommentDTO> getByIdCommentOfTask(@PathVariable long task_id, @PathVariable long comment_id) {
        
         CommentDTO commentDTO = commentService.getCommentByIdAndTaskId(task_id, comment_id);
@@ -37,28 +39,28 @@ public class CommentController {
     }
 
     
-    @PostMapping("/comment/{task_id}/create_comment")
+    @PostMapping("/{task_id}/create_comment")
     public ResponseEntity<CommentDTO> createCommentForTask(@PathVariable long task_id, @RequestBody CommentDTO commentDTO) {
         
         CommentDTO createdComment = commentService.createCommentForTask(task_id, commentDTO);
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }
-    /*
-    @GetMapping("/comment/{task_id}/getAll_comments")
+    
+    @GetMapping("/{task_id}/getAll_comments")
     public ResponseEntity<List<CommentDTO>> getAllCommentsForTask(@PathVariable long task_id) {
       
         List<CommentDTO> comments = commentService.getAllCommentsForTask(task_id);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
-
-    @DeleteMapping("/comment/{task_id}/delete_comment/{comment_id}")
+    
+    @DeleteMapping("/{task_id}/delete_comment/{comment_id}")
     public ResponseEntity<Void> deleteCommentOfTask(@PathVariable long task_id, @PathVariable long comment_id) {
         
         commentService.deleteCommentForTask(task_id, comment_id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/comment/{task_id}/update_comment/{comment_id}")
+    @PutMapping("/{task_id}/update_comment/{comment_id}")
     public ResponseEntity<CommentDTO> updateCommentOfTask(
             @PathVariable long task_id,
             @PathVariable long comment_id,
@@ -67,5 +69,5 @@ public class CommentController {
         CommentDTO updatedComment = commentService.updateCommentForTask(task_id, comment_id, updatedCommentDTO);
         return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
-    */
+    
 }

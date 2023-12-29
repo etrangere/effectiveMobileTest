@@ -8,7 +8,6 @@ import com.em.test_em._DTO.CommentDTO;
 
 public interface CommentService {
 
-    List<CommentDTO> getAllComments();
   
     Optional<CommentDTO> getCommentById(Long id);
     
@@ -16,9 +15,13 @@ public interface CommentService {
 
     List<CommentDTO> getCommentByTask(Long taskId);
     
-    void deleteComment(Long id);
-    
     CommentDTO getCommentByIdAndTaskId(Long comment_id, Long task_id);
 
     CommentDTO createCommentForTask(Long task_id,CommentDTO commentDTO);
+    
+    List<CommentDTO> getAllCommentsForTask(Long task_id);
+    
+    void deleteCommentForTask(Long task_id,Long comment_id);
+    
+    CommentDTO updateCommentForTask(Long task_id,Long comment_id,CommentDTO updatedCommentDTO);
 }
