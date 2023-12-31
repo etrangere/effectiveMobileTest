@@ -2,6 +2,10 @@ package com.em.test_em._DTO;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 public class UserDTO {
     
     private long id;
@@ -18,6 +22,7 @@ public class UserDTO {
     
     private boolean executor;
     
+    @JsonManagedReference
     private List<TaskDTO> tasks;
         
     public UserDTO() {
