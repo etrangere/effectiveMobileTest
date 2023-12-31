@@ -8,11 +8,13 @@
 #------------------------------------------------------------
 
 CREATE TABLE user(
-        id       Int  Auto_increment  NOT NULL ,
-        username Varchar (100) NOT NULL ,
-        password Varchar (100) NOT NULL ,
-        email    Varchar (100) NOT NULL ,
-        executor Bool NOT NULL
+        id        Int  Auto_increment  NOT NULL ,
+        username  Varchar (100) NOT NULL ,
+        password  Varchar (100) NOT NULL ,
+        firstName Varchar (100) NOT NULL ,
+        lastName  Varchar (100) NOT NULL ,
+        email     Varchar (100) NOT NULL ,
+        executor  Bool NOT NULL
 	,CONSTRAINT user_PK PRIMARY KEY (id)
 )ENGINE=InnoDB;
 
@@ -40,12 +42,10 @@ CREATE TABLE task(
 CREATE TABLE comments(
         id      Int  Auto_increment  NOT NULL ,
         message Longtext NOT NULL ,
-        id_task Int NOT NULL ,
-        id_user Int NOT NULL
+        id_task Int NOT NULL
 	,CONSTRAINT comments_PK PRIMARY KEY (id)
 
 	,CONSTRAINT comments_task_FK FOREIGN KEY (id_task) REFERENCES task(id)
-	,CONSTRAINT comments_user0_FK FOREIGN KEY (id_user) REFERENCES user(id)
 )ENGINE=InnoDB;
 
 
