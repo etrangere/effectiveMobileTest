@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 
@@ -53,13 +55,25 @@ public class UserServiceImpl implements UserService{
      
     //update user
     @Override
-    public UserDTO updateUser(UserDTO userDTO) {
-        if (!userRepository.existsById(userDTO.getId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Unable to find the user to update");
+    public UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable Long user_id) {
+        Optional<User> userOptional = userRepository.findById(user_id);
+        
+        if (userOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find the user to update");
         }
-        User user = mapToEntity(userDTO);
-        return mapToDTO(userRepository.save(user));
+
+        User existingUser = userOptional.get();
+        existingUser.setUsername(userDTO.getUsername());
+        existingUser.setPassword(userDTO.getPassword());
+        existingUser.setFirstName(userDTO.getFirstName());
+        existingUser.setLastName(userDTO.getLastName());
+        existingUser.setEmail(userDTO.getEmail());
+        existingUser.setExecutor(userDTO.isExecutor());
+
+        // Save the updated user
+        User updatedUser = userRepository.save(existingUser);
+        
+        return mapToDTO(updatedUser);
     }
     
     //delete user
