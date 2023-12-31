@@ -2,10 +2,6 @@ package com.em.test_em._DTO;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 
 public class TaskDTO {
 
@@ -21,11 +17,8 @@ public class TaskDTO {
     
     private String author;
     
-    //@JsonBackReference
-    @JsonIgnore
     private List<UserDTO> users;
     
-    @JsonManagedReference
     private List<CommentDTO> comments;
     
     public TaskDTO() {

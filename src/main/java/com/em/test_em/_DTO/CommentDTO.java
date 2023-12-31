@@ -1,16 +1,10 @@
 package com.em.test_em._DTO;
 
-import com.em.test_em.beans.Task;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 public class CommentDTO {
     
     private long id;
     
     private String comment;
-
-    @JsonBackReference
-    private Task task;
     
     public CommentDTO() {
         super();
@@ -21,16 +15,6 @@ public class CommentDTO {
         super();
         this.id = id;
         this.comment = comment;
-    }
-
-    
-    
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
     }
 
     public long getId() {
@@ -53,8 +37,4 @@ public class CommentDTO {
     public String toString() {
         return "CommentDTO [id=" + id + ", comment=" + comment + "]";
     }
-
-    
-
-    
 }
