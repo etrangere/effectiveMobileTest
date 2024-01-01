@@ -1,10 +1,14 @@
 package com.em.test_em._DTO;
 
+import com.em.test_em.beans.Task;
+
 public class CommentDTO {
     
     private long id;
     
     private String comment;
+    
+    private Task task;
     
     public CommentDTO() {
         super();
@@ -15,6 +19,14 @@ public class CommentDTO {
         super();
         this.id = id;
         this.comment = comment;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     public long getId() {

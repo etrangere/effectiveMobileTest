@@ -62,17 +62,16 @@ public class CommentServiceImpl implements CommentService {
 
     // get all comments
     @Override
-    public List<CommentDTO> getAllCommentsForTask(Long task_id) {
-        TaskDTO task = taskService.getTaskById(task_id);
-        List<CommentDTO> comments = task.getComments();
-        return comments;
+    public List<CommentDTO> getAllCommentsForTask(Long taskId) {
+        List<Comment> comments = commentRepository.findByTaskId(taskId);
+        return comments.stream().map(this::mapToDTOWithTask).collect(Collectors.toList());
     }
 
     // get comment by id
     @Override
     public Optional<CommentDTO> getCommentById(Long id) {
-        Optional<Comment> commentsOptional = commentRepository.findById(id);
-        return commentsOptional.map(this::mapToDTO);
+        Optional<Comment> commentOptional = commentRepository.findById(id);
+        return commentOptional.map(this::mapToDTOWithTask);
     }
 
     @Override
@@ -133,7 +132,12 @@ public class CommentServiceImpl implements CommentService {
     private Task mapToEntity(TaskDTO taskDTO) {
         return mapper.map(taskDTO, Task.class);
     }
-
-   
+    
+    //Comment to CommentDTO with the associated task
+    private CommentDTO mapToDTOWithTask(Comment comment) {
+        CommentDTO commentDTO = mapToDTO(comment);
+        commentDTO.setTask(comment.getTask());
+        return commentDTO;
+    }
     
 }
