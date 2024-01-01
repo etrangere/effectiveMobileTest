@@ -1,9 +1,9 @@
 package com.em.test_em.services;
 
 
-import java.util.List;
+
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,8 @@ import com.em.test_em.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 
+
+
 @Service
 public class UserServiceImpl implements UserService{
   
@@ -33,11 +35,11 @@ public class UserServiceImpl implements UserService{
     private ModelMapper mapper;
     
     //get all users
-    @Override
-    public List<UserDTO> getAllUsers(){
-        List<User> users = userRepository.findAll();
-        return mapToDTOList(users);
-    }  
+   // @Override
+    //public List<UserDTO> getAllUsers(){
+      //  List<User> users = userRepository.findAll();
+       // return mapToDTOList(users);
+    //}  
 
     //get user by id
     @Override
@@ -93,9 +95,9 @@ public class UserServiceImpl implements UserService{
         return mapper.map(user, UserDTO.class);
     }
 
-    private List<UserDTO> mapToDTOList(List<User> user) {
-        return user.stream().map(this::mapToDTO).collect(Collectors.toList());
-    }
+  //  private List<UserDTO> mapToDTOList(List<User> user) {
+    //    return user.stream().map(this::mapToDTO).collect(Collectors.toList());
+    //}
 
     private User mapToEntity(UserDTO userDTO) {
         return mapper.map(userDTO, User.class);

@@ -40,18 +40,6 @@ public class UserController {
     private TaskRepository taskRepository;
 
     
-    @GetMapping("/getAll_users")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-    
-    @GetMapping("/{user_id}/getById_user")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable long user_id) {
-        UserDTO user = userService.getUserById(user_id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-    
     @PostMapping("/create_user")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {     
         UserDTO createdUser = userService.createUser(userDTO);
@@ -88,13 +76,7 @@ public class UserController {
         
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
-    
-    @GetMapping("/{userTaskHolder_id}/getAll_tasks")
-    public ResponseEntity<List<TaskDTO>> getAllTasksForUser(@PathVariable long userTaskHolder_id) {
-        List<TaskDTO> tasks = taskService.getAllTasksForTaskHolder(userTaskHolder_id);
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
-    }
-
+   
     @DeleteMapping("/{userTaskHolder_id}/delete_task/{task_id}")
     public ResponseEntity<Void> deleteTask(@PathVariable long userTaskHolder_id, @PathVariable long task_id) {
         taskService.deleteTaskForUser(userTaskHolder_id, task_id);
@@ -111,8 +93,32 @@ public class UserController {
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
     
-    @GetMapping("/{userTaskHolder_id}/getAll_tasks_comments")
-    public ResponseEntity<List<Map<String, Object>>> getAllTasksCommentsForUser(@PathVariable Long userTaskHolder_id) {
+    @GetMapping("/{userTaskExecutor_id}/getAll_tasks_comments_executor")
+    public ResponseEntity<List<Map<String, Object>>> getAllTasksCommentsByExecutorId(@PathVariable Long userTaskExecutor_id) {
+        List<Task> tasks = taskRepository.findByUserAndUserExecutorTrue(userTaskExecutor_id);
+
+        if (!tasks.isEmpty()) {
+            // Assuming you have a service method to retrieve all comments for tasks
+            List<Map<String, Object>> tasksWithComments = new ArrayList<>();
+
+            for (Task task : tasks) {
+                List<CommentDTO> comments = commentService.getAllCommentsForTask(task.getId());
+
+                Map<String, Object> taskWithComments = new HashMap<>();
+                taskWithComments.put("task", task);
+                taskWithComments.put("comments", comments);
+
+                tasksWithComments.add(taskWithComments);
+            }
+
+            return new ResponseEntity<>(tasksWithComments, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Or another appropriate status
+        }
+    }
+    
+    @GetMapping("/{userTaskHolder_id}/getAll_tasks_comments_holder")
+    public ResponseEntity<List<Map<String, Object>>> getAllTasksCommentsByTaskHolderId(@PathVariable Long userTaskHolder_id) {
         List<Task> tasks = taskRepository.findByUserAndUserExecutorFalse(userTaskHolder_id);
 
         if (!tasks.isEmpty()) {
@@ -135,11 +141,9 @@ public class UserController {
         }
     }
 
-
-
-    
-    @GetMapping("/{userTaskHolder_id}/{task_id}/getAll_tasks_comments")
-    public ResponseEntity<Map<String, Object>> getAllTaskCommentsForUser(
+  
+    @GetMapping("/{userTaskHolder_id}/{task_id}/getAll_task_comment_holder_id_task_id")
+    public ResponseEntity<Map<String, Object>> getTaskAndCommentsOfTaskHolderByIds(
             @PathVariable Long userTaskHolder_id, @PathVariable Long task_id) {
         
         // Check if the user is associated with the task
@@ -159,10 +163,6 @@ public class UserController {
         }
     }
 
-
-   
-    
-    
     @PostMapping("/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}")
     public ResponseEntity<String> addExecutorToTask(
             @PathVariable long userTaskHolder_id,
@@ -181,11 +181,6 @@ public class UserController {
         return new ResponseEntity<>("Executor removed successfully", HttpStatus.OK);
     }
    
-    @GetMapping("/{userExecutor_id}/getAll_tasks")
-    public ResponseEntity<List<TaskDTO>> getAllTasksForExecutor(@PathVariable Long userExecutor_id) {
-            List<TaskDTO> tasks = taskService.getAllTasksForTaskExecutor(userExecutor_id);
-            return new ResponseEntity<>(tasks, HttpStatus.OK);
-    }
     
     @PostMapping("/update_task_status/{task_id}/{status_code}")
     public ResponseEntity<String> updateTaskStatus(@PathVariable Long task_id, String status_code) {

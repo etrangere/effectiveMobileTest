@@ -35,18 +35,7 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private ModelMapper mapper;
 
-    
-    public List<TaskDTO> getAllTasksForTaskHolder(Long userTaskHolder_id) {
-        UserDTO usertaskholderoptional = userService.getUserById(userTaskHolder_id);
-
-        if (!(usertaskholderoptional==null)) {
-            List<Task> tasks = taskRepository.findByUserAndUserExecutorFalse(mapToEntityUSER(usertaskholderoptional));
-            return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
-        } else {
-            return Collections.emptyList(); // or throw an exception, return null, etc.
-        }
-    }
-    
+   
     public List<TaskDTO> getAllTasksForTaskExecutor(Long userTaskExecutor_id) {
         UserDTO usertaskexecutoroptional = userService.getUserById(userTaskExecutor_id);
 
