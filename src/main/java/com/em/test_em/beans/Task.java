@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.em.test_em.enums.TaskPriority;
+import com.em.test_em.enums.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,11 +42,13 @@ public class Task implements Serializable {
     @Column(name = "description",columnDefinition = "LONGTEXT",nullable = true)
     private String description;
     
-    @Column(name = "status",columnDefinition = "LONGTEXT",nullable = true)
-    private String status;
+    @Column(name = "status",length=15,nullable = true)
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
     
-    @Column(name = "priority",length=100,nullable = true)
-    private String priority;
+    @Column(name = "priority",length=15,nullable = true)
+    @Enumerated(EnumType.STRING)
+    private TaskPriority priority;
     
     @Column(name = "author",length=100,nullable = true)
     private String author;
@@ -60,7 +66,7 @@ public class Task implements Serializable {
         super();
     }
 
-    public Task(long id, String header, String description, String status, String priority, String author) {
+    public Task(long id, String header, String description, TaskStatus status, TaskPriority priority, String author) {
         super();
         this.id = id;
         this.header = header;
@@ -116,19 +122,20 @@ public class Task implements Serializable {
         this.description = description;
     }
 
-    public String getStatus() {
+   
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
-    public String getPriority() {
+    public TaskPriority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(TaskPriority priority) {
         this.priority = priority;
     }
 

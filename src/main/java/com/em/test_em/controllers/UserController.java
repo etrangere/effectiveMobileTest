@@ -14,6 +14,8 @@ import com.em.test_em._DTO.CommentDTO;
 import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em._DTO.UserDTO;
 import com.em.test_em.beans.Task;
+import com.em.test_em.enums.TaskPriority;
+import com.em.test_em.enums.TaskStatus;
 import com.em.test_em.repositories.TaskRepository;
 import com.em.test_em.services.CommentService;
 import com.em.test_em.services.TaskService;
@@ -183,12 +185,23 @@ public class UserController {
    
     
     @PostMapping("/update_task_status/{task_id}/{status_code}")
-    public ResponseEntity<String> updateTaskStatus(@PathVariable Long task_id, String status_code) {
+    public ResponseEntity<String> updateTaskStatus(@PathVariable Long task_id, TaskStatus status_code) {
      
         TaskDTO taskForStatusUpdate = taskService.getTaskById(task_id);
       
         taskForStatusUpdate.setStatus(status_code);
         taskService.updateTask(taskForStatusUpdate);
+        
+        return new ResponseEntity<>("Task status updated successfully", HttpStatus.OK);
+    }   
+    
+    @PostMapping("/update_task_priority/{task_id}/{priority_code}")
+    public ResponseEntity<String> updateTaskStatus(@PathVariable Long task_id, TaskPriority priority_code) {
+     
+        TaskDTO taskForPriorityUpdate = taskService.getTaskById(task_id);
+      
+        taskForPriorityUpdate.setPriority(priority_code);
+        taskService.updateTask(taskForPriorityUpdate);
         
         return new ResponseEntity<>("Task status updated successfully", HttpStatus.OK);
     }   

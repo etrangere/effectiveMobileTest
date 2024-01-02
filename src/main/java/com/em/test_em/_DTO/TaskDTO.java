@@ -1,6 +1,8 @@
 package com.em.test_em._DTO;
 
 import java.util.List;
+import com.em.test_em.enums.TaskPriority;
+import com.em.test_em.enums.TaskStatus;
 
 
 public class TaskDTO {
@@ -11,9 +13,9 @@ public class TaskDTO {
     
     private String description;
     
-    private String status;
+    private TaskStatus status;
     
-    private String priority;
+    private TaskPriority priority;
     
     private String author;
     
@@ -26,7 +28,7 @@ public class TaskDTO {
         // TODO Auto-generated constructor stub
     }
 
-    public TaskDTO(long id, String header, String description, String status, String priority, String author             ) {
+    public TaskDTO(long id, String header, String description, TaskStatus status, TaskPriority priority, String author             ) {
         super();
         this.id = id;
         this.header = header;
@@ -83,29 +85,23 @@ public class TaskDTO {
 
 
 
-    public String getStatus() {
+
+
+    public TaskStatus getStatus() {
         return status;
     }
 
-
-
-    public void setStatus(String status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
-
-
-    public String getPriority() {
+    public TaskPriority getPriority() {
         return priority;
     }
 
-
-
-    public void setPriority(String priority) {
+    public void setPriority(TaskPriority priority) {
         this.priority = priority;
     }
-
-
 
     public String getAuthor() {
         return author;
