@@ -37,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
     private TaskService taskService;
 
         
-    public CommentDTO getCommentByIdAndTaskId(Long comment_id, Long task_id) {
+    public CommentDTO getCommentByIdAndTaskId( Long task_id,Long comment_id) {
         TaskDTO commentContainTask = taskService.getTaskById(task_id);
         Optional<CommentDTO> commentOfTask = getCommentById(comment_id);
 

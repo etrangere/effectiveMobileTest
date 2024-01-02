@@ -13,7 +13,7 @@ public interface CommentService {
 
     List<CommentDTO> getCommentByTask(Long taskId);
     
-    CommentDTO getCommentByIdAndTaskId(Long comment_id, Long task_id);
+    CommentDTO getCommentByIdAndTaskId(Long task_id,Long comment_id);
 
     CommentDTO createCommentForTask(Long task_id,CommentDTO commentDTO);
     
