@@ -41,6 +41,7 @@ public class CommentServiceImpl implements CommentService {
         TaskDTO commentContainTask = taskService.getTaskById(task_id);
         Optional<CommentDTO> commentOfTask = getCommentById(comment_id);
 
+        
         if (commentContainTask != null && commentOfTask.isPresent() && commentContainTask.getComments().contains(commentOfTask.get())) {
             return commentOfTask.get(); // Extract the CommentDTO 
         } else {

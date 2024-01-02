@@ -1,5 +1,7 @@
 package com.em.test_em._DTO;
 
+import java.util.Objects;
+
 public class CommentDTO {
     
     private long id;
@@ -37,4 +39,23 @@ public class CommentDTO {
     public String toString() {
         return "CommentDTO [id=" + id + ", comment=" + comment + "]";
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(comment, id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CommentDTO other = (CommentDTO) obj;
+        return Objects.equals(comment, other.comment) && id == other.id;
+    }
+    
+    
 }
