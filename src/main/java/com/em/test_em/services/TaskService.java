@@ -2,6 +2,8 @@ package com.em.test_em.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.em.test_em._DTO.TaskDTO;
 
@@ -33,5 +35,7 @@ public interface TaskService {
 
     boolean isUserAssociatedWithTask(Long taskId, Long userId);
     
-    
+    Page<TaskDTO> getTasksByStatus(Long userTaskHolder_id, String status, Pageable pageable);
+
+    Page<TaskDTO> getTasksByPriority(Long userTaskHolder_id, String priority, Pageable pageable);
 }

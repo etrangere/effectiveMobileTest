@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,6 +24,8 @@ import com.em.test_em._DTO.TaskDTO;
 import com.em.test_em._DTO.UserDTO;
 import com.em.test_em.beans.Task;
 import com.em.test_em.beans.User;
+import com.em.test_em.enums.TaskPriority;
+import com.em.test_em.enums.TaskStatus;
 import com.em.test_em.repositories.TaskRepository;
 
 
@@ -236,6 +241,44 @@ public class TaskServiceImpl implements TaskService {
     }
 
       
+    @Override
+    public Page<TaskDTO> getTasksByStatus(Long userTaskHolder_id, String status, Pageable pageable) {
+        List<Task> tasks = taskRepository.findByUserAndUserExecutorFalse(userTaskHolder_id);
+
+        // Convert the String priority to TaskPriority enum
+        TaskStatus taskStatus = TaskStatus.valueOf(status.toUpperCase());
+
+        // Filter tasks by status
+        List<TaskDTO> filteredTasks = mapToDTOList(tasks).stream()
+                .filter(task -> task.getStatus().equals(taskStatus))
+                .collect(Collectors.toList());
+
+        // Paginate the filtered tasks
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), filteredTasks.size());
+
+        return new PageImpl<>(filteredTasks.subList(start, end), pageable, filteredTasks.size());
+    }
+
+    @Override
+    public Page<TaskDTO> getTasksByPriority(Long userTaskHolder_id, String priority, Pageable pageable) {
+        List<Task> tasks = taskRepository.findByUserAndUserExecutorFalse(userTaskHolder_id);
+
+        // Convert the String priority to TaskPriority enum
+        TaskPriority taskPriority = TaskPriority.valueOf(priority.toUpperCase());
+
+        // Filter tasks by priority
+        List<TaskDTO> filteredTasks = mapToDTOList(tasks).stream()
+                .filter(task -> task.getPriority().equals(taskPriority))
+                .collect(Collectors.toList());
+
+        // Paginate the filtered tasks
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), filteredTasks.size());
+
+        return new PageImpl<>(filteredTasks.subList(start, end), pageable, filteredTasks.size());
+    }
+
 
     private TaskDTO convertToTaskDTO(Task task) {
         return mapper.map(task, TaskDTO.class);
