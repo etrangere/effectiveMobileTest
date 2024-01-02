@@ -64,15 +64,18 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDTO> getAllCommentsForTask(Long taskId) {
         List<Comment> comments = commentRepository.findByTaskId(taskId);
-        return comments.stream().map(this::mapToDTOWithTask).collect(Collectors.toList());
+        return comments.stream()
+                .map(comment -> mapToDTOWithTask(comment))
+                .collect(Collectors.toList());
     }
 
     // get comment by id
     @Override
     public Optional<CommentDTO> getCommentById(Long id) {
-        Optional<Comment> commentOptional = commentRepository.findById(id);
-        return commentOptional.map(this::mapToDTOWithTask);
+      Optional<Comment> comment = commentRepository.findById(id);
+        return mapToEntity(comment);
     }
+
 
     @Override
     public List<CommentDTO> getCommentByTask(Long taskId) {
@@ -133,11 +136,36 @@ public class CommentServiceImpl implements CommentService {
         return mapper.map(taskDTO, Task.class);
     }
     
-    //Comment to CommentDTO with the associated task
-    private CommentDTO mapToDTOWithTask(Comment comment) {
-        CommentDTO commentDTO = mapToDTO(comment);
-        commentDTO.setTask(comment.getTask());
-        return commentDTO;
+    private Optional<TaskDTO> mapToEntity(Task task) {
+        if (task == null) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(mapper.map(task, TaskDTO.class));
     }
     
+    private Optional<CommentDTO> mapToEntity(Optional<Comment> commentOptional) {
+        return commentOptional.map(comment -> mapper.map(comment, CommentDTO.class));
+    }
+   
+    private CommentDTO mapToDTOWithTask(Comment comment) {
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setId(comment.getId());
+        commentDTO.setComment(comment.getComment());
+
+        // Perform operations on Task if needed
+        Task task = comment.getTask();
+
+        // Assuming mapToEntity converts Task to TaskDTO
+        Optional<TaskDTO> taskDTOOptional = mapToEntity(task);
+
+        // Check if TaskDTO is present before setting it in CommentDTO
+        if (taskDTOOptional.isPresent()) {
+            // Set the TaskDTO in CommentDTO
+            comment.setTask(mapToEntity(taskDTOOptional.get()));
+        }
+
+        return commentDTO;
+    }
+
+
 }

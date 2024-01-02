@@ -129,8 +129,6 @@ public class TaskServiceImpl implements TaskService {
         Optional<Task> taskToRemoveExecutor = taskRepository.findById(task_id);//check after not work with taskService
         UserDTO taskUserExecutor = userService.getUserById(userExecutor_id);
         UserDTO taskUserHolder = userService.getUserById(userTaskHolder_id);
-
-        System.out.println(taskUserExecutor.toString());
         
         //Check for both task and executor are present
         if (!(taskToRemoveExecutor == null)  && !(taskUserExecutor == null)) {
