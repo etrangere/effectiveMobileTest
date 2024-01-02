@@ -1,10 +1,13 @@
 package com.em.test_em.services;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -126,32 +129,37 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void removeExecutorFromTask(Long userTaskHolder_id, Long task_id, Long userExecutor_id) {
-        Optional<Task> taskToRemoveExecutor = taskRepository.findById(task_id);//check after not work with taskService
+        Optional<Task> taskToRemoveExecutor = taskRepository.findById(task_id);
         UserDTO taskUserExecutor = userService.getUserById(userExecutor_id);
         UserDTO taskUserHolder = userService.getUserById(userTaskHolder_id);
-        
-        //Check for both task and executor are present
-        if (!(taskToRemoveExecutor == null)  && !(taskUserExecutor == null)) {
+
+        // Check for both task, executor, and holder are present
+        if (taskToRemoveExecutor.isPresent() && taskUserExecutor != null && taskUserHolder != null) {
             Task task = taskToRemoveExecutor.get();
-            
-            if (taskUserHolder.getTasks()!= null) {
-               
-                if (task.getUsers() != null) {
-                  
-                    mapToDTO(task).getUsers().remove(taskUserExecutor);
-                  taskRepository.save(task);
-                } else {
-                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Executor not found in the task");
-                }
-            } else {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found for the specified user task holder");
-            }
+
+            //Convert Set<UserDTO> to List<UserDTO>
+            List<UserDTO> usersList = new ArrayList<>(mapToDTO(task).getUsers());
+
+            //Convert Long to long for comparison
+            long executorId = userExecutor_id;
+
+            //Remove the user with the specified ID from the list
+            usersList.removeIf(user -> user.getId() == executorId);
+
+            // Convert List<UserDTO> back to Set<UserDTO>
+            Set<UserDTO> updatedUsersSet = new HashSet<>(usersList);
+
+            // Update the task with the new set of users
+            TaskDTO taskDTO = mapToDTO(task);
+            taskDTO.setUsers(new ArrayList<>(updatedUsersSet));
+
+            // Save the updated task
+            taskRepository.save(mapToEntity(taskDTO));
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task or executor not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task, executor, or holder not found");
         }
     }
 
-  
   
   
     @Override
