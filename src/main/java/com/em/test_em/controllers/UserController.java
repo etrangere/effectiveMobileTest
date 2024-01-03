@@ -215,33 +215,53 @@ public class UserController {
     public ResponseEntity<Page<TaskDTO>> getTasksByStatus(
             @PathVariable Long userTaskHolder_id,
             @PathVariable String status,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id,asc") String[] sort) {
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer size,
+            @RequestParam(required = false, defaultValue = "id,asc") String[] sort) {
 
         try {
-            Page<TaskDTO> tasks = taskService.getTasksByStatus(userTaskHolder_id, status, PageRequest.of(page, size, Sort.by(sort)));
+            Page<TaskDTO> tasks;
+
+            // Check if page, size, and sort are provided
+            if (page != null && size != null && sort != null) {
+                tasks = taskService.getTasksByStatus(userTaskHolder_id, status, PageRequest.of(page, size, Sort.by(sort)));
+            } else {
+                // If not provided, use default values
+                tasks = taskService.getTasksByStatus(userTaskHolder_id, status, PageRequest.of(0, 10, Sort.by("id").ascending()));
+            }
+
             return ResponseEntity.ok(tasks);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new PageImpl<>(Collections.emptyList()));
         }
     }
+
 
     @GetMapping("/{userTaskHolder_id}/getAll_user_tasks_by_priority/{priority}")
     public ResponseEntity<Page<TaskDTO>> getTasksByPriority(
             @PathVariable Long userTaskHolder_id,
             @PathVariable String priority,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id,asc") String[] sort) {
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer size,
+            @RequestParam(required = false, defaultValue = "id,asc") String[] sort) {
 
         try {
-            Page<TaskDTO> tasks = taskService.getTasksByPriority(userTaskHolder_id, priority, PageRequest.of(page, size, Sort.by(sort)));
+            Page<TaskDTO> tasks;
+
+            // Check if page, size, and sort are provided
+            if (page != null && size != null && sort != null) {
+                tasks = taskService.getTasksByPriority(userTaskHolder_id, priority, PageRequest.of(page, size, Sort.by(sort)));
+            } else {
+                // If not provided, use default values
+                tasks = taskService.getTasksByPriority(userTaskHolder_id, priority, PageRequest.of(0, 10, Sort.by("id").ascending()));
+            }
+
             return ResponseEntity.ok(tasks);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new PageImpl<>(Collections.emptyList()));
         }
     }
+
 
 
 }
