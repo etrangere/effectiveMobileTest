@@ -1,4 +1,4 @@
-package com.em.em_test.services;
+package com.em.test_em.services;
 
 public class CommentServiceImplTest {
 
