@@ -33,21 +33,22 @@ ENDPOINTS
 
 For Users
  
-  * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/getAll_users
-  * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{user_id}/getById_user
-  * POST &nbsp;&nbsp;&nbsp;/api/v1/user/create_user
-  * DELETE &nbsp;/api/v1/user/{user_id}/delete_user
-  * PUT &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{user_id}/update_user
-  * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/create_task
-  * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/getAll_tasks
-  * DELETE &nbsp;/api/v1/user/{userTaskHolder_id}/delete_task/{task_id}
-  * PUT &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/update_task/{task_id}
-  * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/getAll_tasks_comments
-  * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/getAll_tasks_comments
-  * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}
-  * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/removeExecutor/{userExecutor_id} 
-  * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userExecutor_id}/getAll_tasks
-  * POST &nbsp;&nbsp;&nbsp;/api/v1/user/update_task_status/{task_id}/{status_code}
+ * PUT &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/update_task/{task_id}
+ * PUT &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{user_id}/update_user
+ * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/removeExecutor/{userExecutor_id} 
+ * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}
+ * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/create_task
+ * POST &nbsp;&nbsp;&nbsp;/api/v1/user/update_task_status/{task_id}/{status_code}
+ * POST &nbsp;&nbsp;&nbsp;/api/v1/user/update_task_priority/{task_id}/{priority_code}
+ * POST &nbsp;&nbsp;&nbsp;/api/v1/user/create_user
+ * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/getAll_task_comment_holder_id_task_id  
+ * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/getAll_user_task_by_status/{status}
+ * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/getAll_user_task_by_priority/{priority}
+ * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/getAll_tasks_comments_holder
+ * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskExecutor_id}/getAll_tasks_comments_executor
+ * DELETE &nbsp;/api/v1/user/{user_id}/delete_user
+ * DELETE &nbsp;/api/v1/user/{userTaskHolder_id}/delete_task/{task_id}
+  
 
 For Comment
 
