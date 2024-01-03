@@ -116,9 +116,6 @@ public class TaskDTO {
     @Override
     public String toString() {
         return "TaskDTO [id=" + id + ", header=" + header + ", description=" + description + ", status=" + status
-                + ", priority=" + priority + ", author=" + author + ", users=" + users + ", comments=" + comments + "]";
+                + ", priority=" + priority + ", author=" + author + "]";
     }
-
-   
-    
 }

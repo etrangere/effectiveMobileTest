@@ -1,12 +1,14 @@
 package com.em.test_em.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -216,11 +218,15 @@ public class UserController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id,asc") String[] sort) {
-        
-        Page<TaskDTO> tasks = taskService.getTasksByStatus(userTaskHolder_id,status, PageRequest.of(page, size, Sort.by(sort)));
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+
+        try {
+            Page<TaskDTO> tasks = taskService.getTasksByStatus(userTaskHolder_id, status, PageRequest.of(page, size, Sort.by(sort)));
+            return ResponseEntity.ok(tasks);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new PageImpl<>(Collections.emptyList()));
+        }
     }
-    
+
     @GetMapping("/{userTaskHolder_id}/getAll_user_tasks_by_priority/{priority}")
     public ResponseEntity<Page<TaskDTO>> getTasksByPriority(
             @PathVariable Long userTaskHolder_id,
@@ -228,8 +234,14 @@ public class UserController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id,asc") String[] sort) {
-        
-        Page<TaskDTO> tasks = taskService.getTasksByPriority(userTaskHolder_id,priority, PageRequest.of(page, size, Sort.by(sort)));
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+
+        try {
+            Page<TaskDTO> tasks = taskService.getTasksByPriority(userTaskHolder_id, priority, PageRequest.of(page, size, Sort.by(sort)));
+            return ResponseEntity.ok(tasks);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new PageImpl<>(Collections.emptyList()));
+        }
     }
+
+
 }

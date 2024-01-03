@@ -42,5 +42,7 @@ public interface TaskRepository extends JpaRepository<Task,Long>{
     //for function getAllTasksCommentsByExecutorId
     @Query("SELECT t FROM Task t JOIN t.users tu WHERE tu.id = :userId AND tu.executor = true")
     List<Task> findByUserAndUserExecutorTrue(@Param("userId") Long userTaskExecutorId);
+    //for task by status and priority methods in user controller
+    Page<Task> findByUsersIdAndUsersExecutorFalse(Long userId, Pageable pageable);
 
 }
