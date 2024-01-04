@@ -122,12 +122,13 @@ public class TaskRepositoryTest {
     public void testFindByUserAndUserExecutorFalse() {
        
         User user = new User();
+     // repository method
         when(taskRepositoryMock.findByUserAndUserExecutorFalse(user)).thenReturn(Collections.singletonList(new Task()));
 
-       
+     // call the repository method
         List<Task> tasks = taskRepositoryMock.findByUserAndUserExecutorFalse(user);
 
-       
+     // assert the result
         assertEquals(1, tasks.size());
     }
 
@@ -136,13 +137,14 @@ public class TaskRepositoryTest {
     @Test
     public void testFindByUsersIdAndUsersExecutorFalse() {
        
+     // repository method
         when(taskRepositoryMock.findByUsersIdAndUsersExecutorFalse(1L, Pageable.unpaged()))
                 .thenReturn(Page.empty());
 
-        
+     // call the repository method
         Page<Task> tasks = taskRepositoryMock.findByUsersIdAndUsersExecutorFalse(1L, Pageable.unpaged());
 
-        
+     // assert the result
         assertEquals(0, tasks.getTotalElements());
     }
 
@@ -151,25 +153,26 @@ public class TaskRepositoryTest {
     public void testfindByUserAndUserExecutorTrue() {
        
         User user = new User();
+     // repository method
         when(taskRepositoryMock.findByUserAndUserExecutorTrue(user)).thenReturn(Collections.singletonList(new Task()));
 
-       
+     // call the repository method
         List<Task> tasks = taskRepositoryMock.findByUserAndUserExecutorTrue(user);
 
-       
+     // assert the result
         assertEquals(1, tasks.size());
     }
     
-    
-    /*
-    
+    @Test
+    public void testfindByUserAndUserExecutorTrueWithUserId() {
+        //repository method
+        when(taskRepositoryMock.findByUserAndUserExecutorTrue(1L))
+                .thenReturn(Collections.singletonList(new Task())); 
 
-   
-    
-   
-    //for function getAllTasksCommentsByExecutorId
-    @Query("SELECT t FROM Task t JOIN t.users tu WHERE tu.id = :userId AND tu.executor = true")
-    List<Task> findByUserAndUserExecutorTrue(@Param("userId") Long userTaskExecutorId);
-   
-   */
+        // call the repository method
+        List<Task> tasks = taskRepositoryMock.findByUserAndUserExecutorTrue(1L);
+
+        // assert the result
+        assertEquals(1, tasks.size());
+    }
 }
