@@ -21,7 +21,9 @@ public class OpenAPIConfig {
     @Value("${gourgen.openapi.prod-url}")
     private String prodUrl;
 
-  
+    @Value("${gourgen.openapi.test-url}")
+    private String testUrl;
+
     @Bean
     public OpenAPI myOpenAPI() {
         Server devServer = new Server();
@@ -31,6 +33,10 @@ public class OpenAPIConfig {
         Server prodServer = new Server();
         prodServer.setUrl(prodUrl);
         prodServer.setDescription("Server URL in Production environment");
+        
+        Server testServer = new Server();
+        testServer.setUrl(testUrl);
+        testServer.setDescription("Server URL in Test environment");
 
         
         Contact contact = new Contact();
@@ -47,6 +53,6 @@ public class OpenAPIConfig {
                 .description("This API exposes endpoints to manage test service.").termsOfService("https://portfolio.gourgen-khachatrian.fr/")
                 .license(mitLicense);
 
-        return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
+        return new OpenAPI().info(info).servers(List.of(devServer,prodServer,testServer));
     }
 }
