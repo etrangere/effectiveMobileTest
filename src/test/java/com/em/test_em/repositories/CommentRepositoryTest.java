@@ -20,40 +20,41 @@ public class CommentRepositoryTest {
 
     @Test
     public void testFindByTaskId() {
-        // Arrange
+        
+        // mock the repository behavior
         CommentRepository commentRepository = mock(CommentRepository.class);
         List<Comment> comments = new ArrayList<>();
         comments.add(new Comment(1L, "Comment 1"));
         comments.add(new Comment(2L, "Comment 2"));
 
-        // Mock the behavior of the repository
+        // repository method
         when(commentRepository.findByTaskId(1L)).thenReturn(comments);
 
-        // Act
+        // action
         List<Comment> result = commentRepository.findByTaskId(1L);
 
-        // Assert
+        // assert
         assertEquals(2, result.size());
-        // Add more assertions based on your requirements
+       
     }
 
     @Test
     public void testExistsByIdAndTaskId() {
-        // Arrange
+      
         CommentRepository commentRepository = mock(CommentRepository.class);
 
-        // Mock the behavior of the repository
+        // mock the repository behavior
         when(commentRepository.existsByIdAndTaskId(1L, 1L)).thenReturn(true);
         when(commentRepository.existsByIdAndTaskId(2L, 1L)).thenReturn(false);
 
-        // Act
+        // action
         boolean result1 = commentRepository.existsByIdAndTaskId(1L, 1L);
         boolean result2 = commentRepository.existsByIdAndTaskId(2L, 1L);
 
-        // Assert
+        // assert
         assertTrue(result1);
         assertFalse(result2);
-        // Add more assertions based on your requirements
+       
     
     }
 }
