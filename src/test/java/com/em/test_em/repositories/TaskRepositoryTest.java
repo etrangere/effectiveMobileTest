@@ -1,13 +1,21 @@
 package com.em.test_em.repositories;
 
 import com.em.test_em.beans.Task;
+import com.em.test_em.beans.User;
+import com.em.test_em.enums.TaskPriority;
+import com.em.test_em.enums.TaskStatus;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,32 +47,75 @@ public class TaskRepositoryTest {
         assertEquals(expectedTask.getId(), task.get().getId());
         
     }
-/*
+
     @Test
     public void testFindByStatus() {
-        
-        when(taskRepositoryMock.findByStatus("IN_PROGRESS")).thenReturn(Collections.singletonList(new Task()));
+        Task expectedTask = new Task();
+        expectedTask.setStatus(TaskStatus.IN_PROGRESS);  // Assuming TaskStatus is the enum type
 
-      
+        // repository method
+        when(taskRepositoryMock.findByStatus("IN_PROGRESS"))
+                .thenReturn(Collections.singletonList(expectedTask));
+
+        // call the repository method
         List<Task> tasks = taskRepositoryMock.findByStatus("IN_PROGRESS");
 
-        
+        // assert the result
         assertEquals(1, tasks.size());
+        assertEquals(expectedTask, tasks.get(0));
     }
 
-    
+    @Test
+    public void testFindByStatusPaginated() {
+        Task expectedTask = new Task();
+        expectedTask.setStatus(TaskStatus.IN_PROGRESS);  // Assuming TaskStatus is the enum type
+
+        // repository method
+        when(taskRepositoryMock.findByStatus("IN_PROGRESS", Pageable.unpaged()))
+                .thenReturn(new PageImpl<>(Collections.singletonList(expectedTask)));
+
+        // call the repository method
+        Page<Task> tasks = taskRepositoryMock.findByStatus("IN_PROGRESS", Pageable.unpaged());
+
+        // assert the result
+        assertEquals(1, tasks.getTotalElements());
+        assertEquals(expectedTask, tasks.getContent().get(0));
+    }
+
+  
     @Test
     public void testFindByPriority() {
-       
-        when(taskRepositoryMock.findByPriority("MEDIUM")).thenReturn(Collections.singletonList(new Task()));
+        Task expectedTask = new Task();
+        expectedTask.setPriority(TaskPriority.MEDIUM);  // Assuming TaskStatus is the enum type
 
-       
+        // repository method
+        when(taskRepositoryMock.findByPriority("MEDIUM"))
+                .thenReturn(Collections.singletonList(expectedTask));
+
+        // call the repository method
         List<Task> tasks = taskRepositoryMock.findByPriority("MEDIUM");
 
-       
+        // assert the result
         assertEquals(1, tasks.size());
+        assertEquals(expectedTask, tasks.get(0));
     }
 
+    @Test
+    public void testFindByPriorityPaginated() {
+        Task expectedTask = new Task();
+        expectedTask.setPriority(TaskPriority.MEDIUM);  // Assuming TaskStatus is the enum type
+
+        // repository method
+        when(taskRepositoryMock.findByPriority("MEDIUM", Pageable.unpaged()))
+                .thenReturn(new PageImpl<>(Collections.singletonList(expectedTask)));
+
+        // call the repository method
+        Page<Task> tasks = taskRepositoryMock.findByPriority("MEDIUM", Pageable.unpaged());
+
+        // assert the result
+        assertEquals(1, tasks.getTotalElements());
+        assertEquals(expectedTask, tasks.getContent().get(0));
+    }
 
     
     @Test
@@ -80,7 +131,7 @@ public class TaskRepositoryTest {
         assertEquals(1, tasks.size());
     }
 
-    
+      
     
     @Test
     public void testFindByUsersIdAndUsersExecutorFalse() {
@@ -94,32 +145,31 @@ public class TaskRepositoryTest {
         
         assertEquals(0, tasks.getTotalElements());
     }
-*/
+
+    
+    @Test
+    public void testfindByUserAndUserExecutorTrue() {
+       
+        User user = new User();
+        when(taskRepositoryMock.findByUserAndUserExecutorTrue(user)).thenReturn(Collections.singletonList(new Task()));
+
+       
+        List<Task> tasks = taskRepositoryMock.findByUserAndUserExecutorTrue(user);
+
+       
+        assertEquals(1, tasks.size());
+    }
+    
+    
     /*
-     *     
-
-       Optional<Task> findById(Long id);
-
-    List<Task> findByPriority(String priority);
-
-    Page<Task> findByStatus(String status, Pageable pageable);
-
-    Page<Task> findByPriority(String priority, Pageable pageable);
     
-    @Query("SELECT t FROM Task t JOIN t.users tu WHERE tu = :user AND tu.executor = false")
-    List<Task> findByUserAndUserExecutorFalse(@Param("user") User user);
-    
-    @Query("SELECT t FROM Task t JOIN t.users tu WHERE tu.id = :user AND tu.executor = false")
-    List<Task> findByUserAndUserExecutorFalse(@Param("user") Long userTaskHolder_id);
 
-    
-    @Query("SELECT t FROM Task t JOIN t.users tu WHERE tu = :user AND tu.executor = true")
-    List<Task> findByUserAndUserExecutorTrue(@Param("user") User user);
+   
     
    
     //for function getAllTasksCommentsByExecutorId
     @Query("SELECT t FROM Task t JOIN t.users tu WHERE tu.id = :userId AND tu.executor = true")
     List<Task> findByUserAndUserExecutorTrue(@Param("userId") Long userTaskExecutorId);
-    //for task by status and priority methods in user controller
-    Page<Task> findByUsersIdAndUsersExecutorFalse(Long userId, Pageable pageable);*/
+   
+   */
 }
