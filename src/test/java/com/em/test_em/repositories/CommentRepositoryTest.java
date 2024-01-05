@@ -8,14 +8,17 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.em.test_em.beans.Comment;
 
 
 @DataJpaTest
+//to keep database fresh for each test 
+@Transactional
 public class CommentRepositoryTest {
 
     @Test
@@ -27,6 +30,7 @@ public class CommentRepositoryTest {
         comments.add(new Comment(1L, "Comment 1"));
         comments.add(new Comment(2L, "Comment 2"));
 
+        
         // repository method
         when(commentRepository.findByTaskId(1L)).thenReturn(comments);
 
