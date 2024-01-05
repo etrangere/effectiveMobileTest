@@ -24,7 +24,7 @@ import com.em.test_em.enums.TaskStatus;
 @ExtendWith(MockitoExtension.class)
 //to keep database fresh for each test 
 @Transactional
-public class TaskServiceTest {
+public class TaskServiceImplTest {
 
     @Mock
     private TaskServiceImpl taskServiceImplMock;

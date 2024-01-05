@@ -1,11 +1,13 @@
 package com.em.test_em.services;
 
-import java.util.List;
-import java.util.Optional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.em.test_em._DTO.CommentDTO;
-
-public class CommentServiceTest {
+@ExtendWith(MockitoExtension.class)
+//to keep database fresh for each test 
+@Transactional
+public class CommentServiceImplTest {
 
 }
 /*
