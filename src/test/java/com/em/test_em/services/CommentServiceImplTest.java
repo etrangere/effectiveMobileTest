@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -140,13 +141,43 @@ public class CommentServiceImplTest {
         }
     }
 
+    @Test
+    public void testDeleteCommentForTask() {
+        // specify the task ID and comment ID to be deleted
+        Long taskId = 1L;
+        Long commentId = 1L;
+
+        // mock the repository method
+        Mockito.doNothing().when(commentServiceImplMock).deleteCommentForTask(taskId, commentId);
+
+        // call the service method to delete a comment for a task
+        commentServiceImplMock.deleteCommentForTask(taskId, commentId);
+
+        // verify that the repository method was called with the correct arguments
+        Mockito.verify(commentServiceImplMock).deleteCommentForTask(taskId, commentId);
+    }
+    
+    @Test
+    public void testUpdateCommentForTask() {
+        //Specify the task ID and comment ID 
+        Long taskId = 1L;
+        Long commentId = 1L;
+
+        // Create a sample CommentDTO to update for the comment
+        CommentDTO updatedCommentDTO = new CommentDTO();
+        updatedCommentDTO.setId(commentId);
+        updatedCommentDTO.setComment("Updated comment text");
+
+        //Mock the repository method
+        Mockito.when(commentServiceImplMock.updateCommentForTask(taskId,commentId,updatedCommentDTO))
+               .thenReturn(updatedCommentDTO);
+
+        //call method to update a comment for a task
+        CommentDTO result = commentServiceImplMock.updateCommentForTask(taskId, commentId, updatedCommentDTO);
+
+        // assert
+        assertEquals(updatedCommentDTO, result);
+    }
 }
-/*
-    
-   
-    
-    void deleteCommentForTask(Long task_id,Long comment_id);
-    
-    CommentDTO updateCommentForTask(Long task_id,Long comment_id,CommentDTO updatedCommentDTO);
- */
+
  
