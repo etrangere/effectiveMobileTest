@@ -203,7 +203,7 @@ public class TaskServiceImpl implements TaskService {
          Task task = taskOptional.get(); 
          return task.getUsers().stream().anyMatch(user -> Objects.equals(user.getId(), userId));
      }
-
+  // Task not found
      return false; // Task not found
  }
 
