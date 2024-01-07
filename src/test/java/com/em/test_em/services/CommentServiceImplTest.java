@@ -30,38 +30,41 @@ public class CommentServiceImplTest {
 
     @Test
     public void testgetCommentById() {
+        
+     // creating object and setting attribute
         CommentDTO expectedCommentById = new CommentDTO();
         expectedCommentById.setId(1L);
 
-        // Mock the repository method
+     // repository method and objective of test
         when(commentServiceImplMock.getCommentById(1L)).thenReturn(Optional.of(expectedCommentById));
 
-        // Call the service method to get the task by ID
+     // what to be checked or verified
         Optional<CommentDTO> result = commentServiceImplMock.getCommentById(1L);
 
-        // Now, you can perform assertions on the result if needed
+     // assert to check
         assertTrue(result.isPresent());
         assertEquals(expectedCommentById, result.get());
     }
 
     @Test
     public void testGetCommentByTask() {
+        
+     // creating object and setting attribute
         Long taskId = 1L;
 
-        // Create some sample comments
         CommentDTO comment1 = new CommentDTO();
         comment1.setId(1L);
 
         CommentDTO comment2 = new CommentDTO();
         comment2.setId(2L);
 
-        // Mock this service to return these comments
+     // repository method and objective of test
         when(commentServiceImplMock.getCommentByTask(taskId)).thenReturn(Arrays.asList(comment1, comment2));
 
-        // Call the getCommentByTask method in impl
+     // what to be checked or verified
         List<CommentDTO> result = commentServiceImplMock.getCommentByTask(taskId);
 
-        // Verify that the result matches the expected comments
+     // assert to check
         assertEquals(2, result.size());
         assertEquals(comment1, result.get(0));
         assertEquals(comment2, result.get(1));
@@ -69,6 +72,8 @@ public class CommentServiceImplTest {
 
     @Test
     public void testGetCommentByIdAndTaskId() {
+        
+     // creating object and setting attribute
         Long taskId = 1L;
         Long commentId = 1L;
 
@@ -76,31 +81,32 @@ public class CommentServiceImplTest {
         CommentDTO expectedComment = new CommentDTO();
         expectedComment.setId(commentId);
 
-        // mock this service to return the comment
+     // repository method and objective of test
         when(commentServiceImplMock.getCommentByIdAndTaskId(taskId, commentId)).thenReturn(expectedComment);
 
-        // call the getCommentByIdAndTaskId method in impl
+     // what to be checked or verified
         CommentDTO result = commentServiceImplMock.getCommentByIdAndTaskId(taskId, commentId);
 
-        // assert
+     // assert to check
         assertEquals(expectedComment, result);
     }
 
     @Test
     public void testCreateCommentForTask() {
-        // Specify the task ID and create a sample CommentDTO
+        
+     // creating object and setting attribute
         Long taskId = 1L;
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setId(1L);
         commentDTO.setComment("Test comment");
 
-        // Mock the repository method
+     // repository method and objective of test
         when(commentServiceImplMock.createCommentForTask(taskId, commentDTO)).thenReturn(commentDTO);
 
-        // Call the service method to create a comment for the task
+     // what to be checked or verified
         CommentDTO result = commentServiceImplMock.createCommentForTask(taskId, commentDTO);
 
-        // Now, you can perform assertions on the result if needed
+     // assert to check
         assertNotNull(result);
         assertEquals(commentDTO.getId(), result.getId());
         assertEquals(commentDTO.getComment(), result.getComment());
@@ -108,7 +114,8 @@ public class CommentServiceImplTest {
 
     @Test
     public void testGetAllCommentsForTask() {
-        // Specify the task ID and create some sample CommentDTOs
+        
+     // creating object and setting attribute
         Long taskId = 1L;
         CommentDTO comment1 = new CommentDTO();
         comment1.setId(1L);
@@ -120,13 +127,13 @@ public class CommentServiceImplTest {
 
         List<CommentDTO> expectedComments = Arrays.asList(comment1, comment2);
 
-        // Mock repository to return the list of comments
+     // repository method and objective of test
         when(commentServiceImplMock.getAllCommentsForTask(taskId)).thenReturn(expectedComments);
 
-        // Call service to get all comments for the task
+     // what to be checked or verified
         List<CommentDTO> result = commentServiceImplMock.getAllCommentsForTask(taskId);
 
-        // Now, you can perform assertions on the result if needed
+     // assert to check
         assertNotNull(result);
         assertEquals(expectedComments.size(), result.size());
 
@@ -143,14 +150,15 @@ public class CommentServiceImplTest {
 
     @Test
     public void testDeleteCommentForTask() {
-        // specify the task ID and comment ID to be deleted
+        
+     // creating object and setting attribute
         Long taskId = 1L;
         Long commentId = 1L;
 
-        // mock the repository method
+     // repository method and objective of test
         Mockito.doNothing().when(commentServiceImplMock).deleteCommentForTask(taskId, commentId);
 
-        // call the service method to delete a comment for a task
+     // what to be checked or verified
         commentServiceImplMock.deleteCommentForTask(taskId, commentId);
 
         // verify that the repository method was called with the correct arguments
@@ -159,7 +167,8 @@ public class CommentServiceImplTest {
     
     @Test
     public void testUpdateCommentForTask() {
-        //Specify the task ID and comment ID 
+        
+     // creating object and setting attribute
         Long taskId = 1L;
         Long commentId = 1L;
 
@@ -168,14 +177,14 @@ public class CommentServiceImplTest {
         updatedCommentDTO.setId(commentId);
         updatedCommentDTO.setComment("Updated comment text");
 
-        //Mock the repository method
+     // repository method and objective of test
         Mockito.when(commentServiceImplMock.updateCommentForTask(taskId,commentId,updatedCommentDTO))
                .thenReturn(updatedCommentDTO);
 
-        //call method to update a comment for a task
+     // what to be checked or verified
         CommentDTO result = commentServiceImplMock.updateCommentForTask(taskId, commentId, updatedCommentDTO);
 
-        // assert
+        // assert to check
         assertEquals(updatedCommentDTO, result);
     }
 }

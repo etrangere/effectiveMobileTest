@@ -36,16 +36,17 @@ public class TaskRepositoryTest {
     @Test
     public void testFindById() {
         
-        // mock the repository behavior
+        // creating object and setting attribute
         Task expectedTask = new Task();
-        expectedTask.setId(1L);  // Set relevant attributes for comparison
+        expectedTask.setId(1L);  
 
+        // repository method and objective of test
         when(taskRepositoryMock.findById(1L)).thenReturn(Optional.of(expectedTask));
 
-        // repository method
+        // what to be checked or verified
         Optional<Task> task = taskRepositoryMock.findById(1L);
 
-        // assert to compare the result
+        // assert 
         assertTrue(task.isPresent());
         assertEquals(expectedTask.getId(), task.get().getId());
         
@@ -53,34 +54,38 @@ public class TaskRepositoryTest {
 
     @Test
     public void testFindByStatus() {
+        
+        // creating object and setting attribute
         Task expectedTask = new Task();
         expectedTask.setStatus(TaskStatus.IN_PROGRESS);  // Assuming TaskStatus is the enum type
 
-        // repository method
+        // repository method and objective of test
         when(taskRepositoryMock.findByStatus("IN_PROGRESS"))
                 .thenReturn(Collections.singletonList(expectedTask));
 
-        // call the repository method
+        // what to be checked or verified
         List<Task> tasks = taskRepositoryMock.findByStatus("IN_PROGRESS");
 
-        // assert the result
+        // assert to check
         assertEquals(1, tasks.size());
         assertEquals(expectedTask, tasks.get(0));
     }
 
     @Test
     public void testFindByStatusPaginated() {
+        
+        // creating object and setting attribute
         Task expectedTask = new Task();
         expectedTask.setStatus(TaskStatus.IN_PROGRESS);  // Assuming TaskStatus is the enum type
 
-        // repository method
+        // repository method and objective of test
         when(taskRepositoryMock.findByStatus("IN_PROGRESS", Pageable.unpaged()))
                 .thenReturn(new PageImpl<>(Collections.singletonList(expectedTask)));
 
-        // call the repository method
+        // what to be checked or verified
         Page<Task> tasks = taskRepositoryMock.findByStatus("IN_PROGRESS", Pageable.unpaged());
 
-        // assert the result
+        // assert to check
         assertEquals(1, tasks.getTotalElements());
         assertEquals(expectedTask, tasks.getContent().get(0));
     }
@@ -88,34 +93,38 @@ public class TaskRepositoryTest {
   
     @Test
     public void testFindByPriority() {
+        
+        // creating object and setting attribute
         Task expectedTask = new Task();
         expectedTask.setPriority(TaskPriority.MEDIUM);  // Assuming TaskStatus is the enum type
 
-        // repository method
+        // repository method and objective of test
         when(taskRepositoryMock.findByPriority("MEDIUM"))
                 .thenReturn(Collections.singletonList(expectedTask));
 
-        // call the repository method
+        // what to be checked or verified
         List<Task> tasks = taskRepositoryMock.findByPriority("MEDIUM");
 
-        // assert the result
+        // assert to check
         assertEquals(1, tasks.size());
         assertEquals(expectedTask, tasks.get(0));
     }
 
     @Test
     public void testFindByPriorityPaginated() {
+        
+        // creating object and setting attribute
         Task expectedTask = new Task();
         expectedTask.setPriority(TaskPriority.MEDIUM);  // Assuming TaskStatus is the enum type
 
-        // repository method
+        // repository method and objective of test
         when(taskRepositoryMock.findByPriority("MEDIUM", Pageable.unpaged()))
                 .thenReturn(new PageImpl<>(Collections.singletonList(expectedTask)));
 
-        // call the repository method
+        // what to be checked or verified
         Page<Task> tasks = taskRepositoryMock.findByPriority("MEDIUM", Pageable.unpaged());
 
-        // assert the result
+        // assert to check
         assertEquals(1, tasks.getTotalElements());
         assertEquals(expectedTask, tasks.getContent().get(0));
     }
@@ -123,15 +132,17 @@ public class TaskRepositoryTest {
     
     @Test
     public void testFindByUserAndUserExecutorFalse() {
-       
+        
+        // creating object and setting attribute
         User user = new User();
-     // repository method
+        
+        // repository method and objective of test
         when(taskRepositoryMock.findByUserAndUserExecutorFalse(user)).thenReturn(Collections.singletonList(new Task()));
 
-     // call the repository method
+        // what to be checked or verified
         List<Task> tasks = taskRepositoryMock.findByUserAndUserExecutorFalse(user);
 
-     // assert the result
+        // assert to check
         assertEquals(1, tasks.size());
     }
 
@@ -140,14 +151,14 @@ public class TaskRepositoryTest {
     @Test
     public void testFindByUsersIdAndUsersExecutorFalse() {
        
-     // repository method
+        // repository method and objective of test
         when(taskRepositoryMock.findByUsersIdAndUsersExecutorFalse(1L, Pageable.unpaged()))
                 .thenReturn(Page.empty());
 
-     // call the repository method
+        // what to be checked or verified
         Page<Task> tasks = taskRepositoryMock.findByUsersIdAndUsersExecutorFalse(1L, Pageable.unpaged());
 
-     // assert the result
+        // assert to check
         assertEquals(0, tasks.getTotalElements());
     }
 
@@ -155,27 +166,30 @@ public class TaskRepositoryTest {
     @Test
     public void testfindByUserAndUserExecutorTrue() {
        
+        // creating object and setting attribute
         User user = new User();
-     // repository method
+        
+        // repository method and objective of test
         when(taskRepositoryMock.findByUserAndUserExecutorTrue(user)).thenReturn(Collections.singletonList(new Task()));
 
-     // call the repository method
+        // what to be checked or verified
         List<Task> tasks = taskRepositoryMock.findByUserAndUserExecutorTrue(user);
 
-     // assert the result
+        // assert to check
         assertEquals(1, tasks.size());
     }
     
     @Test
     public void testfindByUserAndUserExecutorTrueWithUserId() {
-        //repository method
+        
+        // repository method and objective of test
         when(taskRepositoryMock.findByUserAndUserExecutorTrue(1L))
                 .thenReturn(Collections.singletonList(new Task())); 
 
-        // call the repository method
+        // what to be checked or verified
         List<Task> tasks = taskRepositoryMock.findByUserAndUserExecutorTrue(1L);
 
-        // assert the result
+        // assert to check
         assertEquals(1, tasks.size());
     }
 }

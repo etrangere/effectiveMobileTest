@@ -33,38 +33,43 @@ public class UserServiceImplTest {
     
     @Test
     public void testgetUserById() {
+        
+     // creating object and setting attribute
         UserDTO expectedUserById = new UserDTO();
         expectedUserById.setId(1L);
 
-        // Mock the repository method
+     // repository method and objective of test
         when(userServiceImplMock.getUserById(1L)).thenReturn(expectedUserById);
 
-        // Call the service method to get the task by ID
+     // what to be checked or verified
         Optional<UserDTO> result = Optional.of(userServiceImplMock.getUserById(1L));
 
-        // Now, you can perform assertions on the result if needed
+     // assert to check
         assertTrue(result.isPresent());
         assertEquals(expectedUserById, result.get());
     }
 
     @Test
     public void testCreateUser() {
+        
+        // mock UserDTO
         UserDTO createdUser = Mockito.mock(UserDTO.class);
 
-        // Mock the repository method
+     // repository method and objective of test
         Mockito.when(userServiceImplMock.createUser(Mockito.any(UserDTO.class))).thenReturn(createdUser);
 
-        // Call the service method to create a user
+     // what to be checked or verified
         UserDTO result = userServiceImplMock.createUser(new UserDTO());
 
-        // Now, you can perform assertions on the result if needed
+     // assert to check
         assertNotNull(result);
         assertEquals(createdUser, result);
     }
 
     @Test
     public void testUpdateUser() {
-        // Create a UserDTO to represent the updated user data
+        
+     // creating object and setting attribute
         UserDTO updatedUserData = new UserDTO();
         updatedUserData.setId(1L);
         updatedUserData.setUsername("newUsername");
@@ -77,14 +82,14 @@ public class UserServiceImplTest {
         
         
         
-        // Mock the repository method
+     // repository method and objective of test
         Mockito.when(userServiceImplMock.updateUser(Mockito.any(UserDTO.class), Mockito.anyLong()))
                .thenReturn(updatedUserData);
 
-        // Call the service method to update a user
+     // what to be checked or verified
         UserDTO result = userServiceImplMock.updateUser(new UserDTO(), 1L);
 
-        // Now, you can perform assertions on the result if needed
+     // assert to check
         assertNotNull(result);
         assertEquals(updatedUserData, result);
     }
@@ -92,10 +97,10 @@ public class UserServiceImplTest {
     
     @Test
     public void testDeleteUser() {
-        // Specify the user ID to be deleted
+        // specify the user ID to be deleted
         Long userId = 1L;
         
-        // Call the deleteUser method
+        // call the deleteUser method
         userServiceImplMock.deleteUser(userId);
     }
 

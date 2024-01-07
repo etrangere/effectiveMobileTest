@@ -4,9 +4,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(classes = EmTestApplication.class)
 class EmTestApplicationTests {
-/*
-	@Test
-	void contextLoads() {
-	}
-*/
+
 }

@@ -17,7 +17,7 @@ import com.em.test_em.beans.Comment;
 
 
 @DataJpaTest
-//to keep database fresh for each test 
+// to keep database fresh for each test 
 @Transactional
 public class CommentRepositoryTest {
 
@@ -26,36 +26,38 @@ public class CommentRepositoryTest {
         
         // mock the repository behavior
         CommentRepository commentRepository = mock(CommentRepository.class);
+        
+        // creating object and setting attribute
         List<Comment> comments = new ArrayList<>();
         comments.add(new Comment(1L, "Comment 1"));
         comments.add(new Comment(2L, "Comment 2"));
 
-        
-        // repository method
+        // repository method and objective of test
         when(commentRepository.findByTaskId(1L)).thenReturn(comments);
 
-        // action
+        // what to be checked or verified
         List<Comment> result = commentRepository.findByTaskId(1L);
 
-        // assert
+        // assert to check
         assertEquals(2, result.size());
        
     }
 
     @Test
     public void testExistsByIdAndTaskId() {
-      
-        CommentRepository commentRepository = mock(CommentRepository.class);
-
+        
         // mock the repository behavior
+        CommentRepository commentRepository = mock(CommentRepository.class);
+        
+        // repository method and objective of test
         when(commentRepository.existsByIdAndTaskId(1L, 1L)).thenReturn(true);
         when(commentRepository.existsByIdAndTaskId(2L, 1L)).thenReturn(false);
 
-        // action
+        // what to be checked or verified
         boolean result1 = commentRepository.existsByIdAndTaskId(1L, 1L);
         boolean result2 = commentRepository.existsByIdAndTaskId(2L, 1L);
 
-        // assert
+        // assert to check
         assertTrue(result1);
         assertFalse(result2);
        

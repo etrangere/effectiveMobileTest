@@ -46,7 +46,8 @@ public class TaskServiceImplTest {
     
     @Test
     public void testGetAllTasks() {
-        // Create some sample tasks
+        
+     // creating object and setting attribute
         TaskDTO task1 = new TaskDTO();
         task1.setId(1L);
         task1.setHeader("Task 1");
@@ -55,13 +56,13 @@ public class TaskServiceImplTest {
         task2.setId(2L);
         task2.setHeader("Task 2");
 
-        // Mock the behavior of the task service to return these tasks
+     // repository method and objective of test
         when(taskServiceImplMock.getAllTasks()).thenReturn(Arrays.asList(task1, task2));
 
-        // Call the getAllTasks method
+     // what to be checked or verified
         List<TaskDTO> result = taskServiceImplMock.getAllTasks();
 
-        // Verify that the result matches the expected tasks
+     // assert to check
         assertEquals(2, result.size());
         assertEquals("Task 1", result.get(0).getHeader());
         assertEquals("Task 2", result.get(1).getHeader());
@@ -70,16 +71,18 @@ public class TaskServiceImplTest {
     
     @Test
     public void testgetTaskById() {
+        
+     // creating object and setting attribute
         TaskDTO expectedTaskById = new TaskDTO();
         expectedTaskById.setId(1L);
 
-        // Mock the repository method
+     // repository method and objective of test
         when(taskServiceImplMock.getTaskById(1L)).thenReturn(expectedTaskById);
 
-        // Call the service method to get the task by ID
+     // what to be checked or verified
         Optional<TaskDTO> result = Optional.of(taskServiceImplMock.getTaskById(1L));
 
-        // Now, you can perform assertions on the result if needed
+     // assert to check
         assertTrue(result.isPresent());
         assertEquals(expectedTaskById, result.get());
     }
@@ -87,15 +90,17 @@ public class TaskServiceImplTest {
     
     @Test
     public void testCreateTask() {
+        
+     // mock the TaskDTO 
         TaskDTO createdtask = Mockito.mock(TaskDTO.class);
 
-        // Mock the repository method
+     // repository method and objective of test
         Mockito.when(taskServiceImplMock.createTask(Mockito.any(TaskDTO.class))).thenReturn(createdtask);
 
-        // Call the service method to create a user
+     // what to be checked or verified
         TaskDTO result = taskServiceImplMock.createTask(new TaskDTO());
 
-       
+     // assert to check
         assertNotNull(result);
         assertEquals(createdtask, result);
     }
@@ -103,7 +108,8 @@ public class TaskServiceImplTest {
     
     @Test
     public void testCreateTaskForUserTaskHolder() {
-        // Specify the userTaskHolder ID and the taskDTO
+        
+     // creating object and setting attribute
         Long userTaskHolderId = 1L;
 
         TaskDTO taskDTO = new TaskDTO();
@@ -114,24 +120,25 @@ public class TaskServiceImplTest {
         taskDTO.setPriority(TaskPriority.HIGH);
         taskDTO.setAuthor("author");
 
-        // Mock the behavior of the task service
+     // repository method and objective of test
         when(taskServiceImplMock.createTaskForUserTaskHolder(userTaskHolderId, taskDTO)).thenReturn(taskDTO);
 
-        // Call the createTaskForUserTaskHolder method
+     // what to be checked or verified
         TaskDTO result = taskServiceImplMock.createTaskForUserTaskHolder(userTaskHolderId, taskDTO);
 
-        // Verify that the result matches the expected task
+     // assert to check
         assertEquals(1L, result.getId());
         assertEquals("New Task", result.getHeader());
 
-        // Verify that the method was called with the specified parameters
+        // verify that the method was called with the specified parameters
         verify(taskServiceImplMock, times(1)).createTaskForUserTaskHolder(userTaskHolderId, taskDTO);
     }
     
     
     @Test
     public void testUpdateTask() {
-        // Create a TaskDTO to represent the updated task data
+        
+     // creating object and setting attribute
         TaskDTO updatedTaskData = new TaskDTO();
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setId(1L);
@@ -142,22 +149,22 @@ public class TaskServiceImplTest {
         taskDTO.setAuthor("author");
 
         
-        
-        // Mock the repository method
+     // repository method and objective of test
         Mockito.when(taskServiceImplMock.updateTask(Mockito.any(TaskDTO.class)))
                .thenReturn(updatedTaskData);
 
-        // Call the service method to update a task
+     // what to be checked or verified
         TaskDTO result = taskServiceImplMock.updateTask(new TaskDTO());
 
-        // Now, you can perform assertions on the result if needed
+     // assert to check
         assertNotNull(result);
         assertEquals(updatedTaskData, result);
     }
     
     @Test
     public void testUpdateTaskForUser(){
-     // Specify the userTaskHolder ID and the taskDTO
+        
+     // creating object and setting attribute
         Long userTaskHolderId = 1L;
         Long task_id = 1L;
         TaskDTO taskDTO = new TaskDTO();
@@ -167,14 +174,14 @@ public class TaskServiceImplTest {
         taskDTO.setPriority(TaskPriority.HIGH);
         taskDTO.setAuthor("author");
 
-        // Mock the repository method
+     // repository method and objective of test
         Mockito.when(taskServiceImplMock.updateTaskForUser(userTaskHolderId, task_id, taskDTO))
                .thenReturn(taskDTO);
         
-        // Call the service method to update a task
+     // what to be checked or verified
         TaskDTO result = taskServiceImplMock.updateTaskForUser(userTaskHolderId, task_id, taskDTO);
      
-        //asserts
+     // assert to check
         assertEquals(taskDTO.getId(), result.getId());
         assertEquals(taskDTO.getHeader(), result.getHeader());
         assertEquals(taskDTO.getDescription(), result.getDescription());
@@ -185,11 +192,12 @@ public class TaskServiceImplTest {
     
     @Test
     public void testGetAllTasksForTaskExecutor() {
-        // userTaskHolder ID
+        
+     // creating object and setting attribute
         Long userTaskExecutorId = 1L;
         List<TaskDTO> allTasksOfExecutor = new ArrayList<>();
 
-        // Populate the list with some TaskDTO objects
+        // populate the list with some TaskDTO objects
         TaskDTO taskDTO1 = new TaskDTO();
         taskDTO1.setId(1L);
         taskDTO1.setHeader("New Task1");
@@ -198,7 +206,6 @@ public class TaskServiceImplTest {
         taskDTO1.setPriority(TaskPriority.HIGH);
         taskDTO1.setAuthor("author");
 
-        // ... set other properties
 
         TaskDTO taskDTO2 = new TaskDTO();
         taskDTO2.setId(2L);
@@ -211,16 +218,17 @@ public class TaskServiceImplTest {
         allTasksOfExecutor.add(taskDTO1);
         allTasksOfExecutor.add(taskDTO2);
 
-        // mock the repository method
+     // repository method and objective of test
         Mockito.when(taskServiceImplMock.getAllTasksForTaskExecutor(userTaskExecutorId))
                .thenReturn(allTasksOfExecutor);
-
+    
+        // what to be checked or verified
         List<TaskDTO> result = taskServiceImplMock.getAllTasksForTaskExecutor(userTaskExecutorId);
 
         // first TaskDTO in the list
         TaskDTO expectedTaskDTO = allTasksOfExecutor.get(0);
 
-       //asserts
+     // assert to check
         assertEquals(expectedTaskDTO.getId(), result.get(0).getId());
         assertEquals(expectedTaskDTO.getHeader(), result.get(0).getHeader());
         assertEquals(expectedTaskDTO.getDescription(), result.get(0).getDescription());
@@ -231,11 +239,12 @@ public class TaskServiceImplTest {
 
     @Test
     public void testDeleteTaskForUser() {
-        // Specify the userTaskHolder ID and the task ID to be deleted
+        
+     // setting attribute
         Long userTaskHolderId = 1L;
         Long taskId = 1L;
 
-        //  mock the repository method
+     // repository method and objective of test
         Mockito.doNothing().when(taskServiceImplMock).deleteTaskForUser(userTaskHolderId, taskId);
 
         // call the deleteTaskForUser method
@@ -247,18 +256,19 @@ public class TaskServiceImplTest {
 
     @Test
     public void testRemoveExecutorFromTask() {
-        //Specify the userTaskHolder ID, task ID, and userExecutor ID
+        
+     // setting attribute
         Long userTaskHolderId = 1L;
         Long taskId = 1L;
         Long userExecutorId = 2L;
 
-        //Mock the repository
+     // repository method and objective of test
         Mockito.doNothing().when(taskServiceImplMock).removeExecutorFromTask(userTaskHolderId,taskId,userExecutorId);
 
         //call the removeExecutorFromTask method
         taskServiceImplMock.removeExecutorFromTask(userTaskHolderId, taskId, userExecutorId);
 
-        //verify that the repository's removeExecutorFromTask called with the specified arguments
+        //verify that the repository removeExecutorFromTask called with the specified arguments
         Mockito.verify(taskServiceImplMock, Mockito.times(1))
                 .removeExecutorFromTask(userTaskHolderId, taskId, userExecutorId);
     }
@@ -266,15 +276,16 @@ public class TaskServiceImplTest {
     
     @Test
     public void testAddExecutorToTask() {
-        // Specify the userTaskHolder ID, task ID and userExecutor ID
+        
+     // setting attribute
         Long userTaskHolderId = 1L;
         Long taskId = 1L;
         Long userExecutorId = 2L;
 
-        //Mock the repository
+     // repository method and objective of test
         Mockito.doNothing().when(taskServiceImplMock).addExecutorToTask(userTaskHolderId, taskId, userExecutorId);
 
-        // call addExecutorToTask method
+     // what to be checked or verified
         taskServiceImplMock.addExecutorToTask(userTaskHolderId, taskId, userExecutorId);
 
         // verify addExecutorToTask method was called with the specified arguments
@@ -285,60 +296,68 @@ public class TaskServiceImplTest {
     
     @Test
     public void testForTrueIsUserAssociatedWithTask() {
-     // Create a sample task and user
+     
+     // creating object and setting attribute
         Task task = new Task();
         task.setId(1L);
         User user = new User();
         user.setId(1L);
 
-        // Associate the user with the task
+        // associate the user with the task
         task.getUsers().add(user);
 
-        // Mock the taskRepository to return the task when findById is called
+     // repository method and objective of test
         lenient().when(taskRepositoryMock.findById(1L)).thenReturn(Optional.of(task));
 
-        // Check if a different user is not associated with the task
+     // what to be checked or verified
         boolean resultTrue = taskServiceImplMock.isUserAssociatedWithTask(1L, 1L);
+        
+        // assert to check 
         assertFalse(resultTrue);
     }
 
 
     @Test
     public void testForFalseIsUserAssociatedWithTask() {
-        // Create a sample task and user
+        
+     // creating object and setting attribute
         Task task = new Task();
         task.setId(1L);
         User user = new User();
         user.setId(1L);
 
-        // Associate the user with the task
+        // associate the user with the task
         task.getUsers().add(user);
 
-        // Mock the taskRepository to return the task when findById is called
+     // repository method and objective of test
         lenient().when(taskRepositoryMock.findById(1L)).thenReturn(Optional.of(task));
-
-        // Check if a different user is not associated with the task
+        
+        // what to be checked or verified
         boolean resultFalse = taskServiceImplMock.isUserAssociatedWithTask(1L, 2L);
+        
+        // assert to check
         assertFalse(resultFalse);
     }
     
     @Test
     public void testFindByStatusPaginated() {
+        
+     // creating object and setting attribute
         TaskDTO expectedTask = new TaskDTO();
         expectedTask.setId(1L);
         expectedTask.setStatus(TaskStatus.COMPLETED);
 
-        // Create a Page with the expected content
+        // create a Page with the expected content
         Page<TaskDTO> expectedPage = new PageImpl<>(Collections.singletonList(expectedTask));
 
-        // Mock the repository method with pagination
+     // repository method and objective of test
         when(taskServiceImplMock.getTasksByStatus(1L, "COMPLETED", Pageable.unpaged()))
                 .thenReturn(expectedPage);
 
-        // Call the repository method
+     // what to be checked or verified
         Page<TaskDTO> tasks = taskServiceImplMock.getTasksByStatus(1L, "COMPLETED", Pageable.unpaged());
 
-        // Assert the result
+     // assert to check
         assertEquals(1, tasks.getTotalElements());
         assertEquals(expectedTask, tasks.getContent().get(0));
     }
@@ -346,6 +365,8 @@ public class TaskServiceImplTest {
     
     @Test
     public void testFindByPriorityPaginated() {
+        
+     // creating object and setting attribute
         TaskDTO expectedTask = new TaskDTO();
         expectedTask.setId(1L);
         expectedTask.setPriority(TaskPriority.MEDIUM);
@@ -353,14 +374,14 @@ public class TaskServiceImplTest {
         // Create a Page with the expected content
         Page<TaskDTO> expectedPage = new PageImpl<>(Collections.singletonList(expectedTask));
 
-        // Mock the repository method with pagination
+     // repository method and objective of test
         when(taskServiceImplMock.getTasksByPriority(1L, "MEDIUM", Pageable.unpaged()))
                 .thenReturn(expectedPage);
 
-        // Call the repository method
+     // what to be checked or verified
         Page<TaskDTO> tasks = taskServiceImplMock.getTasksByPriority(1L, "MEDIUM", Pageable.unpaged());
 
-        // Assert the result
+     // assert to check
         assertEquals(1, tasks.getTotalElements());
         assertEquals(expectedTask, tasks.getContent().get(0));
     }
