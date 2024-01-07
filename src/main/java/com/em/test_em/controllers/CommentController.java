@@ -16,6 +16,9 @@ import com.em.test_em.services.CommentService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+/**
+ * Controller class for handling Comment-related APIs.
+ */
 @CrossOrigin()
 @RestController
 @RequestMapping("/api/v1/comment")
@@ -25,7 +28,13 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
     
-    
+    /**
+     * Retrieves a specific comment of a task by ID.
+     *
+     * @param taskId    The ID of the task.
+     * @param commentId The ID of the comment.
+     * @return The CommentDTO if found, otherwise returns a NOT_FOUND response.
+     */
     @GetMapping("/{task_id}/getById_comment/{comment_id}")
     public ResponseEntity<CommentDTO> getByIdCommentOfTask(@PathVariable long task_id, @PathVariable long comment_id) {
        
@@ -38,7 +47,13 @@ public class CommentController {
         }
     }
 
-    
+    /**
+     * Creates a new comment for a task.
+     *
+     * @param task_id    The ID of the task.
+     * @param commentDTO The CommentDTO containing the comment details.
+     * @return The created CommentDTO.
+     */
     @PostMapping("/{task_id}/create_comment")
     public ResponseEntity<CommentDTO> createCommentForTask(@PathVariable long task_id, @RequestBody CommentDTO commentDTO) {
         
@@ -46,6 +61,12 @@ public class CommentController {
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }
     
+    /**
+     * Retrieves all comments for a specific task.
+     *
+     * @param task_id The ID of the task.
+     * @return A list of CommentDTOs for the specified task.
+     */
     @GetMapping("/{task_id}/getAll_comments")
     public ResponseEntity<List<CommentDTO>> getAllCommentsForTask(@PathVariable long task_id) {
       
@@ -53,6 +74,13 @@ public class CommentController {
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
     
+    /**
+     * Deletes a specific comment of a task.
+     *
+     * @param task_id    The ID of the task.
+     * @param comment_id The ID of the comment.
+     * @return A NO_CONTENT response if the comment is successfully deleted.
+     */
     @DeleteMapping("/{task_id}/delete_comment/{comment_id}")
     public ResponseEntity<Void> deleteCommentOfTask(@PathVariable long task_id, @PathVariable long comment_id) {
         
@@ -60,6 +88,14 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * Updates a specific comment of a task.
+     *
+     * @param task_id          The ID of the task.
+     * @param comment_id       The ID of the comment.
+     * @param updatedCommentDTO The updated CommentDTO.
+     * @return The updated CommentDTO.
+     */
     @PutMapping("/{task_id}/update_comment/{comment_id}")
     public ResponseEntity<CommentDTO> updateCommentOfTask(
             @PathVariable long task_id,

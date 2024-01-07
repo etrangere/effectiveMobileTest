@@ -12,7 +12,9 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
 
-
+/**
+ * Configuration class for customizing OpenAPI documentation.
+ */
 @Configuration
 public class OpenAPIConfig {
     @Value("${gourgen.openapi.dev-url}")
@@ -24,6 +26,11 @@ public class OpenAPIConfig {
     @Value("${gourgen.openapi.test-url}")
     private String testUrl;
 
+    /**
+     * Configures the OpenAPI documentation for the Task Management System Service API.
+     *
+     * @return An instance of OpenAPI with the configured information.
+     */
     @Bean
     public OpenAPI myOpenAPI() {
         Server devServer = new Server();

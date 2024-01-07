@@ -25,7 +25,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
-
+/**
+ * Represents a Task entity in the application.
+ */
 @Entity
 @Table(name = "task_table")
 public class Task implements Serializable {
@@ -66,6 +68,16 @@ public class Task implements Serializable {
         super();
     }
 
+    /**
+     * Constructs a Task with the specified id, header, description, status, priority, and author.
+     *
+     * @param id          The unique identifier for the task.
+     * @param header      The header or title of the task.
+     * @param description The detailed description of the task.
+     * @param status      The status of the task (e.g., OPEN, IN_PROGRESS, DONE).
+     * @param priority    The priority level of the task (e.g., HIGH, MEDIUM, LOW).
+     * @param author      The author or creator of the task.
+     */
     public Task(long id, String header, String description, TaskStatus status, TaskPriority priority, String author) {
         super();
         this.id = id;
@@ -77,76 +89,155 @@ public class Task implements Serializable {
         
     }
 
-    
-   
-    
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-
+    /**
+     * Retrieves the unique identifier for the task.
+     *
+     * @return The id of the task.
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Sets the unique identifier for the task.
+     *
+     * @param id The id to set.
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Retrieves the header or title of the task.
+     *
+     * @return The header of the task.
+     */
     public String getHeader() {
         return header;
     }
 
+    /**
+     * Sets the header or title of the task.
+     *
+     * @param header The header to set.
+     */
     public void setHeader(String header) {
         this.header = header;
     }
 
+    /**
+     * Retrieves the detailed description of the task.
+     *
+     * @return The description of the task.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Sets the detailed description of the task.
+     *
+     * @param description The description to set.
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-   
+    /**
+     * Retrieves the status of the task.
+     *
+     * @return The status of the task.
+     */
     public TaskStatus getStatus() {
         return status;
     }
 
+    /**
+     * Sets the status of the task.
+     *
+     * @param status The status to set.
+     */
     public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
+    /**
+     * Retrieves the priority level of the task.
+     *
+     * @return The priority of the task.
+     */
     public TaskPriority getPriority() {
         return priority;
     }
 
+    /**
+     * Sets the priority level of the task.
+     *
+     * @param priority The priority to set.
+     */
     public void setPriority(TaskPriority priority) {
         this.priority = priority;
     }
 
+    /**
+     * Retrieves the author or creator of the task.
+     *
+     * @return The author of the task.
+     */
     public String getAuthor() {
         return author;
     }
 
+    /**
+     * Sets the author or creator of the task.
+     *
+     * @param author The author to set.
+     */
     public void setAuthor(String author) {
         this.author = author;
     }
 
+    /**
+     * Retrieves the list of users associated with the task.
+     *
+     * @return The list of users associated with the task.
+     */
+    public List<User> getUsers() {
+        return users;
+    }
+
+    /**
+     * Sets the list of users associated with the task.
+     *
+     * @param users The list of users to set.
+     */
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    /**
+     * Retrieves the list of comments associated with the task.
+     *
+     * @return The list of comments associated with the task.
+     */
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    /**
+     * Sets the list of comments associated with the task.
+     *
+     * @param comments The list of comments to set.
+     */
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    /**
+     * Returns a string representation of the Task.
+     *
+     * @return A string representation of the Task.
+     */
     @Override
     public String toString() {
         return "Task [id=" + id + ", header=" + header + ", description=" + description + ", status=" + status
