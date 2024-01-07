@@ -321,14 +321,6 @@ public class TaskServiceImpl implements TaskService {
             .filter(task -> task.getStatus().equals(taskStatus))
             .collect(Collectors.toList());
 
-    // Print some debugging information
-    System.out.println("Pageable: " + pageable);
-    System.out.println("Size of Filtered TasksStatus: " + filteredTasks.size());
-
-    for (TaskDTO task : filteredTasks) {
-      System.out.println("Task: " + task);
-    }
-
     return new PageImpl<>(filteredTasks, pageable, tasksPage.getTotalElements());
   }
 
@@ -354,14 +346,6 @@ public class TaskServiceImpl implements TaskService {
         mapToDTOList(tasksPage.getContent()).stream()
             .filter(task -> task.getPriority().equals(taskPriority))
             .collect(Collectors.toList());
-
-    // Print some debugging information
-    System.out.println("Pageable: " + pageable);
-    System.out.println("Size of Filtered TasksPriority: " + filteredTasks.size());
-
-    for (TaskDTO task : filteredTasks) {
-      System.out.println("Task: " + task);
-    }
 
     return new PageImpl<>(filteredTasks, pageable, tasksPage.getTotalElements());
   }

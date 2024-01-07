@@ -319,23 +319,28 @@ public class UserController {
   public ResponseEntity<Page<TaskDTO>> getTasksByStatus(
       @PathVariable Long userTaskHolder_id,
       @PathVariable String status,
-      @RequestParam(required = false, defaultValue = "0") Integer page,
+      @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size,
-      @RequestParam(required = false, defaultValue = "id,asc") String[] sort) {
+      @RequestParam(required = false, defaultValue = "id") String sortBy,
+      @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
 
     try {
       Page<TaskDTO> tasks;
 
       // Check if page, size, and sort are provided
-      if (page != null && size != null && sort != null) {
+      if (page != null && size != null && sortOrder != null) {
         tasks =
             taskService.getTasksByStatus(
-                userTaskHolder_id, status, PageRequest.of(page, size, Sort.by(sort)));
+                userTaskHolder_id,
+                status,
+                PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy)));
       } else {
         // If not provided, use default values
         tasks =
             taskService.getTasksByStatus(
-                userTaskHolder_id, status, PageRequest.of(0, 10, Sort.by("id").ascending()));
+                userTaskHolder_id,
+                status,
+                PageRequest.of(0, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy)));
       }
 
       return ResponseEntity.ok(tasks);
@@ -359,23 +364,28 @@ public class UserController {
   public ResponseEntity<Page<TaskDTO>> getTasksByPriority(
       @PathVariable Long userTaskHolder_id,
       @PathVariable String priority,
-      @RequestParam(required = false, defaultValue = "0") Integer page,
+      @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size,
-      @RequestParam(required = false, defaultValue = "id,asc") String[] sort) {
+      @RequestParam(required = false, defaultValue = "id") String sortBy,
+      @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
 
     try {
       Page<TaskDTO> tasks;
 
       // Check if page, size, and sort are provided
-      if (page != null && size != null && sort != null) {
+      if (page != null && size != null && sortOrder != null) {
         tasks =
             taskService.getTasksByPriority(
-                userTaskHolder_id, priority, PageRequest.of(page, size, Sort.by(sort)));
+                userTaskHolder_id,
+                priority,
+                PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy)));
       } else {
         // If not provided, use default values
         tasks =
             taskService.getTasksByPriority(
-                userTaskHolder_id, priority, PageRequest.of(0, 10, Sort.by("id").ascending()));
+                userTaskHolder_id,
+                priority,
+                PageRequest.of(0, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy)));
       }
 
       return ResponseEntity.ok(tasks);
