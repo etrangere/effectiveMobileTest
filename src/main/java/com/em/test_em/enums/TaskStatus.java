@@ -1,10 +1,8 @@
 package com.em.test_em.enums;
 
-/**
- * Enumeration representing the status of a task.
- */
+/** Enumeration representing the status of a task. */
 public enum TaskStatus {
-    PENDING,
-    IN_PROGRESS,
-    COMPLETED
+  PENDING,
+  IN_PROGRESS,
+  COMPLETED
 }

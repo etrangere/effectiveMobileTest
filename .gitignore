@@ -16,3 +16,5 @@ target/
 #git add -f .gitignore target/ .settings/ .project .classpath bin/
 #git commit -m "Add files to be tracked locally but not pushed"
 #git push origin <branch-name>
+
+.google-java-format
