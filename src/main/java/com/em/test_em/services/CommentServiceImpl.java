@@ -19,11 +19,9 @@ import com.em.test_em.repositories.CommentRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
-
-
-
-
-
+/**
+ * Service implementation for managing comment-related operations.
+ */
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -36,55 +34,39 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private TaskService taskService;
 
-        
-    public CommentDTO getCommentByIdAndTaskId( Long task_id,Long comment_id) {
-        TaskDTO commentContainTask = taskService.getTaskById(task_id);
-        Optional<CommentDTO> commentOfTask = getCommentById(comment_id);
-
-        
-        if (commentContainTask != null && commentOfTask.isPresent() && commentContainTask.getComments().contains(commentOfTask.get())) {
-            return commentOfTask.get(); // Extract the CommentDTO 
-        } else {
-            throw new EntityNotFoundException("Comment not found for the specified task");
-        }
-    }
-
-    // create comment for task
-    @Override
-    public CommentDTO createCommentForTask(Long task_id, CommentDTO commentDTO) {
-    
-        TaskDTO commentForThisTask = taskService.getTaskById(task_id);
-        Comment comment = mapToEntity(commentDTO);
-        comment.setTask(mapToEntity(commentForThisTask));
-        commentForThisTask.getComments().add(mapToDTO(comment));
- 
-        return mapToDTO(commentRepository.save(comment));
-    }
-
-    // get all comments
-    @Override
-    public List<CommentDTO> getAllCommentsForTask(Long taskId) {
-        List<Comment> comments = commentRepository.findByTaskId(taskId);
-        return comments.stream()
-                .map(comment -> mapToDTOWithTask(comment))
-                .collect(Collectors.toList());
-    }
-
-    // get comment by id
+    /**
+     * Retrieves an optional comment by its unique identifier.
+     *
+     * @param id The unique identifier of the comment.
+     * @return Optional containing CommentDTO with details of the specified comment if found.
+     */
     @Override
     public Optional<CommentDTO> getCommentById(Long id) {
       Optional<Comment> comment = commentRepository.findById(id);
         return mapToEntity(comment);
     }
 
-
+    /**
+     * Retrieves a list of comments associated with a task.
+     *
+     * @param taskId The unique identifier of the task.
+     * @return List of CommentDTO containing details of comments associated with the task.
+     */
     @Override
     public List<CommentDTO> getCommentByTask(Long taskId) {
         List<Comment> comments = commentRepository.findByTaskId(taskId);
         return mapToDTOList(comments);
     }
     
-    // update comment
+    /**
+     * Updates an existing comment associated with a task.
+     *
+     * @param task_id           The unique identifier of the task.
+     * @param comment_id        The unique identifier of the comment to be updated.
+     * @param updatedCommentDTO Details to update the comment.
+     * @return CommentDTO containing details of the updated comment.
+     * @throws ResponseStatusException with HTTP status 404 (Not Found) if the comment is not found.
+     */
     @Override
     public CommentDTO updateCommentForTask(Long task_id, Long comment_id, CommentDTO updatedCommentDTO) {
       
@@ -103,7 +85,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
 
-    // delete comment
+    /**
+     * Deletes a comment associated with a task.
+     *
+     * @param task_id    The unique identifier of the task.
+     * @param comment_id The unique identifier of the comment to be deleted.
+     * @throws ResponseStatusException with HTTP status 404 (Not Found) if the comment is not found.
+     */
     @Override
     public void deleteCommentForTask(Long task_id, Long comment_id) {
         // Check if the comment exists for the given task
@@ -119,7 +107,58 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+    /**
+     * Retrieves a comment by its unique identifier and associated task.
+     *
+     * @param task_id    The unique identifier of the task.
+     * @param comment_id The unique identifier of the comment.
+     * @return CommentDTO containing details of the specified comment if found.
+     * @throws EntityNotFoundException if the comment is not found for the specified task.
+     */
+    public CommentDTO getCommentByIdAndTaskId( Long task_id,Long comment_id) {
+        TaskDTO commentContainTask = taskService.getTaskById(task_id);
+        Optional<CommentDTO> commentOfTask = getCommentById(comment_id);
+
+        
+        if (commentContainTask != null && commentOfTask.isPresent() && commentContainTask.getComments().contains(commentOfTask.get())) {
+            return commentOfTask.get(); // Extract the CommentDTO 
+        } else {
+            throw new EntityNotFoundException("Comment not found for the specified task");
+        }
+    }
+
+    /**
+     * Creates a new comment associated with a task.
+     *
+     * @param task_id    The unique identifier of the task.
+     * @param commentDTO Details of the comment to be created.
+     * @return CommentDTO containing details of the created comment.
+     */
+    @Override
+    public CommentDTO createCommentForTask(Long task_id, CommentDTO commentDTO) {
     
+        TaskDTO commentForThisTask = taskService.getTaskById(task_id);
+        Comment comment = mapToEntity(commentDTO);
+        comment.setTask(mapToEntity(commentForThisTask));
+        commentForThisTask.getComments().add(mapToDTO(comment));
+ 
+        return mapToDTO(commentRepository.save(comment));
+    }
+
+    /**
+     * Retrieves a list of all comments associated with a task.
+     *
+     * @param taskId The unique identifier of the task.
+     * @return List of CommentDTO containing details of all comments associated with the task.
+     */
+    @Override
+    public List<CommentDTO> getAllCommentsForTask(Long taskId) {
+        List<Comment> comments = commentRepository.findByTaskId(taskId);
+        return comments.stream()
+                .map(comment -> mapToDTOWithTask(comment))
+                .collect(Collectors.toList());
+    }
+
     
     private CommentDTO mapToDTO(Comment comment) {
         return mapper.map(comment, CommentDTO.class);

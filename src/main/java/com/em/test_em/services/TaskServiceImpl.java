@@ -31,6 +31,9 @@ import com.em.test_em.repositories.TaskRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
+/**
+ * Service implementation for managing task-related operations.
+ */
 @Service
 public class TaskServiceImpl implements TaskService {
 
@@ -43,7 +46,67 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private ModelMapper mapper;
 
-   
+    /**
+     * Retrieves a list of all tasks.
+     *
+     * @return List of TaskDTO containing details of all tasks.
+     */
+    @Override
+    public List<TaskDTO> getAllTasks() {
+        List<Task> tasks = taskRepository.findAll();
+        System.out.println(tasks.getClass().getName()); // Print class name of the list
+
+        
+        return mapToDTOList(tasks);
+    }
+
+    /**
+     * Retrieves a task by its unique identifier.
+     *
+     * @param id The unique identifier of the task.
+     * @return TaskDTO containing details of the specified task.
+     * @throws EntityNotFoundException if the task with the specified ID is not found.
+     */
+    @Override
+    public TaskDTO getTaskById(Long id) {
+        Optional<Task> taskOptional = taskRepository.findById(id);
+        return taskOptional.map(this::mapToDTO).orElseThrow(EntityNotFoundException::new);
+    }
+    
+    /**
+     * Creates a new task with the provided details.
+     *
+     * @param taskDTO Details of the task to be created.
+     * @return TaskDTO containing details of the created task.
+     */
+    @Override
+    public TaskDTO createTask(TaskDTO taskDTO) {
+        Task task = mapToEntity(taskDTO);
+        return mapToDTO(taskRepository.save(task));
+    }
+
+    /**
+     * Updates an existing task with new details.
+     *
+     * @param taskDTO Details to update the task.
+     * @return TaskDTO containing details of the updated task.
+     * @throws ResponseStatusException with HTTP status 404 (Not Found) if the task is not found.
+     */
+    @Override
+    public TaskDTO updateTask(TaskDTO taskDTO) {
+        if (!taskRepository.existsById(taskDTO.getId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find the task to update");
+        }
+        Task task = mapToEntity(taskDTO);
+        return mapToDTO(taskRepository.save(task));
+    }
+
+    /**
+     * Retrieves all tasks associated with a task executor.
+     *
+     * @param userTaskExecutor_id The unique identifier of the task executor.
+     * @return List of TaskDTO containing details of tasks associated with the task executor.
+     */
     public List<TaskDTO> getAllTasksForTaskExecutor(Long userTaskExecutor_id) {
         UserDTO usertaskexecutoroptional = userService.getUserById(userTaskExecutor_id);
 
@@ -55,6 +118,12 @@ public class TaskServiceImpl implements TaskService {
         }
     }
     
+    /**
+     * Deletes a task associated with a user.
+     *
+     * @param userTaskHolder_id The unique identifier of the task holder.
+     * @param task_id           The unique identifier of the task to be deleted.
+     */
     @Override 
     public void deleteTaskForUser(Long userTaskHolder_id, Long task_id) {
         
@@ -73,6 +142,13 @@ public class TaskServiceImpl implements TaskService {
        
     }
 
+    /**
+     * Creates a new task associated with a user task holder.
+     *
+     * @param userTaskHolder_id The unique identifier of the user task holder.
+     * @param taskDTO           Details of the task to be created.
+     * @return TaskDTO containing details of the created task.
+     */
     @Override
     public TaskDTO createTaskForUserTaskHolder(Long userTaskHolder_id, TaskDTO taskDTO) {
        
@@ -104,6 +180,15 @@ public class TaskServiceImpl implements TaskService {
         return taskDTO;  
     }
       
+    /**
+     * Updates an existing task associated with a user task holder.
+     *
+     * @param userTaskHolder_id The unique identifier of the user task holder.
+     * @param task_id           The unique identifier of the task to be updated.
+     * @param updatedTaskDTO    Details to update the task.
+     * @return TaskDTO containing details of the updated task.
+     * @throws ResponseStatusException with HTTP status 404 (Not Found) if the task is not found.
+     */
     @Override
     public TaskDTO updateTaskForUser(Long userTaskHolder_id, Long task_id, TaskDTO updatedTaskDTO) {
         UserDTO userForTaskToUpdate = userService.getUserById(userTaskHolder_id);
@@ -132,6 +217,13 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
+    /**
+     * Removes an executor from a task.
+     *
+     * @param userTaskHolder_id The unique identifier of the user task holder.
+     * @param task_id           The unique identifier of the task.
+     * @param userExecutor_id   The unique identifier of the user executor to be removed.
+     */
     @Override
     public void removeExecutorFromTask(Long userTaskHolder_id, Long task_id, Long userExecutor_id) {
         Optional<Task> taskToRemoveExecutor = taskRepository.findById(task_id);
@@ -166,7 +258,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
   
-  
+    /**
+     * Adds an executor to a task.
+     *
+     * @param userTaskHolder_id The unique identifier of the user task holder.
+     * @param task_id           The unique identifier of the task.
+     * @param userExecutor_id   The unique identifier of the user executor to be added.
+     */
     @Override
     public void addExecutorToTask(Long userTaskHolder_id, Long task_id, Long userExecutor_id) {
         Optional<Task> taskToAddExecutorOptional = taskRepository.findById(task_id);//check after not work with taskService
@@ -195,52 +293,32 @@ public class TaskServiceImpl implements TaskService {
 
    
  
-
- public boolean isUserAssociatedWithTask(Long taskId, Long userId) {
-     Optional<Task> taskOptional = taskRepository.findById(taskId);
-
-     if (taskOptional.isPresent()) {
-         Task task = taskOptional.get(); 
-         return task.getUsers().stream().anyMatch(user -> Objects.equals(user.getId(), userId));
-     }
-  // Task not found
-     return false; // Task not found
- }
-
-
-     
-    @Override
-    public List<TaskDTO> getAllTasks() {
-        List<Task> tasks = taskRepository.findAll();
-        System.out.println(tasks.getClass().getName()); // Print class name of the list
-
-        
-        return mapToDTOList(tasks);
-    }
-
-    @Override
-    public TaskDTO getTaskById(Long id) {
-        Optional<Task> taskOptional = taskRepository.findById(id);
-        return taskOptional.map(this::mapToDTO).orElseThrow(EntityNotFoundException::new);
-    }
+    /**
+     * Checks if a user is associated with a task.
+     *
+     * @param taskId The unique identifier of the task.
+     * @param userId The unique identifier of the user.
+     * @return true if the user is associated with the task, false otherwise.
+     */
+     public boolean isUserAssociatedWithTask(Long taskId, Long userId) {
+         Optional<Task> taskOptional = taskRepository.findById(taskId);
     
-   
-    @Override
-    public TaskDTO createTask(TaskDTO taskDTO) {
-        Task task = mapToEntity(taskDTO);
-        return mapToDTO(taskRepository.save(task));
-    }
+         if (taskOptional.isPresent()) {
+             Task task = taskOptional.get(); 
+             return task.getUsers().stream().anyMatch(user -> Objects.equals(user.getId(), userId));
+         }
+      // Task not found
+         return false; 
+     }
 
-    @Override
-    public TaskDTO updateTask(TaskDTO taskDTO) {
-        if (!taskRepository.existsById(taskDTO.getId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find the task to update");
-        }
-        Task task = mapToEntity(taskDTO);
-        return mapToDTO(taskRepository.save(task));
-    }
-
-      
+     /**
+      * Retrieves tasks based on status for a user task holder.
+      *
+      * @param userTaskHolder_id The unique identifier of the user task holder.
+      * @param status            The status of the tasks to retrieve.
+      * @param pageable          Pageable object for pagination.
+      * @return Page containing TaskDTO with filtered tasks.
+      */
     @Override
     public Page<TaskDTO> getTasksByStatus(Long userTaskHolder_id, String status, Pageable pageable) {
         Page<Task> tasksPage = taskRepository.findByUsersIdAndUsersExecutorFalse(userTaskHolder_id, pageable);
@@ -264,6 +342,14 @@ public class TaskServiceImpl implements TaskService {
         return new PageImpl<>(filteredTasks, pageable, tasksPage.getTotalElements());
     }
 
+    /**
+     * Retrieves tasks based on priority for a user task holder.
+     *
+     * @param userTaskHolder_id The unique identifier of the user task holder.
+     * @param priority          The priority of the tasks to retrieve.
+     * @param pageable          Pageable object for pagination.
+     * @return Page containing TaskDTO with filtered tasks.
+     */
     @Override
     public Page<TaskDTO> getTasksByPriority(Long userTaskHolder_id, String priority, Pageable pageable) {
         Page<Task> tasksPage = taskRepository.findByUsersIdAndUsersExecutorFalse(userTaskHolder_id, pageable);
@@ -306,7 +392,4 @@ public class TaskServiceImpl implements TaskService {
     private User mapToEntityUSER(UserDTO userDTO) {
         return mapper.map(userDTO, User.class);
     }
-
-   
-
 }

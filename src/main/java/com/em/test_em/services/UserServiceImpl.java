@@ -23,7 +23,9 @@ import jakarta.persistence.EntityNotFoundException;
 
 
 
-
+/**
+ * Service implementation for managing user-related operations.
+ */
 @Service
 public class UserServiceImpl implements UserService{
   
@@ -33,29 +35,40 @@ public class UserServiceImpl implements UserService{
     
     @Autowired
     private ModelMapper mapper;
-    
-    //get all users
-    /*@Override
-    public List<UserDTO> getAllUsers(){
-        List<User> users = userRepository.findAll();
-        return mapToDTOList(users);
-    }*/  
 
-    //get user by id
+    /**
+     * Retrieves a user by their unique identifier.
+     *
+     * @param id The unique identifier of the user.
+     * @return UserDTO containing user details.
+     * @throws EntityNotFoundException if the user with the specified ID is not found.
+     */
     @Override
     public UserDTO getUserById(Long id){
         Optional<User> userOptional = userRepository.findById(id);
         return userOptional.map(this::mapToDTO).orElseThrow(EntityNotFoundException::new);
     }  
     
-    //create user
+    /**
+     * Creates a new user with the provided details.
+     *
+     * @param userDTO Details of the user to be created.
+     * @return UserDTO containing details of the created user.
+     */
     @Override
     public UserDTO createUser(UserDTO userDTO) {
         User user = mapToEntity(userDTO);
         return mapToDTO(userRepository.save(user));
     }
      
-    //update user
+    /**
+     * Updates an existing user with new details.
+     *
+     * @param userDTO  Details to update the user.
+     * @param user_id  The unique identifier of the user to be updated.
+     * @return UserDTO containing details of the updated user.
+     * @throws ResponseStatusException with HTTP status 404 (Not Found) if the user is not found.
+     */
     @Override
     public UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable Long user_id) {
         Optional<User> userOptional = userRepository.findById(user_id);
@@ -78,7 +91,13 @@ public class UserServiceImpl implements UserService{
         return mapToDTO(updatedUser);
     }
     
-    //delete user
+    /**
+     * Deletes a user by their unique identifier.
+     *
+     * @param user_id The unique identifier of the user to be deleted.
+     * @throws ResponseStatusException with HTTP status 404 (Not Found) if the user is not found.
+     * @throws ResponseStatusException with HTTP status 417 (Expectation Failed) if there is an error deleting the user.
+     */
     @Override
     public void deleteUser(Long user_id) {
         if (!userRepository.existsById(user_id)) {
@@ -90,15 +109,11 @@ public class UserServiceImpl implements UserService{
         }
     }
     
-     
+    
     private UserDTO mapToDTO(User user) {
         return mapper.map(user, UserDTO.class);
     }
-
-    /*private List<UserDTO> mapToDTOList(List<User> user) {
-        return user.stream().map(this::mapToDTO).collect(Collectors.toList());
-    }*/
-
+    
     private User mapToEntity(UserDTO userDTO) {
         return mapper.map(userDTO, User.class);
     }

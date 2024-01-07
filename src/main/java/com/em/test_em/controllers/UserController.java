@@ -28,6 +28,12 @@ import com.em.test_em.services.UserService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+/**
+ * Controller class for managing users, tasks, and comments through RESTful APIs.
+ *
+ * @author Gourgen KHACHATRIAN
+ * @version 1.0
+ */
 @CrossOrigin()
 @RestController
 @RequestMapping("/api/v1/user")
@@ -46,26 +52,50 @@ public class UserController {
     @Autowired
     private TaskRepository taskRepository;
 
-    
+    /**
+     * Creates a new user.
+     *
+     * @param userDTO The data of the user to be created.
+     * @return ResponseEntity<UserDTO> The created user and HTTP status.
+     */
     @PostMapping("/create_user")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {     
         UserDTO createdUser = userService.createUser(userDTO);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
      
+    /**
+     * Deletes a user by ID.
+     *
+     * @param user_id The ID of the user to be deleted.
+     * @return ResponseEntity<Void> HTTP status indicating success or failure.
+     */
     @DeleteMapping("/{user_id}/delete_user")
     public ResponseEntity<Void> deleteUser(@PathVariable long user_id) {      
         userService.deleteUser(user_id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }  
     
+    /**
+     * Updates a user by ID.
+     *
+     * @param userDTO The updated user data.
+     * @param user_id The ID of the user to be updated.
+     * @return ResponseEntity<UserDTO> The updated user and HTTP status.
+     */
     @PutMapping("/{user_id}/update_user")
     public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long user_id) {
         UserDTO updatedUser = this.userService.updateUser(userDTO,user_id);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
     
-  
+    /**
+     * Creates a new task for a user (either a task holder or an executor).
+     *
+     * @param userTaskHolder_id The ID of the user for whom the task is created.
+     * @param taskDTO           The data of the task to be created.
+     * @return ResponseEntity<TaskDTO> The created task and HTTP status.
+     */
     @PostMapping("/{userTaskHolder_id}/create_task")
     public ResponseEntity<TaskDTO> createTask(@PathVariable long userTaskHolder_id, @RequestBody TaskDTO taskDTO) { 
         TaskDTO createdTask = null;  // Declare the variable outside the if-else block
@@ -84,12 +114,27 @@ public class UserController {
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
    
+    /**
+     * Deletes a task for a user (task holder) by ID.
+     *
+     * @param userTaskHolder_id The ID of the task holder user.
+     * @param task_id           The ID of the task to be deleted.
+     * @return ResponseEntity<Void> HTTP status indicating success or failure.
+     */
     @DeleteMapping("/{userTaskHolder_id}/delete_task/{task_id}")
     public ResponseEntity<Void> deleteTask(@PathVariable long userTaskHolder_id, @PathVariable long task_id) {
         taskService.deleteTaskForUser(userTaskHolder_id, task_id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * Updates a task for a user (either a task holder or an executor) by ID.
+     *
+     * @param userTaskHolder_id The ID of the user for whom the task is updated.
+     * @param task_id           The ID of the task to be updated.
+     * @param updatedTaskDTO    The updated data for the task.
+     * @return ResponseEntity<TaskDTO> The updated task and HTTP status.
+     */
     @PutMapping("/{userTaskHolder_id}/update_task/{task_id}")
     public ResponseEntity<TaskDTO> updateTask(
             @PathVariable long userTaskHolder_id,
@@ -100,6 +145,12 @@ public class UserController {
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
     
+    /**
+     * Retrieves all tasks with comments for a user (executor) by ID.
+     *
+     * @param userTaskExecutor_id The ID of the user (executor).
+     * @return ResponseEntity<List<Map<String, Object>>> List of tasks with associated comments and HTTP status.
+     */
     @GetMapping("/{userTaskExecutor_id}/getAll_tasks_comments_executor")
     public ResponseEntity<List<Map<String, Object>>> getAllTasksCommentsByExecutorId(@PathVariable Long userTaskExecutor_id) {
         List<Task> tasks = taskRepository.findByUserAndUserExecutorTrue(userTaskExecutor_id);
@@ -124,6 +175,12 @@ public class UserController {
         }
     }
     
+    /**
+     * Retrieves all tasks with comments for a user (task holder) by ID.
+     *
+     * @param userTaskHolder_id The ID of the user (task holder).
+     * @return ResponseEntity<List<Map<String, Object>>> List of tasks with associated comments and HTTP status.
+     */
     @GetMapping("/{userTaskHolder_id}/getAll_tasks_comments_holder")
     public ResponseEntity<List<Map<String, Object>>> getAllTasksCommentsByTaskHolderId(@PathVariable Long userTaskHolder_id) {
         List<Task> tasks = taskRepository.findByUserAndUserExecutorFalse(userTaskHolder_id);
@@ -148,7 +205,13 @@ public class UserController {
         }
     }
 
-  
+    /**
+     * Retrieves a task and its comments for a user (task holder) by task and user IDs.
+     *
+     * @param userTaskHolder_id The ID of the user (task holder).
+     * @param task_id           The ID of the task.
+     * @return ResponseEntity<Map<String, Object>> Task and associated comments with HTTP status.
+     */
     @GetMapping("/{userTaskHolder_id}/{task_id}/getAll_task_comment_holder_id_task_id")
     public ResponseEntity<Map<String, Object>> getTaskAndCommentsOfTaskHolderByIds(
             @PathVariable Long userTaskHolder_id, @PathVariable Long task_id) {
@@ -170,6 +233,14 @@ public class UserController {
         }
     }
 
+    /**
+     * Adds an executor to a task for a user (task holder).
+     *
+     * @param userTaskHolder_id The ID of the user (task holder).
+     * @param task_id           The ID of the task.
+     * @param userExecutor_id   The ID of the user (executor) to be added.
+     * @return ResponseEntity<String> Message indicating success and HTTP status.
+     */
     @PostMapping("/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}")
     public ResponseEntity<String> addExecutorToTask(
             @PathVariable long userTaskHolder_id,
@@ -179,6 +250,14 @@ public class UserController {
         return new ResponseEntity<>("Executor added successfully", HttpStatus.OK);
     }
     
+    /**
+     * Removes an executor from a task for a user (task holder).
+     *
+     * @param userTaskHolder_id The ID of the user (task holder).
+     * @param task_id           The ID of the task.
+     * @param userExecutor_id   The ID of the user (executor) to be removed.
+     * @return ResponseEntity<String> Message indicating success and HTTP status.
+     */
     @PostMapping("/{userTaskHolder_id}/{task_id}/removeExecutor/{userExecutor_id}")
     public ResponseEntity<String> removeExecutorFromTask(
             @PathVariable long userTaskHolder_id,
@@ -188,7 +267,13 @@ public class UserController {
         return new ResponseEntity<>("Executor removed successfully", HttpStatus.OK);
     }
    
-    
+    /**
+     * Updates the status of a task.
+     *
+     * @param task_id     The ID of the task to update.
+     * @param status_code The new status code for the task.
+     * @return ResponseEntity<String> Message indicating success and HTTP status.
+     */
     @PostMapping("/update_task_status/{task_id}/{status_code}")
     public ResponseEntity<String> updateTaskStatus(@PathVariable Long task_id, TaskStatus status_code) {
      
@@ -200,8 +285,15 @@ public class UserController {
         return new ResponseEntity<>("Task status updated successfully", HttpStatus.OK);
     }   
     
+    /**
+     * Updates the priority of a task.
+     *
+     * @param task_id       The ID of the task to update.
+     * @param priority_code The new priority code for the task.
+     * @return ResponseEntity<String> Message indicating success and HTTP status.
+     */
     @PostMapping("/update_task_priority/{task_id}/{priority_code}")
-    public ResponseEntity<String> updateTaskStatus(@PathVariable Long task_id, TaskPriority priority_code) {
+    public ResponseEntity<String> updateTaskPriority(@PathVariable Long task_id, TaskPriority priority_code) {
      
         TaskDTO taskForPriorityUpdate = taskService.getTaskById(task_id);
       
@@ -211,6 +303,16 @@ public class UserController {
         return new ResponseEntity<>("Task status updated successfully", HttpStatus.OK);
     }
     
+    /**
+     * Retrieves tasks for a user (task holder) based on the specified status.
+     *
+     * @param userTaskHolder_id The ID of the user (task holder).
+     * @param status            The status of the tasks to retrieve.
+     * @param page              The page number for paginated results.
+     * @param size              The number of tasks per page.
+     * @param sort              The sorting criteria for the results.
+     * @return ResponseEntity<Page<TaskDTO>> Paginated list of tasks and HTTP status.
+     */
     @GetMapping("/{userTaskHolder_id}/getAll_user_tasks_by_status/{status}")
     public ResponseEntity<Page<TaskDTO>> getTasksByStatus(
             @PathVariable Long userTaskHolder_id,
@@ -236,7 +338,16 @@ public class UserController {
         }
     }
 
-
+    /**
+     * Retrieves tasks for a user (task holder) based on the specified priority.
+     *
+     * @param userTaskHolder_id The ID of the user (task holder).
+     * @param priority          The priority of the tasks to retrieve.
+     * @param page              The page number for paginated results.
+     * @param size              The number of tasks per page.
+     * @param sort              The sorting criteria for the results.
+     * @return ResponseEntity<Page<TaskDTO>> Paginated list of tasks and HTTP status.
+     */
     @GetMapping("/{userTaskHolder_id}/getAll_user_tasks_by_priority/{priority}")
     public ResponseEntity<Page<TaskDTO>> getTasksByPriority(
             @PathVariable Long userTaskHolder_id,
