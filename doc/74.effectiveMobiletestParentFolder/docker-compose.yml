@@ -1,0 +1,27 @@
+services:
+  app:
+    image: your-registry.com/your-username/your-app:1.0
+    ports:
+      - "8085:8085"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/74.effectiveMobileTest
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Smdilia2012@
+      SPRING_JPA_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+    # Add more environment variables as needed
+
+  mysql:
+    image: your-registry.com/your-username/your-mysql:1.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: 74.effectiveMobileTest
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Smdilia2012@
+    volumes:
+      - ./mysql-data:/var/lib/mysql
