@@ -11,4 +11,5 @@ COPY ./em_test.jar /app
 EXPOSE 8085
 
 # Command to run your application
-CMD ["java", "-jar", "em_test.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=prod", "em_test.jar"]
+
