@@ -124,11 +124,11 @@
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version><!--$NO-MVN-MAN-VER$-->
+                
                 <configuration>
                   <archive>
                     <manifest>
-                      <mainClass>com.example.Main</mainClass>
+                      <mainClass>com.em.test_em.EmTestApplication</mainClass>
                     </manifest>
                   </archive>
                 </configuration>
