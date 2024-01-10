@@ -5,10 +5,10 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 # Copy the entire application folder into the container at /app
-COPY ./app /app
+COPY ./em_test.jar /app
 
 # Expose the port your application will run on
 EXPOSE 8085
 
 # Command to run your application
-CMD ["java", "-jar", "your-application.jar"]
+CMD ["java", "-jar", "em_test.jar"]

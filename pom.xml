@@ -121,7 +121,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
+		<!--	<plugin>
               <groupId>com.coveo</groupId>
               <artifactId>fmt-maven-plugin</artifactId>
               <version>2.10</version>
@@ -133,7 +133,21 @@
                   </goals>
                 </execution>
               </executions>
-            </plugin>
+            </plugin>-->
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.2.4</version><!--$NO-MVN-MAN-VER$--> <!-- Use the latest version -->
+            <configuration>
+                <transformers>
+                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <manifestEntries>
+                            <Main-Class>com.em.test_em.EmTestApplication</Main-Class>
+                        </manifestEntries>
+                    </transformer>
+                </transformers>
+            </configuration>
+        </plugin>
 		</plugins>
 	</build>
 
