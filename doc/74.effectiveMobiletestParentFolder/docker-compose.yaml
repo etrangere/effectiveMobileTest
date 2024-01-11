@@ -6,6 +6,8 @@ services:
       context: ./mysql
       dockerfile: .Dockerfile  # Specify the relative path to the Dockerfile
     container_name: mysql-container
+    networks:   
+      - custom_network
     environment:
       TZ: UTC 
       MYSQL_ROOT_PASSWORD: Smdilia2012@ 
@@ -20,6 +22,8 @@ services:
       context: ./app
       dockerfile: .Dockerfile  # Specify the relative path to the Dockerfile
     container_name: spring-app-container
+    networks:   
+      - custom_network
     depends_on:
       - 74effectivemobiletest_mysqlimage
     environment:
@@ -28,5 +32,11 @@ services:
       SPRING_DATASOURCE_PASSWORD: Smdilia2012@
     ports:
       - "8085:8085"
-
+networks:
+  custom_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
 

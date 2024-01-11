@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Configuration;
 /** Configuration class for customizing OpenAPI documentation. */
 @Configuration
 public class OpenAPIConfig {
-  @Value("${gourgen.openapi.dev-url}")
-  private String devUrl;
-
   @Value("${gourgen.openapi.prod-url}")
   private String prodUrl;
+  
+  @Value("${gourgen.openapi.dev-url}")
+  private String devUrl;
 
   @Value("${gourgen.openapi.test-url}")
   private String testUrl;
@@ -58,6 +58,6 @@ public class OpenAPIConfig {
             .termsOfService("https://portfolio.gourgen-khachatrian.fr/")
             .license(mitLicense);
 
-    return new OpenAPI().info(info).servers(List.of(devServer, prodServer, testServer));
+    return new OpenAPI().info(info).servers(List.of(prodServer, devServer, testServer));
   }
 }
