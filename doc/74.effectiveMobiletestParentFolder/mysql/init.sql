@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mar. 09 jan. 2024 à 14:58
+-- Généré le : mer. 10 jan. 2024 à 00:27
 -- Version du serveur : 8.0.35-0ubuntu0.22.04.1
 -- Version de PHP : 7.4.33
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `74.effectiveMobileTest`
+-- Base de données : `prod_effectiveMobile`
 --
 
 -- --------------------------------------------------------

@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  74effectivemobiletest_mysqlimage:
+    build:
+      context: ./mysql
+      dockerfile: .Dockerfile  # Specify the relative path to the Dockerfile
+    container_name: mysql-container
+    environment:
+      TZ: UTC 
+      MYSQL_ROOT_PASSWORD: Smdilia2012@ 
+      MYSQL_DATABASE: prod_effectiveMobile
+      MYSQL_USER: root3
+      MYSQL_PASSWORD: Smdilia2012@
+    ports:
+      - "3306:3306"
+
+  74effectivemobiletest_spring-app:
+    build:
+      context: ./app
+      dockerfile: .Dockerfile  # Specify the relative path to the Dockerfile
+    container_name: spring-app-container
+    depends_on:
+      - 74effectivemobiletest_mysqlimage
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://74effectivemobiletest_mysqlimage:3306/prod_effectiveMobile
+      SPRING_DATASOURCE_USERNAME: root3
+      SPRING_DATASOURCE_PASSWORD: Smdilia2012@
+    ports:
+      - "8085:8085"
+
+
