@@ -29,14 +29,15 @@ public class OpenAPIConfig {
    */
   @Bean
   public OpenAPI myOpenAPI() {
-    Server devServer = new Server();
-    devServer.setUrl(devUrl);
-    devServer.setDescription("Server URL in Development environment");
-
+    
     Server prodServer = new Server();
     prodServer.setUrl(prodUrl);
     prodServer.setDescription("Server URL in Production environment");
 
+    Server devServer = new Server();
+    devServer.setUrl(devUrl);
+    devServer.setDescription("Server URL in Development environment");
+    
     Server testServer = new Server();
     testServer.setUrl(testUrl);
     testServer.setDescription("Server URL in Test environment");
