@@ -33,29 +33,108 @@ ENDPOINTS
 
 For Users
  
- * PUT &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/update_task/{task_id}
- * PUT &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{user_id}/update_user
- * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/removeExecutor/{userExecutor_id} 
- * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}
- * POST &nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/create_task
- * POST &nbsp;&nbsp;&nbsp;/api/v1/user/update_task_status/{task_id}/{status_code}
- * POST &nbsp;&nbsp;&nbsp;/api/v1/user/update_task_priority/{task_id}/{priority_code}
- * POST &nbsp;&nbsp;&nbsp;/api/v1/user/create_user
- * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/{task_id}/getAll_task_comment_holder_id_task_id  
- * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/getAll_user_task_by_status/{status}
- * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/getAll_user_task_by_priority/{priority}
- * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskHolder_id}/getAll_tasks_comments_holder
- * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/user/{userTaskExecutor_id}/getAll_tasks_comments_executor
- * DELETE &nbsp;/api/v1/user/{user_id}/delete_user
- * DELETE &nbsp;/api/v1/user/{userTaskHolder_id}/delete_task/{task_id}
+ 
+* PUT `/api/v1/user/{userTaskHolder_id}/update_task/{task_id}`
+  - Update a specific task for a user task holder.
+
+* PUT `/api/v1/user/{user_id}/update_user`
+  - Update information for a user.
+
+* POST `/api/v1/user/{userTaskHolder_id}/{task_id}/removeExecutor/{userExecutor_id}`
+  - Remove an executor from a specific task within a user task holder.
+
+* POST `/api/v1/user/{userTaskHolder_id}/{task_id}/addExecutor/{userExecutor_id}`
+  - Add an executor to a specific task within a user task holder.
+
+* POST `/api/v1/user/{userTaskHolder_id}/create_task`
+  - Create a new task within a user task holder.
+
+* POST `/api/v1/user/update_task_status/{task_id}/{status_code}`
+  - Update the status of a specific task.
+
+* POST `/api/v1/user/update_task_priority/{task_id}/{priority_code}`
+  - Update the priority of a specific task.
+
+* POST `/api/v1/user/create_user`
+  - Create a new user.
+
+* GET `/api/v1/user/{userTaskHolder_id}/{task_id}/getAll_task_comment_holder_id_task_id`
+  - Retrieve all comments for a specific task within a user task holder.
+
+* GET `/api/v1/user/{userTaskHolder_id}/getAll_user_task_by_status/{status}`
+  - Retrieve all user tasks for a specific status within a user task holder.
+
+* GET `/api/v1/user/{userTaskHolder_id}/getAll_user_task_by_priority/{priority}`
+  - Retrieve all user tasks for a specific priority within a user task holder.
+
+* GET `/api/v1/user/{userTaskHolder_id}/getAll_tasks_comments_holder`
+  - Retrieve all comments for all tasks within a user task holder.
+
+* GET `/api/v1/user/{userTaskExecutor_id}/getAll_tasks_comments_executor`
+  - Retrieve all comments for all tasks assigned to a specific executor.
+
+* DELETE `/api/v1/user/{user_id}/delete_user`
+  - Delete a user.
+
+* DELETE `/api/v1/user/{userTaskHolder_id}/delete_task/{task_id}`
+  - Delete a specific task within a user task holder.
+
+
   
 
 For Comment
 
-  * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/comment/{task_id}/getById_comment/{comment_id}  
-  * POST &nbsp;&nbsp;&nbsp;/api/v1/comment/{task_id}/create_comment
-  * GET &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/comment/{task_id}/getAll_comments
-  * DELETE &nbsp;/api/v1/comment/{task_id}/delete_comment/{comment_id}
-  * PUT &nbsp;&nbsp;&nbsp;&nbsp;/api/v1/comment/{task_id}/update_comment/{comment_id}
-    
-  </pre>
+* GET `/api/v1/comment/{task_id}/getById_comment/{comment_id}`
+  - Get a specific comment by its ID for a given task.
+
+* POST `/api/v1/comment/{task_id}/create_comment`
+  - Create a new comment for a specific task.
+
+* GET `/api/v1/comment/{task_id}/getAll_comments`
+  - Retrieve all comments for a specific task.
+
+* DELETE `/api/v1/comment/{task_id}/delete_comment/{comment_id}`
+  - Delete a specific comment for a given task.
+
+* PUT `/api/v1/comment/{task_id}/update_comment/{comment_id}`
+  - Update a specific comment by its ID for a given task.
+     </pre>
+
+**Prepare and Run Project in Local Environment**
+
+**Requirements:**
+- Windows, Linux, or Mac with Docker and Docker Compose installed.
+
+**Instructions:**
+
+1. **Copy and Place Project Files:**
+   - Copy the `effective_mobile` folder and its contents to the root directory of Docker.
+     ```bash
+     cp -r effective_mobile /path/to/docker/root
+     ```
+
+2. **Set Permissions:**
+   - Give read and execute permissions to the `effective_mobile` folder:
+     ```bash
+     chmod +rx /path/to/docker/root/effective_mobile
+     ```
+
+3. **Navigate to App Directory:**
+   - Change to the `app` directory:
+     ```bash
+     cd /path/to/docker/root/effective_mobile/app
+     ```
+
+4. **Run Docker Compose:**
+   - Execute the following command to run the project:
+     ```bash
+     docker-compose up
+     ```
+
+5. **Stop and Remove:**
+   - To stop and remove containers, networks, and volumes created by `docker-compose`, use the following command:
+     ```bash
+     docker-compose down -v --remove-orphans
+     ```
+
+ 
