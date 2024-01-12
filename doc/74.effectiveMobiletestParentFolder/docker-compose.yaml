@@ -32,7 +32,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://effectivemobiletest_mysqlimage:3306/prod_effectiveMobile
       SPRING_DATASOURCE_USERNAME: root3
       SPRING_DATASOURCE_PASSWORD: Smdilia2012@
-      restart: on-failure
+    restart: on-failure
     ports:
       - "8085:8085"
 networks:
