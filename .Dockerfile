@@ -12,4 +12,3 @@ EXPOSE 8085
 
 # Command to run your application
 CMD ["java", "-jar", "-Dspring.profiles.active=prod", "em_test.jar"]
-
