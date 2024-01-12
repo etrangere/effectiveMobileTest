@@ -47,7 +47,7 @@ For Users
   - Add an executor to a specific task within a user task holder.
 
 * POST `/api/v1/user/{userTaskHolder_id}/create_task`
-  - Create a new task within a user task holder.
+  - Create a new task within a user task holder. Remove "string" from the "tasks":["string"] leaving it as "tasks": [] in the JSON Swagger. Fill in the remaining task fields.
 
 * POST `/api/v1/user/update_task_status/{task_id}/{status_code}`
   - Update the status of a specific task.
@@ -56,7 +56,7 @@ For Users
   - Update the priority of a specific task.
 
 * POST `/api/v1/user/create_user`
-  - Create a new user.
+  - Create a new user.The "executor" parameter should be set to 'true' for a task executor or 'false' for a task holder. Remove "string" from the "users":["string"] leaving it as "users": [] in the JSON Swagger. Fill in the remaining user fields.
 
 * GET `/api/v1/user/{userTaskHolder_id}/{task_id}/getAll_task_comment_holder_id_task_id`
   - Retrieve all comments for a specific task within a user task holder.
@@ -120,9 +120,9 @@ For Comment
      ```
 
 3. **Navigate to App Directory:**
-   - Change to the `app` directory:
+   - Change to the `effective_mobile` directory:
      ```bash
-     cd /path/to/docker/root/effective_mobile/app
+     cd /path/to/docker/root/effective_mobile
      ```
 
 4. **Run Docker Compose:**
@@ -130,8 +130,10 @@ For Comment
      ```bash
      docker-compose up
      ```
+5. **Use the Swagger UI interface:**
+   - Swagger UI will be accessible at the following address: http://localhost:8085/swagger-ui/index.html
 
-5. **Stop and Remove:**
+6. **Stop and Remove:**
    - To stop and remove containers, networks, and volumes created by `docker-compose`, use the following command:
      ```bash
      docker-compose down -v --remove-orphans
