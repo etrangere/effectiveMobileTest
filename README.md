@@ -1,4 +1,6 @@
 
+### Java 17, Maven 3.1.6, JUnit 5.8.1, Mockito 3.12.4, OpenAPI 3.x, Swagger 2, Docker, Docker Compose, MySql
+
 ## Task Management System Development
 ### Task Description:
 You are required to develop a simple Task Management System using Java. The system should provide functionality for creating, editing, deleting, and viewing tasks. Each task should have a title, description, status (e.g., "pending," "in progress," "completed"), and priority (e.g., "high," "medium," "low"), as well as the author and assignee. Only the API implementation is required.
