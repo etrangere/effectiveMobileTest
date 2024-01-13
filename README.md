@@ -110,21 +110,21 @@ For Comment
 **Instructions:**
 
 1. **Copy and Place Project Files:**
-   - Copy the `effective_mobile` folder and its contents to the root directory of Docker.
+   - Copy the `task_management` folder and its contents to the root directory of Docker.
      ```bash
-     cp -r effective_mobile /path/to/docker/root
+     cp -r task_management /path/to/docker/root
      ```
 
 2. **Set Permissions:**
-   - Give read and execute permissions to the `effective_mobile` folder:
+   - Give read and execute permissions to the `task_management` folder:
      ```bash
-     chmod +rx /path/to/docker/root/effective_mobile
+     chmod +rx /path/to/docker/root/task_management
      ```
 
-3. **Navigate to App Directory:**
-   - Change to the `effective_mobile` directory:
+3. **Navigate to `task_management` Directory:**
+   - Change to the `task_management` directory:
      ```bash
-     cd /path/to/docker/root/effective_mobile
+     cd /path/to/docker/root/task_management
      ```
 
 4. **Run Docker Compose:**
