@@ -1,5 +1,5 @@
 
-### Java 17, Maven 3.1.6, JUnit 5.8.1, Mockito 3.12.4, OpenAPI 3.x, Swagger 2, Docker, Docker Compose, MySql
+### Java 17, Spring Boot 3.1.6, Spring Data JPA, Maven 3.6.3, JUnit 5.8.1, Mockito 3.12.4, OpenAPI 3.x, Swagger 2, Docker 24.0.7, Docker Compose 1.29.2, MySQL 8.0 
 
 ## Task Management System (Microservice)
 ### Task Description:
