@@ -1,11 +1,13 @@
 package com.em.test_em.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /** Configuration class for Cross-Origin Resource Sharing (CORS) in the EmTest application. */
 @Configuration
+@Order(2)
 public class CorsConfig implements WebMvcConfigurer {
 
   /**

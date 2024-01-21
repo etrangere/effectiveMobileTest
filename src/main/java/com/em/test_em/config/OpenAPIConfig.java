@@ -9,9 +9,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 /** Configuration class for customizing OpenAPI documentation. */
 @Configuration
+@Order(3)
 public class OpenAPIConfig {
   @Value("${gourgen.openapi.prod-url}")
   private String prodUrl;
