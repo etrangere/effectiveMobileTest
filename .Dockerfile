@@ -8,7 +8,7 @@ WORKDIR /app
 COPY ./em_test.jar /app
 
 # Expose the port your application will run on
-EXPOSE 8085
+EXPOSE 8446
 
 # Command to run your application
 CMD ["java", "-jar", "-Dspring.profiles.active=prod", "em_test.jar"]
