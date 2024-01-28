@@ -1,5 +1,6 @@
 version: '3.8'
 
+
 services:
   effectivemobiletest_mysqlimage:
     build:
@@ -16,7 +17,7 @@ services:
       MYSQL_USER: root3
       MYSQL_PASSWORD: Smdilia2012@
     ports:
-      - "3306:3306"
+      - "3307:3306"
 
   effectivemobiletest_spring-app:
     build:
@@ -32,9 +33,10 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://effectivemobiletest_mysqlimage:3306/prod_effectiveMobile
       SPRING_DATASOURCE_USERNAME: root3
       SPRING_DATASOURCE_PASSWORD: Smdilia2012@
-    restart: on-failure
+      restart: on-failure
     ports:
-      - "8085:8085"
+      - "8446:8446"
+
 networks:
   custom_network:
     driver: bridge
