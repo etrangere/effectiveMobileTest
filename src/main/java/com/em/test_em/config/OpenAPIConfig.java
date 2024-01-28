@@ -54,7 +54,7 @@ public class OpenAPIConfig {
 
     Info info =
         new Info()
-            .title("Effective Mobile - Task Management System Service API")
+            .title("Task Management System Service API")
             .version("1.0")
             .contact(contact)
             .description("This API exposes endpoints to manage test service.")
