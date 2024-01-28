@@ -18,8 +18,8 @@ public class CorsConfig implements WebMvcConfigurer {
     registry
         .addMapping("/**")
         .allowedOrigins(
+            "http://portfolio.gourgen-khachatrian.fr:8446",
             "http://localhost:8086",
-            "http://localhost:8085",
             "http://localhost:8084") // frontend URL
         .allowedMethods("GET", "POST", "PUT", "DELETE");
   }
